@@ -1,5 +1,5 @@
-import SettingScreen from "./setting";
-import FgSettingScreen from "./fgSetting";
-import FreshmanSettingScreen from "./freshmanSetting";
+import SettingScreen from './setting'
+import FgSettingScreen from './fgSetting'
+import FreshmanSettingScreen from './freshmanSetting'
 
-export {SettingScreen, FgSettingScreen, FreshmanSettingScreen};
+export { SettingScreen, FgSettingScreen, FreshmanSettingScreen }

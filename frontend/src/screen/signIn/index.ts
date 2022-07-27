@@ -1,3 +1,3 @@
-import signInScreen from "./signIn";
+import signInScreen from './signIn'
 
-export {signInScreen};
+export { signInScreen }
