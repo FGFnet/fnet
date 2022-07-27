@@ -1,4 +1,4 @@
-import lcMemberScreen from "./lcMember";
-import lcSettingScreen from "./lcSetting";
+import LcMemberScreen from "./lcMember";
+import LcSettingScreen from "./lcSetting";
 
-export {lcMemberScreen, lcSettingScreen};
+export {LcMemberScreen, LcSettingScreen};

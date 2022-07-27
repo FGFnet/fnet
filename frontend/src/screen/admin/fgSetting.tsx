@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function fgSettingScreen() {
+export default function FgSettingScreen() {
   return (
     <div>
       <h1>fg setting</h1>

@@ -1,5 +1,5 @@
-import noticeCreateScreen from "./noticeCreate";
-import noticeDetailScreen from "./noticeDetail";
-import noticeListScreen from "./noticeList";
+import NoticeCreateScreen from "./noticeCreate";
+import NoticeDetailScreen from "./noticeDetail";
+import NoticeListScreen from "./noticeList";
 
-export {noticeCreateScreen, noticeDetailScreen, noticeListScreen};
+export {NoticeCreateScreen, NoticeDetailScreen, NoticeListScreen};
