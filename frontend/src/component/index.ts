@@ -1,3 +1,3 @@
-import Example from './example'
+import Title from './Title'
 
-export {Example}
+export {Title}
