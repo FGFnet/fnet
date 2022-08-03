@@ -7,4 +7,5 @@ export const Colors = {
   light: '#B0B0B0', // 연회색
   black: '#000',
   white: '#fff',
+  hover: '#F6FAFE',
 }
