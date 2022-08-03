@@ -9,7 +9,6 @@ let defaultTheme = createTheme()
 defaultTheme = responsiveFontSizes(defaultTheme)
 
 export default function NoticeListScreen() {
-
   const data = [
     {
       notice_id: 1,
@@ -91,15 +90,10 @@ export default function NoticeListScreen() {
 
   return (
     <React.Fragment>
-      <ThemeProvider theme={defaultTheme}>
-        <CssBaseline />
-        <Container maxWidth="md">
-          <Header title="공지사항" btn="+ NEW" />
-          <main>
-            <Posts />
-          </main>
-        </Container>
-      </ThemeProvider>
+      <Header title="공지사항" btn="+ NEW" />
+      <main>
+        <Posts />
+      </main>
     </React.Fragment>
   )
 }

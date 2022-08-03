@@ -5,13 +5,22 @@ import App from './App'
 import * as serviceWorkerRegistration from './serviceWorkerRegistration'
 import reportWebVitals from './reportWebVitals'
 import Router from './Router'
+import { ThemeProvider } from '@emotion/react'
+import { Container, CssBaseline } from '@mui/material'
+import { createTheme, responsiveFontSizes } from '@mui/material/styles'
+
+let defaultTheme = createTheme()
+defaultTheme = responsiveFontSizes(defaultTheme)
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
   <React.StrictMode>
-    <Router>
-      <App />
-    </Router>
+    <ThemeProvider theme={defaultTheme}>
+      <CssBaseline />
+      <Container maxWidth="lg">
+        <Router></Router>
+      </Container>
+    </ThemeProvider>
   </React.StrictMode>,
 )
 

@@ -54,61 +54,56 @@ export default function NoticeCreateScreen() {
 
   return (
     <React.Fragment>
-      <ThemeProvider theme={defaultTheme}>
-        <CssBaseline />
-        <Container fixed maxWidth="md">
-          <Header title="공지사항 작성" />
-          <Divider />
-          <Grid container alignItems="center" sx={{ display: 'flex' }}>
-            <Grid item xs={2} sm={1}>
-              <Box textAlign="center">
-                <Typography variant="h6" component="div" sx={{ fontWeight: 'bold' }}>
-                  제목
-                </Typography>
-              </Box>
-            </Grid>
-            <Grid item xs={10} sm={11}>
-              <TextField
-                fullWidth
-                margin="normal"
-                label="제목"
-                InputProps={{ style: { fontSize: 20 } }}
-                InputLabelProps={{ style: { fontSize: 20 } }}
-                onChange={(event) => setTitle(event.target.value)}
-              />
-            </Grid>
-            <Grid item xs={2} sm={1}>
-              <Box textAlign="center">
-                <Typography variant="h6" component="div" sx={{ fontWeight: 'bold' }}>
-                  내용
-                </Typography>
-              </Box>
-            </Grid>
-            <Grid item xs={12} paddingLeft={5}>
-              <Box textAlign="right">
-                <TextField
-                  multiline
-                  rows={10}
-                  margin="normal"
-                  label="내용"
-                  InputProps={{ style: { fontSize: 20 } }}
-                  InputLabelProps={{ style: { fontSize: 20 } }}
-                  sx={{ width: '100%', alignContent: 'center' }}
-                  onChange={(event) => setContent(event.target.value)}
-                />
-              </Box>
-            </Grid>
-          </Grid>
-          <Grid container justifyContent="space-between">
-            <Grid item paddingLeft={5}>
-              <BackBtn />
-            </Grid>
-            <Grid item>
-              <SavePostBtn />
-            </Grid>
-          </Grid>
-        </Container>
-      </ThemeProvider>
+      <Header title="공지사항 작성" />
+      <Divider />
+      <Grid container alignItems="center" sx={{ display: 'flex' }}>
+        <Grid item xs={2} sm={1}>
+          <Box textAlign="center">
+            <Typography variant="h6" component="div" sx={{ fontWeight: 'bold' }}>
+              제목
+            </Typography>
+          </Box>
+        </Grid>
+        <Grid item xs={10} sm={11}>
+          <TextField
+            fullWidth
+            margin="normal"
+            label="제목"
+            InputProps={{ style: { fontSize: 20 } }}
+            InputLabelProps={{ style: { fontSize: 20 } }}
+            onChange={(event) => setTitle(event.target.value)}
+          />
+        </Grid>
+        <Grid item xs={2} sm={1}>
+          <Box textAlign="center">
+            <Typography variant="h6" component="div" sx={{ fontWeight: 'bold' }}>
+              내용
+            </Typography>
+          </Box>
+        </Grid>
+        <Grid item xs={12} paddingLeft={5}>
+          <Box textAlign="right">
+            <TextField
+              multiline
+              rows={10}
+              margin="normal"
+              label="내용"
+              InputProps={{ style: { fontSize: 20 } }}
+              InputLabelProps={{ style: { fontSize: 20 } }}
+              sx={{ width: '100%', alignContent: 'center' }}
+              onChange={(event) => setContent(event.target.value)}
+            />
+          </Box>
+        </Grid>
+      </Grid>
+      <Grid container justifyContent="space-between">
+        <Grid item paddingLeft={5}>
+          <BackBtn />
+        </Grid>
+        <Grid item>
+          <SavePostBtn />
+        </Grid>
+      </Grid>
     </React.Fragment>
   )
 }
