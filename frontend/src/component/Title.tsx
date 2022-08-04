@@ -12,8 +12,8 @@ export default function Title(props: titleProp) {
 
   return (
     <Typography
-      component="h3"
-      variant="h3"
+      component="h4"
+      variant="h4"
       letterSpacing={3}
       noWrap
       sx={{

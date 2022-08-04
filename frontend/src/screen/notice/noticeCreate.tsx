@@ -27,13 +27,7 @@ export default function NoticeCreateScreen() {
   const BackBtn = () => {
     return (
       <Box textAlign="right">
-        <Button
-          variant="outlined"
-          size="large"
-          component={Link}
-          to="../notice"
-          sx={{ fontSize: 20, color: Colors.black }}
-        >
+        <Button variant="outlined" component={Link} to="../notice" sx={{ color: Colors.black }}>
           취소
         </Button>
       </Box>
@@ -42,7 +36,7 @@ export default function NoticeCreateScreen() {
   const SavePostBtn = () => {
     return (
       <Box textAlign="right">
-        <Button variant="outlined" size="large" onClick={CreateNewPost} sx={{ fontSize: 20, color: Colors.black }}>
+        <Button variant="outlined" onClick={CreateNewPost} sx={{ color: Colors.black }}>
           등록
         </Button>
       </Box>
@@ -62,14 +56,7 @@ export default function NoticeCreateScreen() {
           </Box>
         </Grid>
         <Grid item xs={10} sm={11}>
-          <TextField
-            fullWidth
-            margin="normal"
-            label="제목"
-            InputProps={{ style: { fontSize: 20 } }}
-            InputLabelProps={{ style: { fontSize: 20 } }}
-            onChange={(event) => setTitle(event.target.value)}
-          />
+          <TextField fullWidth margin="normal" label="제목" onChange={(event) => setTitle(event.target.value)} />
         </Grid>
         <Grid item xs={2} sm={1}>
           <Box textAlign="center">
@@ -85,8 +72,6 @@ export default function NoticeCreateScreen() {
               rows={10}
               margin="normal"
               label="내용"
-              InputProps={{ style: { fontSize: 20 } }}
-              InputLabelProps={{ style: { fontSize: 20 } }}
               sx={{ width: '100%', alignContent: 'center' }}
               onChange={(event) => setContent(event.target.value)}
             />
