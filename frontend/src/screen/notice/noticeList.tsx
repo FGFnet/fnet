@@ -1,12 +1,8 @@
 import React from 'react'
-import { Container, CssBaseline, Divider, Grid, List, ListItem, Typography } from '@mui/material'
-import { createTheme, ThemeProvider, responsiveFontSizes } from '@mui/material/styles'
+import { Box, Button, Divider, Grid, List, ListItem, Typography } from '@mui/material'
 import { Link } from 'react-router-dom'
 import { Colors } from '../../constant/colors.constants'
 import Header from '../../component/Header'
-
-let defaultTheme = createTheme()
-defaultTheme = responsiveFontSizes(defaultTheme)
 
 export default function NoticeListScreen() {
   const data = [
@@ -26,10 +22,16 @@ export default function NoticeListScreen() {
     },
   ]
 
-  function dateFormatter(date: any) {
+  type PostType = {
+    title: string
+    create_time: number
+  }
+
+  const dateFormatter = (date: number) => {
+    console.log(date)
     const create_time = new Date(date)
     const now = new Date()
-    var diff = (now.getTime() - create_time.getTime()) / (1000 * 60)
+    let diff = (now.getTime() - create_time.getTime()) / (1000 * 60)
     if (diff < 60) {
       // 1시간 이내
       diff = Math.round(diff)
@@ -43,7 +45,24 @@ export default function NoticeListScreen() {
     }
   }
 
-  function Post({ title, create_time }: { title: string; create_time: any }) {
+  const NewPostBtn = () => {
+    return (
+      <Box textAlign="right">
+        <Button
+          component={Link}
+          to="create"
+          sx={{
+            fontWeight: 'bold',
+            color: Colors.black,
+          }}
+        >
+          + NEW
+        </Button>
+      </Box>
+    )
+  }
+
+  const Post = ({ title, create_time }: PostType) => {
     return (
       <React.Fragment>
         <ListItem
@@ -76,7 +95,7 @@ export default function NoticeListScreen() {
     )
   }
 
-  function Posts() {
+  const Posts = () => {
     return (
       <Grid>
         <List aria-label="mailbox folders">
@@ -90,7 +109,7 @@ export default function NoticeListScreen() {
 
   return (
     <React.Fragment>
-      <Header title="공지사항" btn="+ NEW" />
+      <Header title="공지사항" children={<NewPostBtn />} />
       <main>
         <Posts />
       </main>

@@ -5,16 +5,13 @@ import Header from '../../component/Header'
 import { Colors } from '../../constant/colors.constants'
 import { Link } from 'react-router-dom'
 
-let defaultTheme = createTheme()
-defaultTheme = responsiveFontSizes(defaultTheme)
-
 // check admin
 
 export default function NoticeCreateScreen() {
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
 
-  function CreateNewPost(event: React.MouseEvent<HTMLButtonElement>) {
+  const CreateNewPost = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
     if (title.trim() === '') alert('제목을 입력해 주세요')
     else if (content.trim() === '') alert('내용을 입력해 주세요')
@@ -27,7 +24,7 @@ export default function NoticeCreateScreen() {
     }
   }
 
-  function BackBtn() {
+  const BackBtn = () => {
     return (
       <Box textAlign="right">
         <Button
@@ -42,7 +39,7 @@ export default function NoticeCreateScreen() {
       </Box>
     )
   }
-  function SavePostBtn() {
+  const SavePostBtn = () => {
     return (
       <Box textAlign="right">
         <Button variant="outlined" size="large" onClick={CreateNewPost} sx={{ fontSize: 20, color: Colors.black }}>

@@ -11,21 +11,19 @@ export default function Title(props: titleProp) {
   const backgroundColor = props.background
 
   return (
-    <span>
-      <Typography
-        component="h3"
-        variant="h3"
-        letterSpacing={3}
-        noWrap
-        sx={{
-          fontWeight: 'bold',
-          backgroundColor: { backgroundColor },
-          textShadow: `2px 2px ${Colors.dark}`,
-          display: 'inline',
-        }}
-      >
-        {title}
-      </Typography>
-    </span>
+    <Typography
+      component="h3"
+      variant="h3"
+      letterSpacing={3}
+      noWrap
+      sx={{
+        fontWeight: 'bold',
+        backgroundColor: { backgroundColor },
+        textShadow: `2px 2px ${Colors.dark}`,
+        display: 'inline',
+      }}
+    >
+      {title}
+    </Typography>
   )
 }
