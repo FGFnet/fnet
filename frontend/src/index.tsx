@@ -6,7 +6,7 @@ import * as serviceWorkerRegistration from './serviceWorkerRegistration'
 import reportWebVitals from './reportWebVitals'
 import Router from './Router'
 import { ThemeProvider } from '@emotion/react'
-import { Container, CssBaseline } from '@mui/material'
+import { CssBaseline } from '@mui/material'
 import { createTheme, responsiveFontSizes } from '@mui/material/styles'
 
 let defaultTheme = createTheme()
@@ -17,9 +17,7 @@ root.render(
   <React.StrictMode>
     <ThemeProvider theme={defaultTheme}>
       <CssBaseline />
-      <Container maxWidth="lg">
-        <Router></Router>
-      </Container>
+      <Router></Router>
     </ThemeProvider>
   </React.StrictMode>,
 )
