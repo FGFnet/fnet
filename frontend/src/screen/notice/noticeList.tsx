@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Button, Divider, Grid, List, ListItem, Typography } from '@mui/material'
+import { Box, Button, Container, Divider, Grid, List, ListItem, Typography } from '@mui/material'
 import { Link } from 'react-router-dom'
 import { Colors } from '../../constant/colors.constants'
 import Header from '../../component/Header'
@@ -109,10 +109,12 @@ export default function NoticeListScreen() {
 
   return (
     <React.Fragment>
-      <Header title="공지사항" children={<NewPostBtn />} />
-      <main>
-        <Posts />
-      </main>
+      <Container maxWidth="lg">
+        <Header title="공지사항" children={<NewPostBtn />} />
+        <main>
+          <Posts />
+        </main>
+      </Container>
     </React.Fragment>
   )
 }
