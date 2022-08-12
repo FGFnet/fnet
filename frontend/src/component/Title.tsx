@@ -1,21 +1,29 @@
 import { Colors } from '../constant'
+import { Typography } from '@mui/material'
 
 type titleProp = {
-  title: string;
+  title: string
+  background: string
 }
 
 export default function Title(props: titleProp) {
   const title = props.title
-  const titleStyle = {
-    background: Colors.accent,
-    paddingRight: 10,
-    fontSize: 20,
-    fontWeight: 'bold',
-  }
+  const backgroundColor = props.background
 
   return (
-    <span style={titleStyle}>
+    <Typography
+      component="h4"
+      variant="h4"
+      letterSpacing={3}
+      noWrap
+      sx={{
+        fontWeight: 'bold',
+        backgroundColor: { backgroundColor },
+        textShadow: `2px 2px ${Colors.dark}`,
+        display: 'inline',
+      }}
+    >
       {title}
-    </span>
+    </Typography>
   )
 }
