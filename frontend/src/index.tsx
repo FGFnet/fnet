@@ -1,13 +1,14 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import './index.css'
-import App from './App'
 import * as serviceWorkerRegistration from './serviceWorkerRegistration'
 import reportWebVitals from './reportWebVitals'
 import Router from './Router'
 import { ThemeProvider } from '@emotion/react'
 import { CssBaseline } from '@mui/material'
 import { createTheme, responsiveFontSizes } from '@mui/material/styles'
+import { Header } from './component'
+import { BrowserRouter } from 'react-router-dom'
 
 let defaultTheme = createTheme()
 defaultTheme = responsiveFontSizes(defaultTheme)
@@ -17,7 +18,10 @@ root.render(
   <React.StrictMode>
     <ThemeProvider theme={defaultTheme}>
       <CssBaseline />
-      <Router></Router>
+      <BrowserRouter>
+        <Header />
+        <Router />
+      </BrowserRouter>
     </ThemeProvider>
   </React.StrictMode>,
 )
