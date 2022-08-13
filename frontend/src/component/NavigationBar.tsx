@@ -1,8 +1,9 @@
 import { Colors } from '../constant'
-import Logo from '../image/fg_two_small.png'
+import Logo from '../image/fg_green_192.png'
 import { BsPersonFill } from 'react-icons/bs'
 import {useState, CSSProperties} from 'react'
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom"
+import useMediaQuery from '@mui/material/useMediaQuery'
 
 export default function Header() {
   const headerStyle : CSSProperties = {
@@ -12,6 +13,7 @@ export default function Header() {
     height: 50,
     width: '100%',
     paddingRight: 10,
+    paddingLeft: 10,
     color: Colors.primary,
     fontSize: 16,
     fontWeight: 'bold',
@@ -27,6 +29,7 @@ export default function Header() {
   }
 
   const navigate = useNavigate()
+  const matches = useMediaQuery('(min-width:768px)')
 
   const menuItem = {
     notice: 0,
@@ -44,18 +47,27 @@ export default function Header() {
     setIsHover([...isHover])
   }
 
-  return (
-    <div style={headerStyle}>
-      <div style={{marginRight: 20, alignItems:'center', display:'flex', cursor:'pointer'}} onClick={()=> navigate('/')}>
+  if (matches) {
+    return (
+      <div style={headerStyle}>
+        <div style={{marginRight: 20, alignItems:'center', display:'flex', cursor:'pointer'}} onClick={()=> navigate('/')}>
+          <img src={Logo} alt="fnet-logo" style={{ height: 45, marginBottom: 5, marginRight: 10 }}/>
+          <span>FNET</span>
+        </div>
+        <div style={menuStyle}>
+          <span style={{color: isHover[menuItem.notice]? Colors.primary_lighter : Colors.primary}} onMouseOver={()=>setHover(menuItem.notice)} onMouseLeave={()=>setHoverFalse(menuItem.notice)} onClick={()=> navigate('/notice')}>Notice</span>
+          <span style={{color: isHover[menuItem.todo]? Colors.primary_lighter : Colors.primary}} onMouseOver={()=>setHover(menuItem.todo)} onMouseLeave={()=>setHoverFalse(menuItem.todo)} onClick={()=> navigate('/todo')}>Todo</span>
+          <span style={{color: isHover[menuItem.register]? Colors.primary_lighter : Colors.primary}} onMouseOver={()=>setHover(menuItem.register)} onMouseLeave={()=>setHoverFalse(menuItem.register)} onClick={()=> navigate('/register')}>Register</span>
+        </div>
+        <BsPersonFill style={{fontSize: 25, marginLeft: 20, marginRight:20, cursor:'pointer'}} />
+      </div>
+    )
+  } else {
+    return (
+      <div style={{position:'sticky', top:0, display:'flex', alignItems: 'center', zIndex: 50, justifyContent: 'center'}} onClick={()=> navigate('/')}>
         <img src={Logo} alt="fnet-logo" style={{ height: 45, marginBottom: 5, marginRight: 10 }}/>
         <span>FNET</span>
       </div>
-      <div style={menuStyle}>
-        <span style={{color: isHover[menuItem.notice]? Colors.primary_lighter : Colors.primary}} onMouseOver={()=>setHover(menuItem.notice)} onMouseLeave={()=>setHoverFalse(menuItem.notice)} onClick={()=> navigate('/notice')}>Notice</span>
-        <span style={{color: isHover[menuItem.todo]? Colors.primary_lighter : Colors.primary}} onMouseOver={()=>setHover(menuItem.todo)} onMouseLeave={()=>setHoverFalse(menuItem.todo)} onClick={()=> navigate('/todo')}>Todo</span>
-        <span style={{color: isHover[menuItem.register]? Colors.primary_lighter : Colors.primary}} onMouseOver={()=>setHover(menuItem.register)} onMouseLeave={()=>setHoverFalse(menuItem.register)} onClick={()=> navigate('/register')}>Register</span>
-      </div>
-      <BsPersonFill style={{fontSize: 25, marginLeft: 20, marginRight:20, cursor:'pointer'}} />
-    </div>
-  )
+    )
+  }
 }
