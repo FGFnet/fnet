@@ -37,7 +37,7 @@ export default function Banner() {
         {breakPoint && <img src={Logo} alt='logo' style={{width: '15%', position:'relative', marginRight: 60, transform:`rotate(25deg)`}} /> }
         <div>
           <div style={{fontSize: 30, fontWeight:'bold', color: Colors.primary, position:'relative'}}>FRESHMAN GUIDE</div>
-          <div style={{fontSize: 24, color: Colors.primary, position:'relative'}}>팀빌딩에서의 만남을 평생의 인연으로</div>
+          <div style={{fontSize: 24, color: Colors.primary, position:'relative', wordWrap:'break-word', wordBreak:'keep-all'}}>팀빌딩에서의 만남을 평생의 인연으로</div>
         </div>
       </div>
     </div>
