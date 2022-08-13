@@ -2,7 +2,7 @@ import React from 'react'
 import { Box, Button, Container, Divider, Grid, List, ListItem, Typography } from '@mui/material'
 import { Link } from 'react-router-dom'
 import { Colors } from '../../constant/colors.constants'
-import Header from '../../component/Header'
+import {Header} from '../../component'
 
 export default function NoticeListScreen() {
   const data = [
