@@ -8,7 +8,7 @@ export default class Router extends Component {
       <Routes>
         <Route path="/" element={<Screen.HomeScreen />} />
         <Route path="/lc" element={<Screen.LcMemberScreen />} />
-        <Route path="/lc/setting" element={<Screen.LcSettingScreen />} />
+        <Route path="/:id/setting" element={<Screen.LcSettingScreen />} />
         <Route path="/todo" element={<Screen.TodoListScreen />} />
         <Route path="/todo/:id" element={<Screen.TodoDetailScreen />} />
         <Route path="/todo/create" element={<Screen.TodoCreateScreen />} />
