@@ -4,16 +4,16 @@ import { BsPersonFill } from 'react-icons/bs'
 import {useState, CSSProperties} from 'react'
 import { useNavigate } from "react-router-dom"
 import useMediaQuery from '@mui/material/useMediaQuery'
+import { Button } from '@mui/material'
 
+// TODO: 사용자가 로그인 했으면 버튼 텍스트를 LOGOUT, 안했으면 LOGIN으로 설정 (API 연결 후) -> 그에따라 클릭이벤트 라우팅 or 로그아웃 설정
 export default function Header() {
   const headerStyle : CSSProperties = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
     height: 50,
-    width: '100%',
-    paddingRight: 10,
-    paddingLeft: 10,
+    width: '100vw',
     color: Colors.primary,
     fontSize: 16,
     fontWeight: 'bold',
@@ -22,7 +22,7 @@ export default function Header() {
     top: 0
   }
   const menuStyle = {
-    width: '20%',
+    width: '30%',
     display: 'flex',
     justifyContent:'space-between',
     cursor:'pointer'
@@ -49,25 +49,27 @@ export default function Header() {
 
   if (matches) {
     return (
-      <div style={headerStyle}>
-        <div style={{marginRight: 20, alignItems:'center', display:'flex', cursor:'pointer'}} onClick={()=> navigate('/')}>
-          <img src={Logo} alt="fnet-logo" style={{ height: 45, marginBottom: 5, marginRight: 10 }}/>
+      <header style={headerStyle}>
+        <section style={{marginRight: 20, alignItems:'center', display:'flex', cursor:'pointer'}} onClick={()=> navigate('/')}>
+          <img src={Logo} alt="fnet-logo" style={{ height: 45, marginBottom: 5, marginRight: 10, marginLeft: 10 }}/>
           <span>FNET</span>
-        </div>
-        <div style={menuStyle}>
+        </section>
+        <section style={menuStyle}>
           <span style={{color: isHover[menuItem.notice]? Colors.primary_lighter : Colors.primary}} onMouseOver={()=>setHover(menuItem.notice)} onMouseLeave={()=>setHoverFalse(menuItem.notice)} onClick={()=> navigate('/notice')}>Notice</span>
           <span style={{color: isHover[menuItem.todo]? Colors.primary_lighter : Colors.primary}} onMouseOver={()=>setHover(menuItem.todo)} onMouseLeave={()=>setHoverFalse(menuItem.todo)} onClick={()=> navigate('/todo')}>Todo</span>
           <span style={{color: isHover[menuItem.register]? Colors.primary_lighter : Colors.primary}} onMouseOver={()=>setHover(menuItem.register)} onMouseLeave={()=>setHoverFalse(menuItem.register)} onClick={()=> navigate('/register')}>Register</span>
-        </div>
-        <BsPersonFill style={{fontSize: 25, marginLeft: 20, marginRight:20, cursor:'pointer'}} />
-      </div>
+        </section>
+        <Button style={{marginRight: 10}} startIcon={<BsPersonFill style={{fontSize: 25, cursor:'pointer'}}/>}>
+          Login
+        </Button>
+      </header>
     )
   } else {
     return (
-      <div style={{position:'sticky', top:0, display:'flex', alignItems: 'center', zIndex: 50, justifyContent: 'center'}} onClick={()=> navigate('/')}>
+      <header style={{position:'sticky', top:0, display:'flex', alignItems: 'center', zIndex: 50, justifyContent: 'center'}} onClick={()=> navigate('/')}>
         <img src={Logo} alt="fnet-logo" style={{ height: 45, marginBottom: 5, marginRight: 10 }}/>
         <span>FNET</span>
-      </div>
+      </header>
     )
   }
 }

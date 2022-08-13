@@ -1,4 +1,4 @@
 import Title from './Title'
-import Header from './Header'
+import NavigationBar from './NavigationBar'
 
-export {Title, Header}
+export {Title, NavigationBar}
