@@ -1,23 +1,36 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import './index.css'
-import App from './App'
 import * as serviceWorkerRegistration from './serviceWorkerRegistration'
 import reportWebVitals from './reportWebVitals'
 import Router from './Router'
-import { ThemeProvider } from '@emotion/react'
 import { CssBaseline } from '@mui/material'
-import { createTheme, responsiveFontSizes } from '@mui/material/styles'
+import { responsiveFontSizes } from '@mui/material/styles'
+import { NavigationBar } from './component'
+import { BrowserRouter } from 'react-router-dom'
+import { createTheme, ThemeProvider } from '@mui/material'
+import { Colors } from './constant'
 
-let defaultTheme = createTheme()
-defaultTheme = responsiveFontSizes(defaultTheme)
+let theme = createTheme({
+  typography: {
+    fontFamily: "LeferiBaseType-Regular"
+  },
+  palette: {
+    primary: { main: Colors.primary, light: Colors.primary_lighter },
+    secondary: { main: Colors.dark, light: Colors.light, dark: Colors.darker},
+  }
+})
+theme = responsiveFontSizes(theme)
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
   <React.StrictMode>
-    <ThemeProvider theme={defaultTheme}>
+    <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Router></Router>
+      <BrowserRouter>
+        <NavigationBar />
+        <Router />
+      </BrowserRouter>
     </ThemeProvider>
   </React.StrictMode>,
 )
