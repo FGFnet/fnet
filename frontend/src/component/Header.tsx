@@ -13,7 +13,7 @@ export default function Header({ title, children }: HeaderType) {
     <React.Fragment>
       <Grid container wrap="wrap" sx={{ marginTop: 5, marginBottom: 3 }} alignItems="flex-end">
         <Grid item xs={10}>
-          <Title title={title} background={Colors.accent} />
+          <Title variant="h4" title={title} background={Colors.accent} />
         </Grid>
         <Grid item xs={2}>
           {children}
