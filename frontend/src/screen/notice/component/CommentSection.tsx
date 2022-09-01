@@ -119,7 +119,7 @@ export default function CommentListBox() {
   return (
     <>
       <CommentList />
-      <Box sx={{display:'flex', alignItems: 'space-between'}}>
+      <Box sx={{display:'flex', alignItems: 'space-between', width: windowSize.innerWidth * 0.9}}>
         <TextField
             fullWidth
             value={content}
