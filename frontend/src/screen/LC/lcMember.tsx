@@ -2,7 +2,6 @@ import {
   Container,
   Divider,
   Grid,
-  Stack,
   Table,
   TableBody,
   TableCell,
@@ -10,11 +9,9 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Typography,
 } from '@mui/material'
 import React from 'react'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
-import background from '../../image/lc_bgImg.png'
 import Header from '../../component/Header'
 import LCStatus from './component/lcStatus'
 
