@@ -15,6 +15,21 @@ import { createTheme, ThemeProvider } from '@mui/material/styles'
 import Header from '../../component/Header'
 import LCStatus from './component/lcStatus'
 
+const TableCellTheme = createTheme({
+  components: {
+    MuiTableCell: {
+      defaultProps: {
+        align: 'center',
+      },
+      styleOverrides: {
+        root: {
+          padding: '6px 8px',
+        },
+      },
+    },
+  },
+})
+
 export default function LcMemberScreen() {
   const data = [
     { name: 'kim ilgun', department: 'n', register: true },
@@ -38,21 +53,6 @@ export default function LcMemberScreen() {
     { name: '김일건', department: 'h', register: false },
     { name: '김일건', department: 'n', register: false },
   ]
-
-  const TableCellTheme = createTheme({
-    components: {
-      MuiTableCell: {
-        defaultProps: {
-          align: 'center',
-        },
-        styleOverrides: {
-          root: {
-            padding: '6px 8px',
-          },
-        },
-      },
-    },
-  })
 
   let sRegister = 0
   let nRegister = 0
