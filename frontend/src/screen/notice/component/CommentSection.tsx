@@ -1,5 +1,5 @@
 import { List, ListItem, Divider, Grid, TextField, Typography, Checkbox, Button, Box } from '@mui/material'
-import React, {useEffect, useState} from 'react'
+import React, {useState} from 'react'
 import { Colors } from '../../../constant/colors.constants'
 
 type comment = {
@@ -12,26 +12,8 @@ type comment = {
 
 //TODO : admin일때만 checkbox사용 가능하도록 변경
 export default function CommentListBox() {
-  const [windowSize, setWindowSize] = useState(getWindowSize());
   const [content, setContent] = useState('');
   const [commentList, setCommentList] = useState<comment[]>([]);
-
-  function getWindowSize() {
-    let innerWidth =window.innerWidth;
-    let innerHeight = window.innerHeight;
-    if (innerWidth >1200) innerWidth = 1200;
-    return {innerWidth, innerHeight};
-  }
-
-  useEffect(()=> {
-    function handleWindowResize() {
-      setWindowSize(getWindowSize());
-    }
-    window.addEventListener('resize', handleWindowResize);
-    return () => {
-      window.removeEventListener('resize', handleWindowResize);
-    };
-  }, [])
 
   const handleChecked = (event: React.ChangeEvent<HTMLInputElement>, id:number, comment: comment) => {
     const newCommentList = commentList.map(comment => {
@@ -64,9 +46,10 @@ export default function CommentListBox() {
   const CommentList = () => {return (
     <List
       sx={{
-        height:windowSize.innerHeight * 0.5,
-        width:windowSize.innerWidth * 0.9,
-        maxHeight: windowSize.innerHeight * 0.5,
+        height: '45vh',
+        width:'90%',
+        minHeight: '45vh',
+        maxHeight: '45vh',
         overflow:'auto',
         margin: 'auto'
       }}
@@ -119,14 +102,20 @@ export default function CommentListBox() {
   return (
     <>
       <CommentList />
-      <Box sx={{display:'flex', alignItems: 'space-between', width: windowSize.innerWidth * 0.9}}>
+      <Box sx={{display:'flex', alignItems: 'space-between', width: '90%', margin:'auto'}}>
         <TextField
-            fullWidth
-            value={content}
-            onChange={(event) => {setContent(event.target.value)}}
-            onKeyDown={(event) => {if (event.key === 'Enter') addComment()}}
+          fullWidth
+          value={content}
+          onChange={(event) => {setContent(event.target.value)}}
+          onKeyDown={(event) => {if (event.key === 'Enter') {
+            if(!event.nativeEvent.isComposing) {
+              setContent('')
+              return;
+            }
+            else addComment()
+          }}}
         />
-        <Button onClick={addComment}>입력</Button>
+        <Button onClick={() => addComment()}>입력</Button>
       </Box>
     </>
   )
