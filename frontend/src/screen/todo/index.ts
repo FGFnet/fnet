@@ -1,5 +1,3 @@
-import TodoCreateScreen from './todoCreate'
-import TodoDetailScreen from './todoDetail'
-import TodoListScreen from './todoList'
+import TodoScreen from './todo'
 
-export { TodoCreateScreen, TodoDetailScreen, TodoListScreen }
+export { TodoScreen }
