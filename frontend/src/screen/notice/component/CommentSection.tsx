@@ -93,10 +93,28 @@ export default function CommentListBox() {
       created_by: "김하늘",
       content: content,
       create_time: 1658931430404,
-      check: true
+      check: false
     }
     setCommentList([...commentList, comment])
     setContent('')
+  }
+
+  const isEnglish = (c: string) => {
+    if(c>='a' && c<='z') return true
+    else if(c>='A' && c<='Z') return true
+    return false
+  }
+
+  const enterEvent = (event:React.KeyboardEvent) => {
+    if(event.key==='Enter') {
+        setContent(content.trim())
+        const lastChar = content[content.length - 1]
+        if(!isEnglish(lastChar) && !event.nativeEvent.isComposing) {
+            setContent('')
+            return
+        }
+        else addComment()
+    } 
   }
 
   return (
@@ -107,13 +125,7 @@ export default function CommentListBox() {
           fullWidth
           value={content}
           onChange={(event) => {setContent(event.target.value)}}
-          onKeyDown={(event) => {if (event.key === 'Enter') {
-            if(!event.nativeEvent.isComposing) {
-              setContent('')
-              return;
-            }
-            else addComment()
-          }}}
+          onKeyDown={(event) => {enterEvent(event)}}
         />
         <Button onClick={() => addComment()}>입력</Button>
       </Box>
