@@ -17,6 +17,7 @@ export default class Router extends Component {
         <Route path="/notice/create" element={<Screen.NoticeCreateScreen />} />
         <Route path="/register" element={<Screen.RegisterScreen />} />
         <Route path="/admin" element={<Screen.SettingScreen />} />
+        <Route path="/admin/schedule" element={<Screen.ScheduleSettingScreen />} />
         <Route path="/admin/fg" element={<Screen.FgSettingScreen />} />
         <Route path="/admin/freshman" element={<Screen.FreshmanSettingScreen />} />
       </Routes>
