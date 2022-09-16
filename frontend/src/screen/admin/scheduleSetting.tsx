@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
 import { Box, Grid, Container, Typography, Card, CardContent, Button, Input } from '@mui/material'
+import MenuButton from './component/MenuButton'
 import { Header, Title } from '../../component'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
@@ -93,16 +93,6 @@ export default function ScheduleSettingScreen() {
     alert('저장되었습니다.')
   }
 
-  const ListButton = () => {
-    return (
-      <Box textAlign="right">
-        <Button component={Link} to={'/admin'}>
-          뒤로가기
-        </Button>
-      </Box>
-    )
-  }
-
   const SaveButton = () => {
     return (
       <Box textAlign="right">
@@ -114,7 +104,7 @@ export default function ScheduleSettingScreen() {
   return (
     <React.Fragment>
       <Container maxWidth="lg">
-        <Header title="설정" children={<ListButton />} />
+        <Header title="설정" children={<MenuButton />} />
         <Title title="OT 일정" background="#D0DBCC" />
         <Grid container spacing={5} justifyContent="center" mt={2} mb={2}>
           <DateSetting />
