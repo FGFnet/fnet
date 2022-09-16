@@ -60,11 +60,11 @@ export default function TodoSection(props:TodoSectionProp) {
     <React.Fragment>
       <Container maxWidth="lg" sx={{marginTop: 2}}>
         <Box sx={{display:"flex", justifyContent:"space-between"}}>
-          <Title title={title} background={Colors.primary_lighter} />
+          <Title title={title} background={Colors.primary_lighter} variant="h5" />
           {mode==='normal' && props.auth && (
             <Box>
-              <IconButton color="primary" onClick={() => setMode('edit')}><EditIcon /></IconButton>
-              <IconButton color="primary" onClick={() => setMode('add')}><PlusIcon /></IconButton>
+              <IconButton color="primary" onClick={() => setMode('edit')} style={{width: 35, height: 35}}><EditIcon /></IconButton>
+              <IconButton color="primary" onClick={() => setMode('add')} style={{width: 35, height: 35}}><PlusIcon /></IconButton>
             </Box>
           )}
           {mode!=='normal' &&  (
