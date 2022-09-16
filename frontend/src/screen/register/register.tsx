@@ -1,7 +1,8 @@
 import React, {useState} from 'react'
 import {Header} from '../../component';
-import {TextField, Checkbox, Paper, Table, TableBody,TableCell, TableContainer,TableHead,TableRow} from '@mui/material';
-import {BsSearch , BsSuitHeart, BsSuitHeartFill} from 'react-icons/bs';
+import {TextField, Checkbox, Box, Table, TableBody,TableCell, TableContainer,TableHead,TableRow} from '@mui/material';
+import { BsSuitHeart, BsSuitHeartFill} from 'react-icons/bs';
+import { Container } from '@mui/system';
 
 
 interface registerData {
@@ -58,27 +59,27 @@ export default function RegisterScreen() {
 
   return (
     <React.Fragment>
+      <Container maxWidth="lg">
       <Header title = "접수" />
-    <Paper>
-    <>
-    <TextField 
-    id="standard-basic"
-    label = "이름"
-    value={searched}
-    onChange={(event) => requestSearch(event.target.value)}
-    >
-    </TextField>
-    <BsSearch/>
-    </>
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 300 }} aria-label="dense table">
+    
+    <Box sx={{marginTop:3, display:'flex', justifyContent:"right", alignItems:"center"}}>
+      <TextField sx={{marginRight:2}}
+      id="standard-basic"
+      label = "이름"
+      value={searched}
+      onChange={(event) => requestSearch(event.target.value)}
+      >
+      </TextField>
+    </Box>
+    
+    <TableContainer sx= {{}}component={Container}>
+      <Table sx={{ }} aria-label="dense table">
         <TableHead>
           <TableRow>
-            <TableCell align="right">#</TableCell>
-            <TableCell align="right">이름</TableCell>
-            <TableCell align="right">전화번호</TableCell>
-            <TableCell align="right">LC</TableCell>
-            <TableCell align="right">접수</TableCell>
+            <TableCell align="center">이름</TableCell>
+            <TableCell align="center">전화번호</TableCell>
+            <TableCell align="center">LC</TableCell>
+            <TableCell align="center">접수</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -87,11 +88,10 @@ export default function RegisterScreen() {
               key={row.id}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
-              <TableCell align="right">{row.id}</TableCell>
-              <TableCell align="right">{row.name}</TableCell>
-              <TableCell align="right">{row.phoneNumber}</TableCell>
-              <TableCell align="right">{row.LC}</TableCell>
-              <TableCell align="right">{<Checkbox 
+              <TableCell align="center">{row.name}</TableCell>
+              <TableCell align="center">{row.phoneNumber}</TableCell>
+              <TableCell align="center">{row.LC}</TableCell>
+              <TableCell align="center">{<Checkbox 
               checked ={row.submit}
               onChange = {(event)=>handleCheckBox(event, row.id, row)}
               icon={<BsSuitHeartFill />} checkedIcon={<BsSuitHeart />}/>}
@@ -101,7 +101,8 @@ export default function RegisterScreen() {
         </TableBody>
       </Table>
     </TableContainer>
-    </Paper>
+   
+    </Container>
     </React.Fragment>
   );
 }
