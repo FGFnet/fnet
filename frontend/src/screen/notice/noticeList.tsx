@@ -25,6 +25,7 @@ export default function NoticeListScreen() {
   type PostType = {
     title: string
     create_time: number
+    notice_id: number
   }
 
   const dateFormatter = (date: number) => {
@@ -62,12 +63,12 @@ export default function NoticeListScreen() {
     )
   }
 
-  const Post = ({ title, create_time }: PostType) => {
+  const Post = ({ title, create_time, notice_id }: PostType) => {
     return (
       <React.Fragment>
         <ListItem
           component={Link}
-          to=":id"
+          to={`/notice/${notice_id}`}
           sx={{
             '&:hover': {
               backgroundColor: Colors.hover,
@@ -100,7 +101,7 @@ export default function NoticeListScreen() {
       <Grid>
         <List aria-label="mailbox folders">
           {data.map((p) => (
-            <Post title={p.title} create_time={p.create_time} />
+            <Post title={p.title} create_time={p.create_time} notice_id={p.notice_id} />
           ))}
         </List>
       </Grid>
