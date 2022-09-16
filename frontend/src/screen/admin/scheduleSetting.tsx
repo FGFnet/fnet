@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Box, Grid, Container, Typography, Card, CardContent, Button, Input } from '@mui/material'
-import MenuButton from './component/MenuButton'
+import { MenuButton } from './component'
 import { Header, Title } from '../../component'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'

@@ -1,8 +1,6 @@
 import React, { useState } from 'react'
 import { Container, Grid, Box, Button, Divider } from '@mui/material'
-import MenuButton from './component/MenuButton'
-import AdminTable from './component/AdminTable'
-import Loading from './component/Loading'
+import { MenuButton, AdminTable, Loading } from './component'
 import { Header, Title } from '../../component'
 
 const data = [
