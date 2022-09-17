@@ -4,10 +4,11 @@ import './index.css'
 import * as serviceWorkerRegistration from './serviceWorkerRegistration'
 import reportWebVitals from './reportWebVitals'
 import Router from './Router'
-import { CssBaseline } from '@mui/material'
-import { responsiveFontSizes } from '@mui/material/styles'
 import { BrowserRouter } from 'react-router-dom'
-import { createTheme, ThemeProvider } from '@mui/material'
+import { Provider } from 'react-redux'
+import { store } from './store'
+
+import { createTheme, ThemeProvider, CssBaseline, responsiveFontSizes } from '@mui/material'
 import { Colors } from './constant'
 
 let theme = createTheme({
@@ -24,12 +25,14 @@ theme = responsiveFontSizes(theme)
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
   <React.StrictMode>
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <BrowserRouter>
-        <Router />
-      </BrowserRouter>
-    </ThemeProvider>
+    <Provider store={store}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <BrowserRouter>
+          <Router />
+        </BrowserRouter>
+      </ThemeProvider>
+    </Provider>
   </React.StrictMode>,
 )
 
