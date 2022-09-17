@@ -7,7 +7,7 @@ interface UserState {
 
 const initialState: UserState = {
     login: false,
-    auth: false
+    auth: true
 }
 
 export const userState = createSlice({
@@ -18,7 +18,8 @@ export const userState = createSlice({
             state.login = true
         },
         setLogout: state => {
-            state.login = false;
+            state.login = false
+            state.auth = false
         }
     }
 })
