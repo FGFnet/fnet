@@ -2,6 +2,8 @@ import React from 'react'
 import { styled, OutlinedInputProps, TextField, Typography, Button, Box, Container } from '@mui/material'
 import { Colors } from '../../constant'
 import { useNavigate } from "react-router-dom"
+import { useDispatch } from 'react-redux'
+import { setLogin } from '../../store/user'
 
 const TextFieldStyle = styled(TextField)({
   '& .MuiFilledInput-root': {
@@ -18,6 +20,12 @@ const TextFieldStyle = styled(TextField)({
 
 export default function SignInScreen() {
   const navigate = useNavigate()
+  const dispatch = useDispatch();
+
+  const login = () => {
+    dispatch(setLogin())
+    navigate('/')
+  }
   return (
     <React.Fragment>
       <Container maxWidth="sm" sx={{height: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
@@ -35,7 +43,7 @@ export default function SignInScreen() {
             InputProps={{ disableUnderline: true } as Partial<OutlinedInputProps>}
           />
         </Box>
-        <Button onClick={()=>navigate('/')}>로그인</Button>
+        <Button onClick={login}>로그인</Button>
       </Container>
     </React.Fragment>
   )
