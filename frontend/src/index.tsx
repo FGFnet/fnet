@@ -6,7 +6,6 @@ import reportWebVitals from './reportWebVitals'
 import Router from './Router'
 import { CssBaseline } from '@mui/material'
 import { responsiveFontSizes } from '@mui/material/styles'
-import { NavigationBar } from './component'
 import { BrowserRouter } from 'react-router-dom'
 import { createTheme, ThemeProvider } from '@mui/material'
 import { Colors } from './constant'
@@ -28,7 +27,6 @@ root.render(
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <BrowserRouter>
-        <NavigationBar />
         <Router />
       </BrowserRouter>
     </ThemeProvider>
