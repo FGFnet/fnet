@@ -1,12 +1,16 @@
-import React from 'react'
-import { Colors } from '../constant'
-import Logo from '../image/fg_green_192.png'
-import { BsPersonFill } from 'react-icons/bs'
-import {IoMdArrowDropdown} from 'react-icons/io'
 import {useState, CSSProperties} from 'react'
 import { useNavigate } from "react-router-dom"
 import useMediaQuery from '@mui/material/useMediaQuery'
 import { Button, Drawer, List, ListItemButton, IconButton, Box, Divider } from '@mui/material'
+
+import { useSelector, useDispatch } from 'react-redux'
+import { RootState } from '../store'
+import { setLogout } from '../store/user'
+
+import { Colors } from '../constant'
+import Logo from '../image/fg_green_192.png'
+import { BsPersonFill } from 'react-icons/bs'
+import {IoMdArrowDropdown} from 'react-icons/io'
 
 // TODO: 사용자가 로그인 했으면 버튼 텍스트를 LOGOUT, 안했으면 LOGIN으로 설정 (API 연결 후) -> 그에따라 클릭이벤트 라우팅 or 로그아웃 설정
 export default function Header() {
@@ -33,11 +37,18 @@ export default function Header() {
 
   const navigate = useNavigate()
   const matches = useMediaQuery('(min-width:768px)')
+  const userLoginState = useSelector((state:RootState) => state.userState)
+  const dispatch = useDispatch()
 
-  const menuItem = {
+  const menuItem = userLoginState.auth ? {
     notice: 0,
     todo: 1,
-    register: 2
+    register: 2,
+    admin: 3,
+  } : {
+    notice: 0,
+    todo: 1,
+    register: 2,
   }
   const [isHover, setIsHover] = useState([false, false, false])
   const [open, setOpen] = useState(false)
@@ -67,7 +78,8 @@ export default function Header() {
           ))
         }
         <Divider/>
-        <ListItemButton style={{cursor: "pointer"}}>Logout</ListItemButton>
+        {!userLoginState.login && <ListItemButton style={{cursor: "pointer"}} onClick={() => navigate(`/login`)}>Login</ListItemButton>}
+        {userLoginState.login && <ListItemButton style={{cursor: "pointer"}} onClick={() => dispatch(setLogout())}>Logout</ListItemButton>}
       </List>
     </Box>
   )
@@ -80,17 +92,35 @@ export default function Header() {
           <span>FNET</span>
         </section>
         <section style={menuStyle}>
-          <span style={{color: isHover[menuItem.notice]? Colors.primary_lighter : Colors.primary}} onMouseOver={()=>setHover(menuItem.notice)} onMouseLeave={()=>setHoverFalse(menuItem.notice)} onClick={()=> navigate('/notice')}>Notice</span>
-          <span style={{color: isHover[menuItem.todo]? Colors.primary_lighter : Colors.primary}} onMouseOver={()=>setHover(menuItem.todo)} onMouseLeave={()=>setHoverFalse(menuItem.todo)} onClick={()=> navigate('/todo')}>Todo</span>
-          <span style={{color: isHover[menuItem.register]? Colors.primary_lighter : Colors.primary}} onMouseOver={()=>setHover(menuItem.register)} onMouseLeave={()=>setHoverFalse(menuItem.register)} onClick={()=> navigate('/register')}>Register</span>
+          {
+            Object.keys(menuItem).map((item:string, idx: number) => (
+              <span
+                key={item}
+                style={{color: isHover[idx]? Colors.primary_lighter : Colors.primary}}
+                onMouseOver={()=>setHover(idx)}
+                onMouseLeave={()=>setHoverFalse(idx)}
+                onClick={()=>goPage(item)}
+              >{item.charAt(0).toUpperCase() + item.slice(1)}</span>
+            ))
+          }
         </section>
-        <Button
-          style={{marginRight: 10}}
-          startIcon={<BsPersonFill style={{fontSize: 25, cursor:'pointer'}}/>}
-          onClick={() => navigate(`/login`)}
-        >
-          Login
-        </Button>
+        {!userLoginState.login && 
+          <Button
+            style={{marginRight: 10}}
+            startIcon={<BsPersonFill style={{fontSize: 25, cursor:'pointer'}}/>}
+            onClick={() => navigate(`/login`)}
+          >
+            Login
+          </Button>
+        }
+        {userLoginState.login && 
+          <Button
+            style={{marginRight: 10}}
+            onClick={() => dispatch(setLogout())}
+          >
+            Logout
+          </Button>
+        }
       </header>
     )
   } else {
