@@ -16,6 +16,7 @@ export default function Header() {
     justifyContent: 'space-between',
     height: 50,
     width: '100vw',
+    backgroundColor: '#ffffffCC',
     color: Colors.primary,
     fontSize: 16,
     fontWeight: 'bold',
@@ -41,8 +42,6 @@ export default function Header() {
   const [isHover, setIsHover] = useState([false, false, false])
   const [open, setOpen] = useState(false)
 
-
-
   const setHover = (idx: number) => {
     isHover[idx] = true
     setIsHover([...isHover])
@@ -60,7 +59,13 @@ export default function Header() {
   const drawerItem = (
     <Box onClick={()=>setOpen(false)}>
       <List>
-        {Object.keys(menuItem).map(item=>(<ListItemButton key={item} onClick={()=>goPage(item)} style={{cursor: "pointer"}}>{item}</ListItemButton>))}
+        {
+          Object.keys(menuItem).map(item=>(
+            <ListItemButton key={item} onClick={()=>goPage(item)} style={{cursor: "pointer"}}>
+              {item.charAt(0).toUpperCase() + item.slice(1)}
+            </ListItemButton>
+          ))
+        }
         <Divider/>
         <ListItemButton style={{cursor: "pointer"}}>Logout</ListItemButton>
       </List>
@@ -79,14 +84,18 @@ export default function Header() {
           <span style={{color: isHover[menuItem.todo]? Colors.primary_lighter : Colors.primary}} onMouseOver={()=>setHover(menuItem.todo)} onMouseLeave={()=>setHoverFalse(menuItem.todo)} onClick={()=> navigate('/todo')}>Todo</span>
           <span style={{color: isHover[menuItem.register]? Colors.primary_lighter : Colors.primary}} onMouseOver={()=>setHover(menuItem.register)} onMouseLeave={()=>setHoverFalse(menuItem.register)} onClick={()=> navigate('/register')}>Register</span>
         </section>
-        <Button style={{marginRight: 10}} startIcon={<BsPersonFill style={{fontSize: 25, cursor:'pointer'}}/>}>
+        <Button
+          style={{marginRight: 10}}
+          startIcon={<BsPersonFill style={{fontSize: 25, cursor:'pointer'}}/>}
+          onClick={() => navigate(`/login`)}
+        >
           Login
         </Button>
       </header>
     )
   } else {
     return (
-      <header style={{position:'sticky', top:0, display:'flex', alignItems: 'center', zIndex: 50, justifyContent: 'center'}}>
+      <header style={{position:'sticky', backgroundColor:'#ffffffcc' ,top:0, display:'flex', alignItems: 'center', zIndex: 50, justifyContent: 'center'}}>
         <img src={Logo} alt="fnet-logo" onClick={()=> navigate('/')} style={{ height: 45, marginBottom: 5, marginRight: 10, cursor:"pointer" }}/>
         <span>FNET 
           <IconButton
