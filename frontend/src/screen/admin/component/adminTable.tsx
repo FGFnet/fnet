@@ -19,8 +19,7 @@ type AdminTableType = {
 }
 
 type rowType = {
-  [key: string]: object
-  row: object
+  [key: string]: number | string
 }
 
 export default function AdminTable({ header, data }: AdminTableType) {
@@ -57,7 +56,12 @@ export default function AdminTable({ header, data }: AdminTableType) {
                       return <TableCell> {rowId}</TableCell>
                     } else {
                       const value = row[column.id]
-                      if (column.id === 'is_admin') return <TableCell>{value ? '운영진' : '활동기수'}</TableCell>
+                      if (column.id === 'role') {
+                        if (value === 0) return <TableCell>운영진</TableCell>
+                        if (value === 1) return <TableCell>운영기수</TableCell>
+                        if (value === 2) return <TableCell>활동기수</TableCell>
+                      } else if (column.id === 'campus')
+                        return <TableCell>{value === 'n' ? '자연과학' : '인문사회'}</TableCell>
                       else return <TableCell>{String(value)}</TableCell>
                     }
                   })}
