@@ -52,7 +52,6 @@ export default function Header() {
     setIsHover([...isHover])
   }
   const goPage = (item:string) => {
-    console.log(item)
     navigate(`/${item}`)
     window.location.reload()
   }
