@@ -87,7 +87,7 @@ export default function FgSettingScreen() {
       <Container maxWidth="lg">
         <Header title="설정" children={<MenuButton />} />
         <Grid mt={1} mb={1}>
-          <Title title="FG 명단" background="#D0DBCC" />
+          <Title title="FG 명단" variant="h5" background="#D0DBCC" />
           <Box component="span" sx={{ float: 'right' }}>
             <Button variant="outlined" component="label">
               Upload File

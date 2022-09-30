@@ -105,7 +105,7 @@ export default function ScheduleSettingScreen() {
     <React.Fragment>
       <Container maxWidth="lg">
         <Header title="설정" children={<MenuButton />} />
-        <Title title="OT 일정" background="#D0DBCC" />
+        <Title title="OT 일정" variant="h5" background="#D0DBCC" />
         <Grid container spacing={5} justifyContent="center" mt={2} mb={2}>
           <DateSetting />
         </Grid>
