@@ -48,6 +48,7 @@ export default function Header() {
   } : {
     notice: 0,
     todo: 1,
+    lc: 2,
   }
   const [isHover, setIsHover] = useState([false, false, false])
   const [open, setOpen] = useState(false)

@@ -4,7 +4,7 @@ import Banner from './component/Banner'
 import ScheduleSection from './component/scheduleSection'
 import FGSection from './component/fgSection'
 import { FiSettings } from 'react-icons/fi'
-import {Grid, IconButton} from '@mui/material'
+import {Grid, IconButton, Container} from '@mui/material'
 import { useNavigate } from "react-router-dom"
 
 // TODO : 설정 버튼 눌렀을때 url에 로그인한 유저 id 들어가도록 수정 (API 연결 후)
@@ -21,6 +21,7 @@ export default function HomeScreen() {
   return (
     <React.Fragment>
       <Banner />
+      <Container maxWidth="xl">
       <Grid container wrap="wrap" justifyContent="space-around">
         <Grid item md={4} style={boxStyle}>
           <FGSection />
@@ -39,6 +40,7 @@ export default function HomeScreen() {
           </div>
         </Grid>
       </Grid>
+      </Container>
     </React.Fragment>
   )
 }
