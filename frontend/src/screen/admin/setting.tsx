@@ -37,6 +37,9 @@ export default function SettingScreen() {
             <Grid item>
               <AdminSettingItem title="Freshmen List" link="freshman" />
             </Grid>
+            <Grid item>
+              <AdminSettingItem title="LC TeamBuilding Date" link="lcdate" />
+            </Grid>
           </Grid>
         </main>
       </Container>

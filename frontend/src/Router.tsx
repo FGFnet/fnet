@@ -20,6 +20,7 @@ export default class Router extends Component {
         <Route path="/admin/schedule" element={<Screen.ScheduleSettingScreen />} />
         <Route path="/admin/fg" element={<Screen.FgSettingScreen />} />
         <Route path="/admin/freshman" element={<Screen.FreshmanSettingScreen />} />
+        <Route path="/admin/lcdate" element={<Screen.LcDateSettingScreen />} />
       </Routes>
     )
   }
