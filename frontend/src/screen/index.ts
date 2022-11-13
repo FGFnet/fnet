@@ -1,4 +1,4 @@
-export * from './admin'
+export * from './setting'
 export * from './home'
 export * from './LC'
 export * from './notice'
