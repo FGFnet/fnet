@@ -19,7 +19,6 @@ export default function NoticeCreateScreen() {
         title: title,
         content: content,
       }
-      console.log(postData)
     }
   }
 

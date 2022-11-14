@@ -5,6 +5,7 @@ import { Colors } from '../../constant/colors.constants'
 import CommentSection from './component/CommentSection'
 import {TbMenu2 as MenuIcon} from 'react-icons/tb'
 import { useNavigate } from "react-router-dom"
+import { dateFormatter } from '../../util'
 
 export default function NoticeDetailScreen() {
   const navigate = useNavigate()
@@ -25,23 +26,6 @@ export default function NoticeDetailScreen() {
       </Container>
     )
   };
-
-  const dateFormatter = (date: number) => {
-    const create_time = new Date(date)
-    const now = new Date()
-    let diff = (now.getTime() - create_time.getTime()) / (1000 * 60)
-    if (diff < 60) {
-      // 1시간 이내
-      diff = Math.round(diff)
-      return diff + '분 전'
-    } else if (diff < 60 * 24) {
-      diff = Math.round(diff / 60)
-      return diff + '시간 전'
-    } else {
-      diff = Math.round(diff / (60 * 24))
-      return diff + '일 전'
-    }
-  }
 
   const MenuBtn = () => {
     return (

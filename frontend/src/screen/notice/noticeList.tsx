@@ -3,6 +3,7 @@ import { Box, Button, Container, Divider, Grid, List, ListItem, Typography } fro
 import { Link } from 'react-router-dom'
 import { Colors } from '../../constant/colors.constants'
 import {Header} from '../../component'
+import { dateFormatter } from '../../util'
 
 export default function NoticeListScreen() {
   const data = [
@@ -26,24 +27,6 @@ export default function NoticeListScreen() {
     title: string
     create_time: number
     notice_id: number
-  }
-
-  const dateFormatter = (date: number) => {
-    console.log(date)
-    const create_time = new Date(date)
-    const now = new Date()
-    let diff = (now.getTime() - create_time.getTime()) / (1000 * 60)
-    if (diff < 60) {
-      // 1시간 이내
-      diff = Math.round(diff)
-      return diff + '분 전'
-    } else if (diff < 60 * 24) {
-      diff = Math.round(diff / 60)
-      return diff + '시간 전'
-    } else {
-      diff = Math.round(diff / (60 * 24))
-      return diff + '일 전'
-    }
   }
 
   const NewPostBtn = () => {
