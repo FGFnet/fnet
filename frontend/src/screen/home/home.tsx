@@ -3,7 +3,9 @@ import { Colors } from '../../constant'
 import Banner from './component/Banner'
 import ScheduleSection from './component/scheduleSection'
 import FGSection from './component/fgSection'
-import {Grid} from '@mui/material'
+import { FiSettings } from 'react-icons/fi'
+import {Grid, IconButton, Container} from '@mui/material'
+import { useNavigate } from "react-router-dom"
 
 export default function HomeScreen() {
   const boxStyle = {
@@ -17,6 +19,7 @@ export default function HomeScreen() {
   return (
     <React.Fragment>
       <Banner />
+      <Container maxWidth="xl">
       <Grid container wrap="wrap" justifyContent="space-around">
         <Grid item md={4} style={boxStyle}>
           <FGSection />
@@ -32,6 +35,7 @@ export default function HomeScreen() {
           </div>
         </Grid>
       </Grid>
+      </Container>
     </React.Fragment>
   )
 }
