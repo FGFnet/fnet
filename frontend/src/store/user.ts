@@ -1,28 +1,10 @@
-import { createSlice } from '@reduxjs/toolkit';
+import {atom} from 'recoil';
 
-interface UserState {
-    login: boolean;
+type userStateType = {
     auth: boolean;
+    login: boolean;
 }
-
-const initialState: UserState = {
-    login: false,
-    auth: true
-}
-
-export const userState = createSlice({
-    name: 'userState',
-    initialState,
-    reducers: {
-        setLogin: state => {
-            state.login = true
-        },
-        setLogout: state => {
-            state.login = false
-            state.auth = false
-        }
-    }
-})
-
-export const {setLogin, setLogout} = userState.actions
-export default userState.reducer
+export const userState = atom<userStateType>({
+    key: 'userState',
+    default: {auth: false, login: false}
+});

@@ -3,9 +3,8 @@ import { useNavigate } from "react-router-dom"
 import useMediaQuery from '@mui/material/useMediaQuery'
 import { Button, Drawer, List, ListItemButton, IconButton, Box, Divider } from '@mui/material'
 
-import { useSelector, useDispatch } from 'react-redux'
-import { RootState } from '../store'
-import { setLogout } from '../store/user'
+import { userState } from '../store'
+import { useRecoilState } from 'recoil'
 
 import { Colors } from '../constant'
 import Logo from '../image/fg_green_192.png'
@@ -37,8 +36,7 @@ export default function Header() {
 
   const navigate = useNavigate()
   const matches = useMediaQuery('(min-width:768px)')
-  const userLoginState = useSelector((state:RootState) => state.userState)
-  const dispatch = useDispatch()
+  const [userLoginState, setUserLoginState] = useRecoilState(userState)
 
   const menuItem = userLoginState.auth ? {
     notice: 0,
@@ -79,7 +77,7 @@ export default function Header() {
         }
         <Divider/>
         {!userLoginState.login && <ListItemButton style={{cursor: "pointer"}} onClick={() => navigate(`/login`)}>Login</ListItemButton>}
-        {userLoginState.login && <ListItemButton style={{cursor: "pointer"}} onClick={() => dispatch(setLogout())}>Logout</ListItemButton>}
+        {userLoginState.login && <ListItemButton style={{cursor: "pointer"}} onClick={() => setUserLoginState({...userLoginState, login: false})}>Logout</ListItemButton>}
       </List>
     </Box>
   )
@@ -116,7 +114,7 @@ export default function Header() {
         {userLoginState.login && 
           <Button
             style={{marginRight: 10}}
-            onClick={() => dispatch(setLogout())}
+            onClick={() => setUserLoginState({...userLoginState, login: false})}
           >
             Logout
           </Button>

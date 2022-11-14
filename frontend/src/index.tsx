@@ -5,8 +5,7 @@ import * as serviceWorkerRegistration from './serviceWorkerRegistration'
 import reportWebVitals from './reportWebVitals'
 import Router from './Router'
 import { BrowserRouter } from 'react-router-dom'
-import { Provider } from 'react-redux'
-import { store } from './store'
+import { RecoilRoot } from 'recoil';
 
 import { createTheme, ThemeProvider, CssBaseline, responsiveFontSizes } from '@mui/material'
 import { Colors } from './constant'
@@ -25,14 +24,14 @@ theme = responsiveFontSizes(theme)
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
   <React.StrictMode>
-    <Provider store={store}>
+    <RecoilRoot>
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <BrowserRouter>
           <Router />
         </BrowserRouter>
       </ThemeProvider>
-    </Provider>
+    </RecoilRoot>
   </React.StrictMode>,
 )
 

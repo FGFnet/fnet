@@ -2,8 +2,8 @@ import React, {useState} from 'react'
 import { styled, OutlinedInputProps, TextField, Typography, Button, Box, Container, Alert, Dialog } from '@mui/material'
 import { Colors } from '../../constant'
 import { useNavigate } from "react-router-dom"
-import { useDispatch } from 'react-redux'
-import { setLogin } from '../../store/user'
+import { useRecoilState } from 'recoil'
+import { userState } from '../../store'
 
 const TextFieldStyle = styled(TextField)({
   '& .MuiFilledInput-root': {
@@ -20,7 +20,7 @@ const TextFieldStyle = styled(TextField)({
 
 export default function SignInScreen() {
   const navigate = useNavigate()
-  const dispatch = useDispatch();
+  const [user, setUser] = useRecoilState(userState)
   const [name, setName] = useState('')
   const [studentId, setStudentId] = useState('')
   const [error, setError] = useState(false)
@@ -30,7 +30,7 @@ export default function SignInScreen() {
       setError(true)
       return
     }
-    dispatch(setLogin())
+    setUser({...user, login: true})
     navigate('/')
   }
   return (
