@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import {Header} from '../../component';
-import {TextField, Checkbox, Box, Table, TableBody,TableCell, TableContainer,TableHead,TableRow} from '@mui/material';
+import {TextField, Checkbox, Box, Table, TableBody,TableCell, TableContainer,TableHead,TableRow, TablePagination} from '@mui/material';
 import { BsSuitHeart, BsSuitHeartFill} from 'react-icons/bs';
 import { Container } from '@mui/system';
 
@@ -25,6 +25,18 @@ const originalRows : registerData[] = [
 export default function RegisterScreen() {
   const [rows, setRows] = useState<registerData[]>(originalRows);
   const [searched, setSearched] = useState<string>("");
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
+  const handleChangePage = (event: unknown, newPage: number) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
+
 
   const requestSearch = (SearchVal :string) => {
     setSearched(SearchVal)
@@ -80,7 +92,7 @@ export default function RegisterScreen() {
                   {<Checkbox 
                     checked ={row.submit}
                     onChange = {(event)=>handleCheckBox(event, row.id)}
-                    icon={<BsSuitHeartFill />} checkedIcon={<BsSuitHeart />}
+                    icon={<BsSuitHeart />} checkedIcon={<BsSuitHeartFill />}
                   />}
                 </TableCell>
               </TableRow>
@@ -88,6 +100,15 @@ export default function RegisterScreen() {
           </TableBody>
         </Table>
       </TableContainer>
+      <TablePagination 
+      rowsPerPageOptions={[10, 25, 100]}
+      component="div"
+      count={rows.length}
+      rowsPerPage={rowsPerPage}
+      page={page}
+      onPageChange={handleChangePage}
+      onRowsPerPageChange={handleChangeRowsPerPage}
+      />
     </Container>
   );
 }
