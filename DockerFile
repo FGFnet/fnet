@@ -1,19 +1,30 @@
-#아래 적힌 이미지를 베이스 이미지로 한다.
-#이 명령어가 실행되면 Dockerhub에서 해당 이미지를 pull한다.
-FROM nikolaik/python-nodejs:python3.8-nodejs14
+# FROM python:3
+# ENV PYTHONUNBUFFERED 1
+# ADD ./backend /app
+# WORKDIR /app
+# COPY . .
+# RUN pip install -r ./backend/requirements.txt
 
-#mkdir 명령어를 실행한다.
-RUN mkdir /code
 
-#동작 디렉토리를 /code로 옮긴다.
-WORKDIR /code
+FROM node:14-alpine AS builder
 
-#requirement.txt를 code 아래로 옮긴다.
-ADD ./requirements.txt /code/requirements.txt 
+ADD ./frontend /build
+WORKDIR /build
 
-RUN pip install -r /code/requirements.txt #requirement.txt를 읽어서 필요한 패키지를 다운받는다
-RUN pip install gunicorn #python과 nginx를 연결해주는 interface
+RUN yarn install && \
+    yarn build
 
-ADD . /code #현재 디렉토리를 /code에 복사해서 넣겠다
-RUN ["chmod", "+x", "start.sh"] # bash script 권한 설정
-ENTRYPOINT ["sh","./start.sh"] # bash script 실행
+FROM python:3.8-alpine3.14
+
+ENV FNET_ENV production
+
+ADD ./backend /app
+WORKDIR /app
+
+RUN apk add --update --no-cache build-base nginx curl supervisor mysql-client mariadb-connector-c-dev && \
+    pip install --no-cache-dir -r /app/deploy/requirements.txt && \
+    apk del build-base --purge
+
+COPY --from=builder /build/dist /app/dist
+
+ENTRYPOINT ["sh", "/app/deploy/entrypoint.sh" ]
