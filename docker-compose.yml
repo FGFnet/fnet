@@ -1,0 +1,30 @@
+version: "3"
+
+services:
+  fnet-api:
+    image: ghcr.io/fgfnet/fnet-web
+    command: python manage.py runserver 0:8000
+    container_name: fnet-api
+    volumes:
+      - ./data/django:/data
+    ports:
+      - "8000:8000"
+    depends_on:
+      - fnet-db
+    environment:
+      - MYSQL_DATABASE=fnet
+      - MYSQL_USER=fnet
+      - MYSQL_PASSWORD=fnet
+      - DJANGO_SUPERUSER_NAME=root
+      - DJANGO_SUPERUSER_PASSWORD=rootroot
+
+  fnet-db:
+    image: mysql
+    container_name: fnet-db
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=fnet
+      - MYSQL_USER=fnet
+      - MYSQL_PASSWORD=fnet
