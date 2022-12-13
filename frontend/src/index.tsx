@@ -6,6 +6,7 @@ import reportWebVitals from './reportWebVitals'
 import Router from './Router'
 import { BrowserRouter } from 'react-router-dom'
 import { RecoilRoot } from 'recoil';
+import { QueryClient, QueryClientProvider} from 'react-query';
 
 import { createTheme, ThemeProvider, CssBaseline, responsiveFontSizes } from '@mui/material'
 import { Colors } from './constant'
@@ -21,17 +22,20 @@ let theme = createTheme({
 })
 theme = responsiveFontSizes(theme)
 
+const queryClient = new QueryClient();
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
   <React.StrictMode>
-    <RecoilRoot>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <BrowserRouter>
-          <Router />
-        </BrowserRouter>
-      </ThemeProvider>
-    </RecoilRoot>
+    <QueryClientProvider client={queryClient}>
+      <RecoilRoot>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <BrowserRouter>
+            <Router />
+          </BrowserRouter>
+        </ThemeProvider>
+      </RecoilRoot>
+    </QueryClientProvider>
   </React.StrictMode>,
 )
 
