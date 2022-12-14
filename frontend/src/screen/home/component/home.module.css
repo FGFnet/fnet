@@ -1,12 +1,14 @@
 @keyframes loadEffect2 {
-    0%{
-        opacity: 0;
-        transform: translateX(-30px);
-    }
-    100%{
-        opacity: 1;
-        transform: translateX(0px);
-    }
+  0% {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0px);
+  }
 }
 
-.ani {animation: 1.0s ease-in loadEffect2;}
+.ani {
+  animation: 1s ease-in loadEffect2;
+}

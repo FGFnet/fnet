@@ -5,24 +5,24 @@ import * as serviceWorkerRegistration from './serviceWorkerRegistration'
 import reportWebVitals from './reportWebVitals'
 import Router from './Router'
 import { BrowserRouter } from 'react-router-dom'
-import { RecoilRoot } from 'recoil';
-import { QueryClient, QueryClientProvider} from 'react-query';
+import { RecoilRoot } from 'recoil'
+import { QueryClient, QueryClientProvider } from 'react-query'
 
 import { createTheme, ThemeProvider, CssBaseline, responsiveFontSizes } from '@mui/material'
 import { Colors } from './constant'
 
 let theme = createTheme({
   typography: {
-    fontFamily: "LeferiBaseType-Regular"
+    fontFamily: 'LeferiBaseType-Regular',
   },
   palette: {
     primary: { main: Colors.primary, light: Colors.primary_lighter },
-    secondary: { main: Colors.dark, light: Colors.light, dark: Colors.darker},
-  }
+    secondary: { main: Colors.dark, light: Colors.light, dark: Colors.darker },
+  },
 })
 theme = responsiveFontSizes(theme)
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient()
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
   <React.StrictMode>

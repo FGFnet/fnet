@@ -1,6 +1,6 @@
 import React from 'react'
 import { Container, Grid } from '@mui/material'
-import {Header} from '../../component'
+import { Header } from '../../component'
 import { TodoSection } from './components'
 
 export default function TodoScreen() {

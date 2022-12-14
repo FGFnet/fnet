@@ -1,10 +1,10 @@
-import {atom} from 'recoil';
+import { atom } from 'recoil'
 
 type userStateType = {
-    auth: boolean;
-    login: boolean;
+  auth: boolean
+  login: boolean
 }
 export const userState = atom<userStateType>({
-    key: 'userState',
-    default: {auth: false, login: false}
-});
+  key: 'userState',
+  default: { auth: false, login: false },
+})

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Box, Button, Container, Divider, Grid, TextField, Typography } from '@mui/material'
-import {Header} from '../../component'
+import { Header } from '../../component'
 import { Colors } from '../../constant/colors.constants'
 import { Link } from 'react-router-dom'
 
