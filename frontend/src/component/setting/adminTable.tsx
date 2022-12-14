@@ -27,7 +27,7 @@ type rowType = {
   [key: string]: number | string
 }
 
-export default function AdminTable({ header, data }: AdminTableType) {
+function AdminTable({ header, data }: AdminTableType) {
   const [page, setPage] = React.useState(0)
   const [rowsPerPage, setRowsPerPage] = React.useState(10)
 
@@ -91,3 +91,5 @@ export default function AdminTable({ header, data }: AdminTableType) {
     </Paper>
   )
 }
+
+export {AdminTable};

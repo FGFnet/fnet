@@ -1,6 +1,6 @@
 import React from 'react'
 import { Typography, Box, Checkbox } from '@mui/material'
-import { Colors } from '../../../constant/colors.constants'
+import { Colors } from '../../constant'
 
 type TodoProp = {
   id: number

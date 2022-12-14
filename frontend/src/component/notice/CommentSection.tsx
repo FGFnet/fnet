@@ -1,7 +1,7 @@
 import { List, ListItem, Divider, Grid, TextField, Typography, Checkbox, Button, Box } from '@mui/material'
 import React, { useState } from 'react'
-import { Colors } from '../../../constant/colors.constants'
-import { dateFormatter } from '../../../util'
+import { Colors } from '../../constant/colors.constants'
+import { dateFormatter } from '../../util'
 
 type comment = {
   id: number
@@ -12,7 +12,7 @@ type comment = {
 }
 
 //TODO : admin일때만 checkbox사용 가능하도록 변경
-export default function CommentListBox() {
+function CommentListBox() {
   const [content, setContent] = useState('')
   const [commentList, setCommentList] = useState<comment[]>([])
 
@@ -125,3 +125,5 @@ export default function CommentListBox() {
     </>
   )
 }
+
+export {CommentListBox}

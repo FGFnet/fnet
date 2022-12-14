@@ -12,8 +12,7 @@ import {
 } from '@mui/material'
 import React from 'react'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
-import Header from '../../component/Header'
-import LCStatus from './component/lcStatus'
+import {Header, LCStatus} from '../../component'
 
 const TableCellTheme = createTheme({
   components: {

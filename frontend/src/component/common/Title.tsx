@@ -1,4 +1,4 @@
-import { Colors } from '../constant'
+import { Colors } from '../../constant'
 import { Typography } from '@mui/material'
 
 type titleProp = {
@@ -25,7 +25,7 @@ type Variant =
   | 'subtitle2'
   | undefined
 
-export default function Title(props: titleProp) {
+function Title(props: titleProp) {
   const title = props.title
   const backgroundColor = props.background
   const variant: Variant = props.variant ?? 'h4'
@@ -45,3 +45,5 @@ export default function Title(props: titleProp) {
     </Typography>
   )
 }
+
+export {Title};

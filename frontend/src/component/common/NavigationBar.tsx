@@ -3,17 +3,17 @@ import { useNavigate } from 'react-router-dom'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import { Button, Drawer, List, ListItemButton, IconButton, Box, Divider } from '@mui/material'
 
-import { userState } from '../store'
+import { userState } from '../../store'
 import { useRecoilState } from 'recoil'
 
-import { Colors } from '../constant'
-import Logo from '../image/fg_green_192.png'
+import { Colors } from '../../constant'
+import Logo from '../../image/fg_green_192.png'
 import { BsPersonFill } from 'react-icons/bs'
 import { IoMdArrowDropdown } from 'react-icons/io'
 import { useMutation } from 'react-query'
-import { logout } from '../service'
+import { logout } from '../../service'
 
-export default function Header() {
+function NavigationBar() {
   const headerStyle: CSSProperties = {
     display: 'flex',
     alignItems: 'center',
@@ -168,3 +168,5 @@ export default function Header() {
     )
   }
 }
+
+export {NavigationBar};

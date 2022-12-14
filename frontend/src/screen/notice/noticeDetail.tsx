@@ -1,8 +1,7 @@
 import React from 'react'
 import { Container, Divider, Typography, Box, Button } from '@mui/material'
-import { Header, Title } from '../../component'
-import { Colors } from '../../constant/colors.constants'
-import CommentSection from './component/CommentSection'
+import { Header, Title, CommentListBox } from '../../component'
+import { Colors } from '../../constant'
 import { TbMenu2 as MenuIcon } from 'react-icons/tb'
 import { useNavigate } from 'react-router-dom'
 import { dateFormatter } from '../../util'
@@ -53,7 +52,7 @@ export default function NoticeDetailScreen() {
         <Header title="공지사항" children={<MenuBtn />} />
         <NoticeBox />
         <Divider />
-        <CommentSection />
+        <CommentListBox />
       </Container>
     </React.Fragment>
   )

@@ -1,10 +1,10 @@
 import { CSSProperties } from 'react'
-import { Colors } from '../../../constant'
-import Logo from '../../../image/home_4.png'
+import { Colors } from '../../constant'
+import Logo from '../../image/home_4.png'
 import style from './home.module.css'
 import { useMediaQuery } from '@mui/material'
 
-export default function Banner() {
+function Banner() {
   const green: CSSProperties = {
     borderTop: '300px solid #D0DBCC',
     borderRight: '150px solid transparent',
@@ -64,3 +64,5 @@ export default function Banner() {
     </div>
   )
 }
+
+export {Banner};

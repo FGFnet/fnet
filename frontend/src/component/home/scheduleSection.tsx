@@ -1,6 +1,6 @@
-import RoundedButton from './roundedButton'
+import {RoundedButton} from './roundedButton'
 import { useEffect, useState } from 'react'
-import { Colors } from '../../../constant'
+import { Colors } from '../../constant'
 
 type scheduleProp = {
   date: string
@@ -48,3 +48,5 @@ export default function ScheduleSection(props: scheduleProp) {
     </section>
   )
 }
+
+export {ScheduleSection};

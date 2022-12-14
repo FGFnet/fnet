@@ -1,13 +1,13 @@
 import { Button } from '@mui/material'
 import { FiArrowRight } from 'react-icons/fi'
 import { TbMoodSmile } from 'react-icons/tb'
-import { Colors } from '../../../constant'
+import { Colors } from '../../constant'
 
 type fgProp = {
   fg?: string
 }
 
-export default function FGSection(props: fgProp) {
+function FGSection(props: fgProp) {
   return (
     <section style={{ margin: 30 }}>
       <div style={{ display: 'flex', alignItems: 'center', marginBottom: 5 }}>
@@ -23,3 +23,5 @@ export default function FGSection(props: fgProp) {
     </section>
   )
 }
+
+export {FGSection};

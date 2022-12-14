@@ -1,6 +1,6 @@
 import { Grid, Stack, Typography } from '@mui/material'
 import React from 'react'
-import background from '../../../image/lc_bgImg.png'
+import background from '../../image/lc_bgImg.png'
 
 type LCStatusType = {
   sReg: number
@@ -13,7 +13,7 @@ type RegisterDetailType = {
   department: number
   breakpoint?: boolean
 }
-export default function LCStatus({ sReg, nReg, eReg, hReg }: LCStatusType) {
+function LCStatus({ sReg, nReg, eReg, hReg }: LCStatusType) {
   const RegisterDetail = ({ campus, department }: RegisterDetailType) => {
     return (
       <Grid container item>
@@ -77,3 +77,5 @@ export default function LCStatus({ sReg, nReg, eReg, hReg }: LCStatusType) {
     </React.Fragment>
   )
 }
+
+export {LCStatus};

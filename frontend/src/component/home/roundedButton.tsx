@@ -1,11 +1,11 @@
 import Button from '@mui/material/Button'
-import { Colors } from '../../../constant'
+import { Colors } from '../../constant'
 
 type buttonProp = {
   text: string
 }
 
-export default function RoundedButton(props: buttonProp) {
+function RoundedButton(props: buttonProp) {
   const style = {
     boxShadow: '0px 4px 12px rgba(21,76,0,0.25)',
     padding: 10,
@@ -19,3 +19,5 @@ export default function RoundedButton(props: buttonProp) {
 
   return <Button style={style}>{props.text}</Button>
 }
+
+export {RoundedButton};

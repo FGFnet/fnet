@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Route, Routes, Outlet } from 'react-router-dom'
-import { NavigationBar } from './component'
+import { NavigationBar } from './component/common'
 import * as Screen from './screen'
 
 function BasicLayout() {
