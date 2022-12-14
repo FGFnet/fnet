@@ -1,5 +1,13 @@
 import { api } from '.'
 
-export async function login(name: string, student_id: string) {
-  await api.post('login/', { name: name, password: student_id })
+type LoginUser = {
+  name: string,
+  password: string,
+}
+
+export async function login(data: LoginUser) {
+  await api.post('login/', data);
+}
+export async function logout() {
+  await api.get('logout/');
 }

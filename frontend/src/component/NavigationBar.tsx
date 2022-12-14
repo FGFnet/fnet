@@ -10,8 +10,9 @@ import { Colors } from '../constant'
 import Logo from '../image/fg_green_192.png'
 import { BsPersonFill } from 'react-icons/bs'
 import { IoMdArrowDropdown } from 'react-icons/io'
+import { useMutation } from 'react-query'
+import { logout } from '../service'
 
-// TODO: 사용자가 로그인 했으면 버튼 텍스트를 LOGOUT, 안했으면 LOGIN으로 설정 (API 연결 후) -> 그에따라 클릭이벤트 라우팅 or 로그아웃 설정
 export default function Header() {
   const headerStyle: CSSProperties = {
     display: 'flex',
@@ -37,6 +38,7 @@ export default function Header() {
   const navigate = useNavigate()
   const matches = useMediaQuery('(min-width:768px)')
   const [userLoginState, setUserLoginState] = useRecoilState(userState)
+  const logoutMutation = useMutation(logout);
 
   const menuItem = userLoginState.auth
     ? {
@@ -63,7 +65,10 @@ export default function Header() {
   }
   const goPage = (item: string) => {
     navigate(`/${item}`)
-    window.location.reload()
+  }
+  const clickLogout = () => {
+    logoutMutation.mutate();
+    setUserLoginState({ ...userLoginState, login: false });
   }
 
   const drawerItem = (
@@ -83,7 +88,7 @@ export default function Header() {
         {userLoginState.login && (
           <ListItemButton
             style={{ cursor: 'pointer' }}
-            onClick={() => setUserLoginState({ ...userLoginState, login: false })}
+            onClick={clickLogout}
           >
             Logout
           </ListItemButton>
