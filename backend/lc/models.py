@@ -1,6 +1,9 @@
 from django.db import models
 from django.db.models.fields.related import ForeignKey
-from FG.models import FG
+from fg.models import FG
+from django.db.models.deletion import CASCADE
+from django.db.models.fields import CharField, AutoField, IntegerField, DateField
+from datetime import datetime
 
 # Create your models here.
 class LC(models.Model):
@@ -12,5 +15,5 @@ class LC(models.Model):
     total = IntegerField()
 
 class Schedule(models.Model):
-    date = DataField(default=datatime.now)
+    date = DateField(default=datetime.now)
     day = IntegerField()
