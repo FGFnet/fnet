@@ -6,7 +6,7 @@ import { TbMenu2 as MenuIcon } from 'react-icons/tb'
 function MenuButton() {
   return (
     <Box textAlign="right">
-      <Button component={Link} to={'/admin'} startIcon={<MenuIcon />}>
+      <Button component={Link} to={'/setting'} startIcon={<MenuIcon />}>
         MENU
       </Button>
     </Box>

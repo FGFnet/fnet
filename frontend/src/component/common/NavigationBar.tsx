@@ -45,7 +45,7 @@ function NavigationBar() {
         notice: 0,
         todo: 1,
         register: 2,
-        admin: 3,
+        setting: 3,
       }
     : {
         notice: 0,
