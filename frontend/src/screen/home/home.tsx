@@ -1,9 +1,7 @@
 import React from 'react'
 import { Colors } from '../../constant'
 import {Banner, ScheduleSection, FGSection} from '../../component'
-import { FiSettings } from 'react-icons/fi'
-import { Grid, IconButton, Container } from '@mui/material'
-import { useNavigate } from 'react-router-dom'
+import { Grid, Container } from '@mui/material'
 
 export default function HomeScreen() {
   const boxStyle = {
