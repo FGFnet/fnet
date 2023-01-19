@@ -1,5 +1,6 @@
 import {RoundedButton} from './roundedButton'
 import { Colors } from '../../constant'
+import { useNavigate } from 'react-router-dom'
 
 type lc = {
   fg_n: string;
@@ -10,6 +11,11 @@ type lc = {
 }
 
 export default function ScheduleSection({props}: {props:lc}) {
+  const navigate = useNavigate()
+  const getLCNum = () => {
+    return Number(props.name.slice(2))
+  }
+
   const lcTextStyle = {
     backgroundColor: Colors.primary_lighter,
     display: 'inline-block',
@@ -18,7 +24,7 @@ export default function ScheduleSection({props}: {props:lc}) {
 
   return (
     <section style={{ margin: 30 }}>
-      <RoundedButton text={props.name} />
+      <RoundedButton text={props.name} onClick={() => navigate(`/lc/${getLCNum()}`)} />
       <div style={lcTextStyle}>{props.date}</div>
       <div
         style={{ textAlign: 'left', marginLeft: 20, fontSize: 14, display: 'inline-block', verticalAlign: 'middle' }}
