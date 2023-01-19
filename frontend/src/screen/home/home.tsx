@@ -36,7 +36,7 @@ export default function HomeScreen() {
             </div>
             <div style={{ textAlign: 'center' }}>
               {scheduledata.map((schedule) => (
-                <ScheduleSection props={schedule}/>
+                <ScheduleSection props={schedule} key={`schedule ${schedule.name}`} />
               ))}
             </div>
           </Grid>

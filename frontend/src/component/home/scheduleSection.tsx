@@ -24,7 +24,7 @@ export default function ScheduleSection({props}: {props:lc}) {
 
   return (
     <section style={{ margin: 30 }}>
-      <RoundedButton text={props.name} onClick={() => navigate(`/lc/${getLCNum()}`)} />
+      <RoundedButton text={props.name} onClick={() => {navigate(`/lc/${getLCNum()}`)}} />
       <div style={lcTextStyle}>{props.date}</div>
       <div
         style={{ textAlign: 'left', marginLeft: 20, fontSize: 14, display: 'inline-block', verticalAlign: 'middle' }}

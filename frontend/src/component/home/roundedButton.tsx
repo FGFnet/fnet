@@ -18,7 +18,7 @@ function RoundedButton(props: buttonProp) {
     marginBottom: 10,
   }
 
-  return <Button onClick-={props.onClick} style={style}>{props.text}</Button>
+  return <Button onClick={()=>{props.onClick()}} style={style}>{props.text}</Button>
 }
 
 export {RoundedButton};
