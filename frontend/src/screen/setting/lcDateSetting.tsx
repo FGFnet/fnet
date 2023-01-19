@@ -78,31 +78,11 @@ export default function LcDateSettingScreen() {
   }
   */
 
-  const uploadFile = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files != null) {
-      setLoading(true)
-      // api 작동 확인 필요
-      setTimeout(() => {
-        setLoading(false)
-      }, 500)
-    } else {
-      alert('파일이 선택되지 않았습니다.')
-    }
-  }
-
   return (
     <React.Fragment>
       <Container maxWidth="lg">
         <Header title="설정" children={<MenuButton />} />
-        <Grid mt={1} mb={1}>
-          <Title title="LC 팀빌딩 날짜" variant="h5" background="#D0DBCC" />
-          <Box component="span" sx={{ float: 'right' }}>
-            <Button variant="outlined" component="label">
-              Upload File
-              <input type="file" accept=".xlsx, .xls" hidden onChange={uploadFile} />
-            </Button>
-          </Box>
-        </Grid>
+        <Title title="LC 팀빌딩 날짜" variant="h5" background="#D0DBCC" />
         <Divider />
         <Grid container mt={1} mb={1}>
           {loading ? <Loading /> : <AdminTable header={tableColumn} data={formatData} />}
