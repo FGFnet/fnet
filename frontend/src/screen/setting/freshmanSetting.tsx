@@ -1,102 +1,32 @@
 import React, { useState } from 'react'
 import { Container, Grid, Box, Button, Divider } from '@mui/material'
 import { Header, Title, MenuButton, AdminTable, Loading } from '../../component'
-
-const data = [
-  {
-    name: '김일건',
-    phone_number: '010-1234-5678',
-    lc: 'LC08',
-    register: true,
-  },
-  {
-    name: '김일건1',
-    phone_number: '010-1234-5678',
-    lc: 'LC08',
-    register: true,
-  },
-  {
-    name: '김일건2',
-    phone_number: '010-1234-5678',
-    lc: 'LC08',
-    register: true,
-  },
-  {
-    name: '김일건3',
-    phone_number: '010-1234-5678',
-    lc: 'LC08',
-    register: true,
-  },
-  {
-    name: '김일건4',
-    phone_number: '010-1234-5678',
-    lc: 'LC08',
-    register: true,
-  },
-  {
-    name: '김일건5',
-    phone_number: '010-1234-5678',
-    lc: 'LC08',
-    register: true,
-  },
-  {
-    name: '김일건6',
-    phone_number: '010-1234-5678',
-    lc: 'LC08',
-    register: true,
-  },
-  {
-    name: '김일건7',
-    phone_number: '010-1234-5678',
-    lc: 'LC08',
-    register: true,
-  },
-  {
-    name: '김일건8',
-    phone_number: '010-1234-5678',
-    lc: 'LC08',
-    register: true,
-  },
-  {
-    name: '김일건9',
-    phone_number: '010-1234-5678',
-    lc: 'LC08',
-    register: true,
-  },
-  {
-    name: '김일건10',
-    phone_number: '010-1234-5678',
-    lc: 'LC08',
-    register: true,
-  },
-]
+import { useQuery } from 'react-query'
+import { getFreshman } from '../../service'
 
 export default function FgSettingScreen() {
-  const [tableData, updateTableData] = useState([])
-  const [loading, setLoading] = useState(false)
+  const [freshmanData, setFreshmanData] = useState([])
+  const [loading, setLoading] = useState(true)
 
   const tableColumn = [
     { id: 'index', label: '#' },
     { id: 'name', label: '이름' },
-    { id: 'phone_number', label: '전화번호' },
+    { id: 'phone_number', label: '전화번호 (뒷자리)' },
     { id: 'lc', label: 'LC' },
     { id: 'register', label: '등록' },
   ]
 
-  // api 작동 확인 필요
-  /*
-  const fetchUsers = async () => {
-    try {
-      setLoading(true)
-      const res = await api.getFreshmanList()
-      updateTableData(res.data.data)
-    } catch (err) {
-      alert(err)
+  useQuery('freshmans', getFreshman, {
+    refetchOnWindowFocus: false,
+    onSuccess: data => {
+      setFreshmanData(data.data)
       setLoading(false)
-    }
-  }
-  */
-
+    },
+    onError: error => {
+      console.log(error)
+    },
+  })
+    
   const uploadFile = async (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files != null) {
       setLoading(true)
@@ -140,7 +70,7 @@ export default function FgSettingScreen() {
         </Grid>
         <Divider />
         <Grid container mt={1} mb={1}>
-          {loading ? <Loading /> : <AdminTable header={tableColumn} data={data} />}
+          {loading ? <Loading /> : <AdminTable header={tableColumn} data={freshmanData} />}
         </Grid>
       </Container>
     </React.Fragment>

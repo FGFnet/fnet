@@ -1,13 +1,17 @@
 import { api } from '.'
 
 type LoginUser = {
-  name: string,
-  password: string,
+  name: string
+  password: string
 }
 
 export async function login(data: LoginUser) {
-  await api.post('login/', data);
+  await api.post('login/', data)
 }
 export async function logout() {
-  await api.get('logout/');
+  await api.get('logout/')
+}
+
+export async function getFreshman() {
+  return await api.get('admin/freshman/')
 }
