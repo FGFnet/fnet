@@ -10,7 +10,7 @@ class Schedule(models.Model):
     day = IntegerField()
 
     def __str__(self):
-        return f'{self.date}'
+        return f'[{self.day}] {self.date}'
 
 class LC(models.Model):
     id = models.AutoField(primary_key=True)

@@ -32,8 +32,8 @@ CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 CSRF_TRUSTED_ORIGINS = ["127.0.0.1:8000", "localhost:8000"]
 CORS_ORIGIN_WHITELIST = (
-    'localhost:8000',
-    '127.0.0.1:8000',
+    'http://localhost:3000',
+    'http://127.0.0.1:8000',
 )
 CORS_ALLOW_HEADERS = (
     'access-control-allow-credentials',
@@ -72,10 +72,12 @@ INSTALLED_APPS = [
     'freshman',
     'lc',
     'notice',
-    'todo'
+    'todo',
+    'corsheaders',  # React와 연결 하기 위한 CORS 추가
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware', # React와 연결 하기 위한 CORS 추가 
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
