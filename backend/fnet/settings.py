@@ -56,7 +56,6 @@ CORS_ALLOW_HEADERS = (
     'x-requested-with',
 )
 
-AUTH_USER_MODEL = 'fg.FG'
 
 
 # Application definition
@@ -73,7 +72,8 @@ INSTALLED_APPS = [
     'lc',
     'notice',
     'todo',
-    'corsheaders'
+    'corsheaders',
+    'rest_framework'
 ]
 
 MIDDLEWARE = [
@@ -106,7 +106,14 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'fnet.wsgi.application'
-
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+    ),
+    'DEFAULT_PARSER_CLASSES': (
+        'rest_framework.parsers.JSONParser',
+    )
+}
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
@@ -155,6 +162,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+AUTH_USER_MODEL = 'fg.FG'
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
