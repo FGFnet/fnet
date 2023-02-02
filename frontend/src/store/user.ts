@@ -1,10 +1,16 @@
 import { atom } from 'recoil'
+import { recoilPersist } from 'recoil-persist'
 
-type userStateType = {
-  auth: boolean
-  login: boolean
-}
-export const userState = atom<userStateType>({
+const {persistAtom} = recoilPersist()
+
+export const userState = atom<number>({
   key: 'userState',
-  default: { auth: false, login: false },
+  default: -1,
+  effects_UNSTABLE: [persistAtom]
+})
+
+export const accesstoken = atom<string>({
+  key: 'accesstoken',
+  default: '',
+  effects_UNSTABLE: [persistAtom]
 })

@@ -17,7 +17,7 @@ class RequestConfig {
   public setToken(token?: any) {
     if (token) {
       this.headers = {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Token ${token}`,
       }
     }
   }
@@ -63,7 +63,7 @@ class RequestConfig {
 }
 
 class BaseService {
-  private getConfig(token: string = getCookie('csrftoken')): RequestConfig {
+  private getConfig(token?: string): RequestConfig {
     const requestConfig = new RequestConfig('http://localhost:8000/api/')
 
     if (token) {
