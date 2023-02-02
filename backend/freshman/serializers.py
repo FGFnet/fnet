@@ -3,13 +3,15 @@ from rest_framework import serializers
 from .models import Freshman
 
 class FreshmanSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField()
     name = serializers.SerializerMethodField()
     phone_number = serializers.SerializerMethodField()
     lc = serializers.SerializerMethodField()
-    register = serializers.SerializerMethodField()
+    register = serializers.BooleanField()
+    # register = serializers.SerializerMethodField()
     class Meta:
         model = Freshman
-        fields = ['name','phone_number', 'lc', 'register']
+        fields = ['id', 'name','phone_number', 'lc', 'register']
 
     def get_name(self, obj):
         return obj.name
@@ -20,11 +22,11 @@ class FreshmanSerializer(serializers.ModelSerializer):
     def get_lc(self, obj):
         return obj.lc.name
     
-    def get_register(self, obj):
-        if obj.register:
-            return 'O'
-        else:
-            return 'X'
+    # def get_register(self, obj):
+    #     if obj.register:
+    #         return 'O'
+    #     else:
+    #         return 'X'
 
 
 class FreshmanLCSerializer(serializers.ModelSerializer):

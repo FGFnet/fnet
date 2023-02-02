@@ -21,3 +21,7 @@ export async function upLoadFreshman(file: any) {
     headers: { 'Content-Type': 'text/xml' },
   })
 }
+
+export async function registerFreshman(freshman_id: number) {
+  return await api.put('admin/freshman/', { freshman_id })
+}
