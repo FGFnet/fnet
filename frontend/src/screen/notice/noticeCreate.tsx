@@ -3,14 +3,34 @@ import { Box, Button, Container, Divider, Grid, TextField, Typography } from '@m
 import { Header } from '../../component'
 import { Colors } from '../../constant'
 import { Link } from 'react-router-dom'
+import { NoticeService} from '../../service'
+import { useMutation } from 'react-query'
+import { accesstoken } from '../../store'
+import { useRecoilValue } from 'recoil'
+import { useNavigate } from 'react-router-dom'
 
 // check admin
 
 export default function NoticeCreateScreen() {
+  const navigate = useNavigate()
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
+  const token = useRecoilValue(accesstoken)
 
-  const CreateNewPost = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const createMutation = useMutation(
+    'createNotice',
+    async (param: any) => {return await NoticeService.create(param.data, param.token)}, 
+    {
+      onSuccess: (data) => {
+        console.log(data)
+        setTitle('')
+        setContent('')
+        navigate('/notice')
+      }
+    }
+  );
+
+  const CreateNewPost = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
     if (title.trim() === '') alert('제목을 입력해 주세요')
     else if (content.trim() === '') alert('내용을 입력해 주세요')
@@ -19,6 +39,7 @@ export default function NoticeCreateScreen() {
         title: title,
         content: content,
       }
+      createMutation.mutate({data: postData, token: token})
     }
   }
 
