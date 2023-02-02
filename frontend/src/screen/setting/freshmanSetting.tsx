@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { Container, Grid, Box, Button, Divider } from '@mui/material'
 import { Header, Title, MenuButton, AdminTable, Loading } from '../../component'
-import { useQuery } from 'react-query'
-import { getFreshman } from '../../service'
+import { useMutation, useQuery } from 'react-query'
+import { getFreshman, upLoadFreshman } from '../../service'
 
 export default function FgSettingScreen() {
   const [freshmanData, setFreshmanData] = useState([])
@@ -26,30 +26,28 @@ export default function FgSettingScreen() {
       console.log(error)
     },
   })
-    
+
+
+  const uploadFileMutate = useMutation(upLoadFreshman)
   const uploadFile = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    event.preventDefault()
     if (event.target.files != null) {
       setLoading(true)
-      // api 작동 확인 필요
-      /*
       const formData = new FormData()
       formData.append('file', event.target.files[0])
-      try {
-        const res = await api.uploadFreshman(formData);
-        if (!res.data.error) {
-          alert('Upload Successful');
-          setSingleFile(null)
-          await fetchUsers()
-        }
-      } catch (err) {
-        alert(err)
-      } finally{
+      event.target.value = ''
 
-      }
-      */
-      setTimeout(() => {
-        setLoading(false)
-      }, 500)
+      uploadFileMutate.mutate(formData, {
+        onSuccess: data => {
+          setLoading(false)
+          setFreshmanData(data.data)
+          // console.log(freshmanData)
+        },
+        onError: error => {
+          alert(error)
+          setLoading(false)
+        },
+      })
     } else {
       alert('파일이 선택되지 않았습니다.')
     }

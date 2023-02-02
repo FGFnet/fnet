@@ -15,3 +15,9 @@ export async function logout() {
 export async function getFreshman() {
   return await api.get('admin/freshman/')
 }
+
+export async function upLoadFreshman(file: any) {
+  return await api.post('admin/freshman/', file, {
+    headers: { 'Content-Type': 'text/xml' },
+  })
+}

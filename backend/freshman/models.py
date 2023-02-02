@@ -10,11 +10,12 @@ class Freshman(models.Model):
     ENGINEERING = 'EN'
     SOCIAL_SCIENCE = 'SS'
     HUMANITIES_SCIENCE = 'HS'
+
     DEPARTMENT_CHOICES = [
-        (NATURAL_SCIENCE, 'nat'),
-        (ENGINEERING, 'eng'),
-        (SOCIAL_SCIENCE, 'soc'),
-        (HUMANITIES_SCIENCE, 'hum'),
+        (NATURAL_SCIENCE, '자연과학계열'),
+        (ENGINEERING, '공학계열'),
+        (SOCIAL_SCIENCE, '사회과학계열'),
+        (HUMANITIES_SCIENCE, '인문과학계열'),
     ]
 
     lc = ForeignKey(LC, on_delete=CASCADE, null=True)
