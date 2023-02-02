@@ -1,11 +1,11 @@
 import { useState, CSSProperties } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useMutation, useQuery } from 'react-query'
+import { useMutation } from 'react-query'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import { Button, Drawer, List, ListItemButton, IconButton, Box, Divider } from '@mui/material'
 
 import { accesstoken, userState } from '../../store'
-import { useRecoilState } from 'recoil'
+import { useRecoilState, useSetRecoilState } from 'recoil'
 import { UserService } from '../../service'
 
 import { Colors } from '../../constant'
@@ -53,17 +53,10 @@ function NavigationBar() {
   const navigate = useNavigate()
   const matches = useMediaQuery('(min-width:768px)')
   const [user, setUser] = useRecoilState(userState)
-  const [token, setToken] = useRecoilState(accesstoken)
+  const setToken = useSetRecoilState(accesstoken)
   const [menuItem, setMenuItem] = useState<any>(menu.Other)
 
   const logoutMutation = useMutation(UserService.logout)
-  useQuery("getFgInfo", async() => await UserService.get(user, token), {
-    refetchOnWindowFocus: false,
-    enabled: user !== -1,
-    onSuccess: data => {
-      if (data.role === 'Admin') {setMenuItem(menu.Admin)}
-    }
-  })
   
   const [isHover, setIsHover] = useState([false, false, false])
   const [open, setOpen] = useState(false)
@@ -81,7 +74,7 @@ function NavigationBar() {
   }
   const clickLogout = () => {
     logoutMutation.mutate();
-    setUser(-1);
+    setUser(null);
     setToken('')
     setMenuItem(menu.Other)
   }
@@ -95,12 +88,12 @@ function NavigationBar() {
           </ListItemButton>
         ))}
         <Divider />
-        {user === -1 && (
+        {user === null && (
           <ListItemButton style={{ cursor: 'pointer' }} onClick={() => navigate(`/login`)}>
             Login
           </ListItemButton>
         )}
-        {user !== -1 && (
+        {user !== null && (
           <ListItemButton
             style={{ cursor: 'pointer' }}
             onClick={clickLogout}
@@ -135,7 +128,7 @@ function NavigationBar() {
             </span>
           ))}
         </section>
-        {user === -1 && (
+        {user === null && (
           <Button
             style={{ marginRight: 10 }}
             startIcon={<BsPersonFill style={{ fontSize: 25, cursor: 'pointer' }} />}
@@ -144,7 +137,7 @@ function NavigationBar() {
             Login
           </Button>
         )}
-        {user !== -1 && (
+        {user !== null && (
           <Button style={{ marginRight: 10 }} onClick={() => clickLogout()}>
             Logout
           </Button>

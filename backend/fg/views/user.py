@@ -48,7 +48,7 @@ class FGLoginAPI(APIView):
             else:
                 token = Token.objects.create(user = fg)
 
-        return Response({ "error": False, "data": { "token": token.key, "user": fg.id } })
+        return Response({ "error": False, "data": { "token": token.key, "user": FGSerializer(fg).data } })
  
 class FGLogoutAPI(APIView):
     def get(self, request):

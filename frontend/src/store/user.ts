@@ -1,11 +1,12 @@
 import { atom } from 'recoil'
 import { recoilPersist } from 'recoil-persist'
+import { FG } from '../model'
 
 const {persistAtom} = recoilPersist()
 
-export const userState = atom<number>({
+export const userState = atom<FG|null>({
   key: 'userState',
-  default: -1,
+  default: null,
   effects_UNSTABLE: [persistAtom]
 })
 

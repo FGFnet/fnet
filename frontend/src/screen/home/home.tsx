@@ -20,10 +20,6 @@ const boxStyle = {
 // TODO: schedule section api 연결
 export default function HomeScreen() {
   const user = useRecoilValue(userState)
-  const token = useRecoilValue(accesstoken)
-  const getFgInfo = useQuery("getFgInfo", async() => await UserService.get(user, token), {
-    refetchOnWindowFocus: false,
-  })
 
   return (
     <React.Fragment>
@@ -31,8 +27,7 @@ export default function HomeScreen() {
       <Container maxWidth="xl">
         <Grid container wrap="wrap" justifyContent="space-around">
           <Grid item md={4} style={boxStyle}>
-            {getFgInfo.isLoading && <div>Loading...</div>}
-            {!getFgInfo.isLoading && <FGSection fg={getFgInfo.data} /> }
+            <FGSection fg={user} />
           </Grid>
           <Grid item md={6} sm={10} style={boxStyle}>
             <div
