@@ -1,10 +1,10 @@
 import { useState, CSSProperties } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useMutation } from 'react-query'
+import { useMutation, useQuery } from 'react-query'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import { Button, Drawer, List, ListItemButton, IconButton, Box, Divider } from '@mui/material'
 
-import { userState } from '../../store'
+import { accesstoken, userState } from '../../store'
 import { useRecoilState } from 'recoil'
 import { UserService } from '../../service'
 
@@ -35,30 +35,36 @@ const menuStyle = {
   cursor: 'pointer',
 }
 
-function NavigationBar() {
-  const navigate = useNavigate()
-  const matches = useMediaQuery('(min-width:768px)')
-  const [user, setUser] = useRecoilState(userState)
-  const logoutMutation = useMutation(UserService.logout)
-
-  // const menuItem = user?.role === 'Admin'
-  //   ? {
-  //       notice: 0,
-  //       todo: 1,
-  //       register: 2,
-  //       admin: 3,
-  //     }
-  //   : {
-  //       notice: 0,
-  //       todo: 1,
-  //       lc: 2,
-  //     }
-  const menuItem = {
+const menu = {
+  Admin: {
     notice: 0,
     todo: 1,
     register: 2,
     admin: 3,
+  },
+  Other: {
+    notice: 0,
+    todo: 1,
+    lc: 2,
   }
+}
+
+function NavigationBar() {
+  const navigate = useNavigate()
+  const matches = useMediaQuery('(min-width:768px)')
+  const [user, setUser] = useRecoilState(userState)
+  const [token, setToken] = useRecoilState(accesstoken)
+  const [menuItem, setMenuItem] = useState<any>(menu.Other)
+
+  const logoutMutation = useMutation(UserService.logout)
+  useQuery("getFgInfo", async() => await UserService.get(user, token), {
+    refetchOnWindowFocus: false,
+    enabled: user !== -1,
+    onSuccess: data => {
+      if (data.role === 'Admin') {setMenuItem(menu.Admin)}
+    }
+  })
+  
   const [isHover, setIsHover] = useState([false, false, false])
   const [open, setOpen] = useState(false)
 
@@ -76,6 +82,8 @@ function NavigationBar() {
   const clickLogout = () => {
     logoutMutation.mutate();
     setUser(-1);
+    setToken('')
+    setMenuItem(menu.Other)
   }
 
   const drawerItem = (
@@ -137,7 +145,7 @@ function NavigationBar() {
           </Button>
         )}
         {user !== -1 && (
-          <Button style={{ marginRight: 10 }} onClick={() => setUser(-1)}>
+          <Button style={{ marginRight: 10 }} onClick={() => clickLogout()}>
             Logout
           </Button>
         )}

@@ -21,7 +21,7 @@ const boxStyle = {
 export default function HomeScreen() {
   const user = useRecoilValue(userState)
   const token = useRecoilValue(accesstoken)
-  const getFgInfo = useQuery("fg", async() => await UserService.get(user, token), {
+  const getFgInfo = useQuery("getFgInfo", async() => await UserService.get(user, token), {
     refetchOnWindowFocus: false,
   })
 
