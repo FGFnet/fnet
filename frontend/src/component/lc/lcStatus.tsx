@@ -35,7 +35,7 @@ function LCStatus({ sReg, nReg, eReg, hReg }: LCStatusType) {
             전체 접수 인원
           </Typography>
           <Typography component="div" textAlign="right">
-            {sReg + sReg + eReg + nReg}
+            {sReg + hReg + eReg + nReg}
           </Typography>
         </Grid>
         <RegisterDetail campus={'인사캠 접수 인원'} department={hReg + sReg} />
