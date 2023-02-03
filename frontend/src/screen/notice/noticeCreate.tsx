@@ -22,7 +22,6 @@ export default function NoticeCreateScreen() {
     async (param: any) => {return await NoticeService.create(param.data, param.token)}, 
     {
       onSuccess: (data) => {
-        console.log(data)
         setTitle('')
         setContent('')
         navigate('/notice')

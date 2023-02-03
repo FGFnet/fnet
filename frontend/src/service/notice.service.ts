@@ -1,9 +1,9 @@
 import {api} from '.'
-import { Notice } from '../model';
+import { Comment, Notice } from '../model';
 
-class NoticeService {
-    async create(data: Pick<Notice, "title" | "content">, token: string) {
-        return await api.post('admin/notice/', data, token);
+class NoticeServiceClass {
+    async create(input: Pick<Notice, "title" | "content">, token: string) {
+        return await api.post('admin/notice/', input, token);
     }
     async get(id?:number, token?: string) {
         const data =  id ? await api.get(`notice?id=${id}`, token) : await api.get('notice', token)
@@ -11,4 +11,20 @@ class NoticeService {
     }
 }
 
-export default new NoticeService()
+class CommentServiceClass {
+    async get(id: number, token: string) {
+        const data = await api.get(`comment?notice_id=${id}`, token)
+        return data.data
+    }
+    async check(input: Pick<Comment, "id" | "check">, token: string) {
+        return await api.put('admin/comment/', input, token)
+    }
+    async create(input: Pick<Comment, "notice_id"|"content">, token: string) {
+        return await api.post('comment/', input, token)
+    }
+}
+
+const NoticeService = new NoticeServiceClass()
+const CommentService = new CommentServiceClass()
+
+export {NoticeService, CommentService}

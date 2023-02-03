@@ -1,24 +1,20 @@
 import React from 'react'
-import { Box, Button, Container, Divider, Grid, List, ListItem, Typography } from '@mui/material'
 import { Link } from 'react-router-dom'
+import { useQuery } from 'react-query'
+import { useRecoilValue } from 'recoil'
+
+import { Box, Button, Container, Divider, Grid, List, ListItem, Typography } from '@mui/material'
 import { Colors } from '../../constant'
 import { Header } from '../../component'
 import { dateFormatter } from '../../util'
-import { useQuery } from 'react-query'
 import { NoticeService } from '../../service'
 import { Notice } from '../../model'
-import { useRecoilValue } from 'recoil'
 import { userState } from '../../store'
-import dayjs from 'dayjs'
 
 export default function NoticeListScreen() {
   const user = useRecoilValue(userState)
   const noticeList = useQuery(
-    'getNotice', async () => await NoticeService.get(), {
-      onSuccess: data => {
-        console.log(data.results)
-      }
-    }
+    'getNotice', async () => await NoticeService.get()
   )
 
   const NewPostBtn = () => {
@@ -40,10 +36,14 @@ export default function NoticeListScreen() {
 
   const Post = ({ notice }: {notice: Notice}) => {
     return (
-      <React.Fragment>
+      <Box 
+        component={Link}
+        to={`/notice/${notice.id}`}
+        sx={{
+          textDecoration: 'none',
+        }}
+      >
         <ListItem
-          component={Link}
-          to={`/notice/${notice.id}`}
           sx={{
             '&:hover': {
               backgroundColor: Colors.hover,
@@ -67,15 +67,15 @@ export default function NoticeListScreen() {
           </Grid>
         </ListItem>
         <Divider variant="middle" />
-      </React.Fragment>
+      </Box>
     )
   }
 
   const Posts = () => {
     return (
       <>
-        {noticeList.isLoading && <div>Loading...</div>}
-        {!noticeList.isLoading && 
+        {(noticeList.isLoading || !noticeList.data.results) && <div>Loading...</div>}
+        {!noticeList.isLoading && noticeList.data.results && 
           <Grid>
             <List aria-label="mailbox folders">
               {noticeList.data.results.map((p:Notice) => (

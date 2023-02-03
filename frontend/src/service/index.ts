@@ -1,5 +1,5 @@
 import UserService from './user.service'
-import NoticeService from './notice.service'
-export {UserService, NoticeService}
+import {NoticeService, CommentService} from './notice.service'
+export {UserService, NoticeService, CommentService}
 
 export * from './base.service'
