@@ -4,7 +4,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from fnet.csrf import CSRFExemptAPIView
 
-class NoticeAdminAPI(CSRFExemptAPIView):
+class NoticeAdminAPI(APIView):
     def post(self, request):
         """
         create notice
@@ -93,7 +93,7 @@ class CommentAdminAPI(CSRFExemptAPIView):
         data = serializer.data
 
         error = False
-        comment_id = data["comment_id"]
+        comment_id = data["id"]
         try:
             comment = Comment.objects.get(id=comment_id)
         except Comment.DoesNotExist:

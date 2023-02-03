@@ -1,6 +1,7 @@
 from django.db import models
 from rest_framework import serializers
 from .models import Notice, Comment
+from fg.serializers import FGSerializer
 
 class NoticeSerializer(serializers.ModelSerializer):
     class Meta:
@@ -18,6 +19,7 @@ class EditNoticeSerializer(serializers.Serializer):
 
 
 class CommentSerializer(serializers.ModelSerializer):
+    created_by = FGSerializer()
     class Meta:
         model = Comment
         fields = "__all__"

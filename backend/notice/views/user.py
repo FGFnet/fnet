@@ -28,7 +28,7 @@ class NoticeAPI(APIView):
         return Response({"error": error, "data": data})
 
 
-class CommentAPI(CSRFExemptAPIView):
+class CommentAPI(APIView):
     def post(self, request):
         """
         create comment of a notice
