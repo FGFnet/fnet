@@ -76,6 +76,7 @@ function NavigationBar() {
     logoutMutation.mutate();
     setUser(null);
     setToken('')
+    navigate('/')
     setMenuItem(menu.Other)
   }
 

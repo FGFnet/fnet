@@ -32,8 +32,13 @@ export default function SignInScreen() {
 
   const login = useMutation(UserService.login,{
     onSuccess: (data) => {
+      if (data.error) {
+        alert("이름과 학번을 다시 확인해주세요.")
+        return
+      }
       setUser(data.data.user)
       setToken(data.data.token)
+      navigate('/')
     }
   });
 
@@ -44,9 +49,8 @@ export default function SignInScreen() {
     }
     try {
       login.mutate({name: name, password: studentId});
-      navigate('/')
     } catch (err) {
-      console.log(err)
+      alert(err)
     }
   }
   return (
