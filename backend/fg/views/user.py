@@ -43,9 +43,9 @@ class FGLoginAPI(APIView):
             return Response({ "error": True, "data": "Invalid name or student id" })
 
         if fg is not None:
-            if Token.objects.get(user=fg):
+            try:
                 token = Token.objects.get(user= fg)
-            else:
+            except Token.DoesNotExist:
                 token = Token.objects.create(user = fg)
 
         return Response({ "error": False, "data": { "token": token.key, "user": FGSerializer(fg).data } })
