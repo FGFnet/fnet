@@ -11,7 +11,13 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
-from .dev_settings import *
+from .get_env import get_env
+
+production_env = get_env("FNET_ENV", "dev") == "production"
+if production_env:
+    from .production_settings import *
+else:
+    from .dev_settings import *
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -32,8 +38,8 @@ CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 CSRF_TRUSTED_ORIGINS = ["127.0.0.1:8000", "localhost:8000"]
 CORS_ORIGIN_WHITELIST = (
-    'localhost:8000',
-    '127.0.0.1:8000',
+    'http://localhost:3000',
+    'http://127.0.0.1:8000',
 )
 CORS_ALLOW_HEADERS = (
     'access-control-allow-credentials',
@@ -56,7 +62,6 @@ CORS_ALLOW_HEADERS = (
     'x-requested-with',
 )
 
-AUTH_USER_MODEL = 'fg.FG'
 
 
 # Application definition
@@ -72,10 +77,13 @@ INSTALLED_APPS = [
     'freshman',
     'lc',
     'notice',
-    'todo'
+    'todo',
+    'corsheaders',
+    'rest_framework'
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -104,7 +112,14 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'fnet.wsgi.application'
-
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+    ),
+    'DEFAULT_PARSER_CLASSES': (
+        'rest_framework.parsers.JSONParser',
+    )
+}
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
@@ -153,6 +168,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+AUTH_USER_MODEL = 'fg.FG'
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
