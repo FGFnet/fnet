@@ -5,7 +5,6 @@ import { Colors } from '../../constant'
 import { FG } from '../../model'
 
 function FGSection({fg}: {fg: FG | null}) {
-  console.log(fg)
   return (
     <section style={{ margin: 30 }}>
       <div style={{ display: 'flex', alignItems: 'center', marginBottom: 5 }}>

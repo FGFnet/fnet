@@ -1,13 +1,10 @@
 import React from 'react'
-import { useNavigate } from 'react-router-dom'
 import { useRecoilValue } from 'recoil'
-import { useQuery } from 'react-query'
 
 import { Grid, Container } from '@mui/material'
 import { Colors } from '../../constant'
 import {Banner, ScheduleSection, FGSection} from '../../component'
-import { accesstoken, userState } from '../../store'
-import { UserService } from '../../service'
+import { userState } from '../../store'
 
 const boxStyle = {
   padding: 40,
