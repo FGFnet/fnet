@@ -9,7 +9,7 @@ services:
     ports:
       - "8000:8000"
     depends_on:
-      - fnet-db
+      - fnet-mysql
     environment:
       - MYSQL_DATABASE=fnet
       - MYSQL_USER=fnet

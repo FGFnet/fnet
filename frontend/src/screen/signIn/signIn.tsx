@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useSetRecoilState } from 'recoil'
+import { useMutation } from 'react-query'
+
 import { styled, OutlinedInputProps, TextField, Typography, Button, Box, Container, Alert, Dialog } from '@mui/material'
 import { Colors } from '../../constant'
-import { useNavigate } from 'react-router-dom'
-import { useRecoilState } from 'recoil'
-import { userState } from '../../store'
-import { login } from '../../service'
-import { useMutation } from 'react-query'
+import { userState, accesstoken } from '../../store'
+import { UserService } from '../../service'
+
 
 const TextFieldStyle = styled(TextField)({
   '& .MuiFilledInput-root': {
@@ -22,12 +24,23 @@ const TextFieldStyle = styled(TextField)({
 
 export default function SignInScreen() {
   const navigate = useNavigate()
-  const [user, setUser] = useRecoilState(userState)
+  const setUser = useSetRecoilState(userState)
   const [name, setName] = useState('')
   const [studentId, setStudentId] = useState('')
   const [error, setError] = useState(false)
+  const setToken = useSetRecoilState(accesstoken)
 
-  const loginMutation = useMutation(login);
+  const login = useMutation(UserService.login,{
+    onSuccess: (data) => {
+      if (data.error) {
+        alert("이름과 학번을 다시 확인해주세요.")
+        return
+      }
+      setUser(data.data.user)
+      setToken(data.data.token)
+      navigate('/')
+    }
+  });
 
   const submit = async () => {
     if (name === '' || studentId === '') {
@@ -35,11 +48,9 @@ export default function SignInScreen() {
       return
     }
     try {
-      loginMutation.mutate({name: name, password: studentId});
-      setUser({ ...user, login: true })
-      navigate('/')
+      login.mutate({name: name, password: studentId});
     } catch (err) {
-      console.log(err)
+      alert(err)
     }
   }
   return (
