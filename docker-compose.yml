@@ -2,7 +2,7 @@ version: "3"
 
 services:
   fnet-api:
-    image: ghcr.io/fgfnet/fnet-web
+    image: ghcr.io/fgfnet/fnet
     container_name: fnet-api
     volumes:
       - ./data/django:/data
