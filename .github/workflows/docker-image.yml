@@ -30,4 +30,4 @@ jobs:
           context: .
           file: ./DockerFile
           push: true
-          tags: ghcr.io/fgfnet/fnet-fork:latest
+          tags: ghcr.io/fgfnet/fnet:latest
