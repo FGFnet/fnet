@@ -15,4 +15,4 @@ class CreateFGSerializer(serializers.Serializer):
 
 class LoginSerializer(serializers.Serializer):
     name = serializers.CharField()
-    student_id = serializers.CharField()
+    password = serializers.CharField()

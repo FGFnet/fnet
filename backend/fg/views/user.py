@@ -6,6 +6,7 @@ from django.contrib import auth
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
+from rest_framework.authtoken.models import Token
 
 
 class FGAPI(APIView):
@@ -32,17 +33,22 @@ class FGAPI(APIView):
 class FGLoginAPI(APIView):
     def post(self, request):
         data = request.data
-        print(data)
         serializer = LoginSerializer(data = data)
         serializer.is_valid(raise_exception=True)
 
-        fg = auth.authenticate(name=data["name"], student_id=data["student_id"])
+        fg = auth.authenticate(name=data["name"], password=data["password"])
+        token = ''
         
         if not fg:
             return Response({ "error": True, "data": "Invalid name or student id" })
-        auth.login(request, fg)
 
-        return Response({ "error": False, "data": "Login Succeeded" })
+        if fg is not None:
+            try:
+                token = Token.objects.get(user= fg)
+            except Token.DoesNotExist:
+                token = Token.objects.create(user = fg)
+
+        return Response({ "error": False, "data": { "token": token.key, "user": FGSerializer(fg).data } })
  
 class FGLogoutAPI(APIView):
     def get(self, request):

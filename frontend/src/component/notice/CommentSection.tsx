@@ -1,30 +1,46 @@
 import { List, ListItem, Divider, Grid, TextField, Typography, Checkbox, Button, Box } from '@mui/material'
 import React, { useState } from 'react'
+import { useMutation, useQuery } from 'react-query'
+import { useParams } from 'react-router-dom'
+import { useRecoilValue } from 'recoil'
 import { Colors } from '../../constant/colors.constants'
+import { Comment } from '../../model'
+import { CommentService } from '../../service'
+import { accesstoken, userState } from '../../store'
 import { dateFormatter } from '../../util'
 
-type comment = {
-  id: number
-  created_by: string
-  content: string
-  create_time: number
-  check: boolean
-}
-
-//TODO : admin일때만 checkbox사용 가능하도록 변경
 function CommentListBox() {
+  const param = useParams()
+  const token = useRecoilValue(accesstoken)
+  const user = useRecoilValue(userState)
   const [content, setContent] = useState('')
-  const [commentList, setCommentList] = useState<comment[]>([])
 
-  const handleChecked = (event: React.ChangeEvent<HTMLInputElement>, id: number, comment: comment) => {
-    const newCommentList = commentList.map((comment) => {
-      if (comment.id === id) {
-        return { ...comment, check: event.target.checked }
+  const comment = useQuery(
+    'getComment', 
+    async () => await CommentService.get(Number(param.id), token),
+  )
+  const createComment = useMutation(
+    'createComment',
+    async (param: any) => await CommentService.create(param.data, param.token), 
+    {
+      onSuccess: () => {
+        setContent('')
+        comment.refetch()
       }
-      return comment
-    })
+    }
+  );
+  const checkComment = useMutation(
+    'checkComment',
+    async (param: any) => await CommentService.check(param.data, param.token),
+    {
+      onSuccess(data) {
+        comment.refetch()
+      },
+    }
+  )
 
-    setCommentList(newCommentList)
+  const handleChecked = (id: number, check: boolean) => {
+    checkComment.mutate({data: {id: id, check: !check}, token: token})
   }
 
   const CommentList = () => {
@@ -39,10 +55,11 @@ function CommentListBox() {
           margin: 'auto',
         }}
       >
-        {commentList.map((comment) => (
+        {(comment.isLoading || !comment.data.results) && <div>loading...</div>}
+        {!comment.isLoading && comment.data.results.map((com: Comment) => (
           <>
             <ListItem
-              key={comment.id}
+              key={com.id}
               sx={{
                 '&:hover': {
                   backgroundColor: Colors.hover,
@@ -51,21 +68,21 @@ function CommentListBox() {
             >
               <Grid container sx={{ alignItems: 'center' }}>
                 <Grid item xs={12} md={3} sx={{ display: 'flex', alignItems: 'center' }}>
-                  <Typography sx={{ fontWeight: 'bold', marginRight: 2 }}>{comment.created_by + ' FG'}</Typography>
+                  <Typography sx={{ fontWeight: 'bold', marginRight: 2 }}>{com.created_by.name + ' FG'}</Typography>
                   <Typography sx={{ color: Colors.light, fontSize: 12 }}>
-                    {dateFormatter(comment.create_time)}
+                    {dateFormatter(com.create_time)}
                   </Typography>
                 </Grid>
                 <Grid item xs={11} md={8}>
                   <Typography sx={{ display: 'block', whiteSpace: 'normal', wordBreak: 'break-all' }}>
-                    {comment.content}
+                    {com.content}
                   </Typography>
                 </Grid>
                 <Grid item xs={1} md={1}>
                   <Checkbox
-                    checked={comment.check}
-                    onChange={(event) => handleChecked(event, comment.id, comment)}
-                    disabled={false}
+                    checked={com.check}
+                    onChange={() => handleChecked(com.id, com.check)}
+                    disabled={user && user.role === 'Admin' ? false : true}
                   />
                 </Grid>
               </Grid>
@@ -78,15 +95,11 @@ function CommentListBox() {
   }
 
   const addComment = () => {
-    const comment: comment = {
-      id: commentList.length + 1,
-      created_by: '김하늘',
-      content: content,
-      create_time: 1658931430404,
-      check: false,
+    const postComment = {
+      notice_id: Number(param.id), 
+      content: content
     }
-    setCommentList([...commentList, comment])
-    setContent('')
+    createComment.mutate({data: postComment, token: token})
   }
 
   const isEnglish = (c: string) => {

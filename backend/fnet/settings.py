@@ -11,7 +11,13 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
-from .dev_settings import *
+from .get_env import get_env
+
+production_env = get_env("FNET_ENV", "dev") == "production"
+if production_env:
+    from .production_settings import *
+else:
+    from .dev_settings import *
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -32,8 +38,8 @@ CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 CSRF_TRUSTED_ORIGINS = ["127.0.0.1:8000", "localhost:8000"]
 CORS_ORIGIN_WHITELIST = (
-    'http://localhost:3000',
-    'http://127.0.0.1:8000',
+    'localhost:8000',
+    '127.0.0.1:8000',
 )
 CORS_ALLOW_HEADERS = (
     'access-control-allow-credentials',
@@ -56,7 +62,6 @@ CORS_ALLOW_HEADERS = (
     'x-requested-with',
 )
 
-AUTH_USER_MODEL = 'fg.FG'
 
 
 # Application definition
@@ -68,16 +73,26 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'rest_framework.authtoken',
     'fg',
     'freshman',
     'lc',
     'notice',
     'todo',
+<<<<<<< HEAD
     'corsheaders',  # React와 연결 하기 위한 CORS 추가
 ]
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware', # React와 연결 하기 위한 CORS 추가 
+=======
+    'corsheaders',
+]
+
+MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
+>>>>>>> main
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -106,6 +121,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'fnet.wsgi.application'
+<<<<<<< HEAD
 
 
 # Database
@@ -117,6 +133,19 @@ WSGI_APPLICATION = 'fnet.wsgi.application'
 #         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
+=======
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+    ),
+    'DEFAULT_PARSER_CLASSES': (
+        'rest_framework.parsers.JSONParser',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+}
+>>>>>>> main
 
 
 # Password validation
@@ -153,7 +182,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+
+AUTH_USER_MODEL = 'fg.FG'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
