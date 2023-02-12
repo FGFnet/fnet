@@ -13,7 +13,7 @@ import {
 import React, { useState } from 'react'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import {Header, LCStatus, Loading} from '../../component'
-import { getLcMemberList } from '../../service'
+import { UserService } from '../../service'
 import { useQuery } from 'react-query'
 import { useParams } from 'react-router-dom'
 
@@ -43,7 +43,7 @@ export default function LcMemberScreen() {
   const [lcData, setlcData] = useState<lcMemberDataInterface[]>([])
   const [loading, setLoading] = useState(true)
 
-  useQuery(['lcMember', id], () => getLcMemberList(id as string), {
+  useQuery(['lcMember', id], () => UserService.getLcMemberList(id as string), {
     refetchOnWindowFocus: false,
     onSuccess: data => {
       setlcData(data.data)

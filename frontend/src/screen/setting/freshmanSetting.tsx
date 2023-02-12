@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Container, Grid, Box, Button, Divider } from '@mui/material'
 import { Header, Title, MenuButton, AdminTable, Loading } from '../../component'
 import { useMutation, useQuery } from 'react-query'
-import { getFreshman, upLoadFreshman } from '../../service'
+import { UserService } from '../../service'
 
 export default function FgSettingScreen() {
   const [freshmanData, setFreshmanData] = useState([])
@@ -16,7 +16,7 @@ export default function FgSettingScreen() {
     { id: 'register', label: '등록' },
   ]
 
-  useQuery('freshmans', getFreshman, {
+  useQuery('freshmans', UserService.getFreshman, {
     refetchOnWindowFocus: false,
     onSuccess: data => {
       setFreshmanData(data.data)
@@ -28,7 +28,7 @@ export default function FgSettingScreen() {
   })
 
 
-  const uploadFileMutate = useMutation(upLoadFreshman)
+  const uploadFileMutate = useMutation(UserService.upLoadFreshman)
   const uploadFile = async (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault()
     if (event.target.files != null) {

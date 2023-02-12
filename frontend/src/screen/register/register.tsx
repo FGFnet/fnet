@@ -15,7 +15,7 @@ import {
 import { BsSuitHeart, BsSuitHeartFill } from 'react-icons/bs'
 import { Container } from '@mui/system'
 import { useMutation, useQuery } from 'react-query'
-import { getFreshman, registerFreshman } from '../../service'
+import { UserService } from '../../service'
 
 interface registerData {
   id: number
@@ -43,7 +43,7 @@ export default function RegisterScreen() {
   const [page, setPage] = React.useState(0)
   const [rowsPerPage, setRowsPerPage] = React.useState(10)
 
-  useQuery('registerFreshmans', getFreshman, {
+  useQuery('registerFreshmans', UserService.getFreshman, {
     refetchOnWindowFocus: false,
     onSuccess: data => {
       setOriginalRows(data.data)
@@ -72,7 +72,7 @@ export default function RegisterScreen() {
     setRows(filteredRows)
   }
 
-  const registerMutate = useMutation(registerFreshman)
+  const registerMutate = useMutation(UserService.registerFreshman)
   const handleCheckBox = (event: React.ChangeEvent<HTMLInputElement>, id: number) => {
     const updatedRows = rows.map((data) => {
       if (data.id === id) {
