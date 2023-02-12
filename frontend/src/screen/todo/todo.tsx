@@ -9,7 +9,7 @@ export default function TodoScreen() {
         <Header title="Todo" />
         <Grid container spacing={2}>
           <Grid item xs={12} md={6}>
-            <TodoSection title="common" />
+            <TodoSection title="common" auth />
           </Grid>
           <Grid item xs={12} md={6}>
             <TodoSection title="my" auth />

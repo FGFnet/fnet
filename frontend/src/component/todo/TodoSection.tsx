@@ -6,12 +6,12 @@ import TodoElement from './TodoElement'
 import TodoEdit from './TodoEdit'
 import { FiPlusCircle as PlusIcon } from 'react-icons/fi'
 import { TbEditCircle as EditIcon } from 'react-icons/tb'
+import { TodoService } from '../../service'
+import { useQuery } from 'react-query'
+import { useRecoilValue } from 'recoil'
+import { accesstoken } from '../../store'
+import { Todo } from '../../model'
 
-type Todo = {
-  id: number
-  content: string
-  check: boolean
-}
 type TodoSectionProp = {
   title: string
   auth?: boolean //편집 가능 여부
@@ -19,13 +19,27 @@ type TodoSectionProp = {
 type Mode = 'normal' | 'add' | 'edit'
 
 export default function TodoSection(props: TodoSectionProp) {
+  const token = useRecoilValue(accesstoken)
   const title = props.title
-  const data: Todo[] = [
-    { id: 1, content: 'todo', check: true },
-    { id: 2, content: 'todo', check: false },
+  const [common, setCommon] = React.useState<boolean>(props.title === 'common' ? true : false)
+  const data: any[] = [
+    { id: 1, content: 'todo' },
+    { id: 2, content: 'todo' },
   ]
-  const [todoList, setTodoList] = useState<Todo[]>(data)
+  const [todoList, setTodoList] = useState<any[]>(data)
   const [mode, setMode] = useState<Mode>('normal')
+  const todo = useQuery(
+    'getTodo', 
+    async() => await TodoService.get(common, token),{
+      onSuccess: () =>{
+        console.log(common)
+      }
+    }
+  )
+
+  const addTodo = (common: boolean) => {
+    todo.refetch()
+  }
 
   const handleCheck = (id: number, check: boolean) => {
     const newTodoList: Todo[] = todoList.map((todo: Todo) => {
@@ -37,10 +51,7 @@ export default function TodoSection(props: TodoSectionProp) {
 
     setTodoList(newTodoList)
   }
-  const addTodo = (todo: any) => {
-    const newTodo = { ...todo, id: todoList.length + 1 }
-    setTodoList([...todoList, newTodo])
-  }
+
   const updateTodo = (id: number, content: string) => {
     const newTodoList = todoList.map((todo) => {
       if (todo.id === id) {
@@ -83,18 +94,19 @@ export default function TodoSection(props: TodoSectionProp) {
             </Button>
           )}
         </Box>
-        {mode !== 'add' && todoList.length === 0 && (
+        {todo.isLoading && <Typography>Loading...</Typography>}
+        {!todo.isLoading && mode !== 'add' && todo.data.length === 0 && (
           <Typography sx={{ mt: 2, textAlign: 'center' }}>No Todo List</Typography>
         )}
-        {(mode === 'normal' || mode === 'add') &&
-          todoList.length > 0 &&
-          todoList.map((todo) => (
-            <TodoElement id={todo.id} content={todo.content} check={todo.check} handleCheck={handleCheck} />
+        {!todo.isLoading &&(mode === 'normal' || mode === 'add') &&
+          todo.data.length > 0 &&
+          todo.data.map((t: Todo) => (
+            <TodoElement id={t.id} content={t.content} check={false} handleCheck={handleCheck} />
           ))}
-        {mode === 'edit' &&
-          todoList.length > 0 &&
-          todoList.map((todo) => <TodoEdit todo={todo} deleteTodo={deleteTodo} updateTodo={updateTodo} />)}
-        {mode === 'add' && <TodoEdit addTodo={addTodo} />}
+        {!todo.isLoading &&mode === 'edit' &&
+          todo.data.length > 0 &&
+          todo.data.map((t: Todo) => <TodoEdit todo={t} deleteTodo={deleteTodo} updateTodo={updateTodo} mode={title} />)}
+        {!todo.isLoading &&mode === 'add' && <TodoEdit addTodo={addTodo} mode={title} />}
       </Container>
     </React.Fragment>
   )

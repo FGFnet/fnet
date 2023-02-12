@@ -2,35 +2,54 @@ import React, { useState } from 'react'
 import { Box, Checkbox, TextField, IconButton, Alert, AlertTitle, Collapse, Button } from '@mui/material'
 import { BiCheckCircle as CheckIcon } from 'react-icons/bi'
 import { TbTrash as DeleteIcon } from 'react-icons/tb'
+import { TodoService } from '../../service'
+import { useMutation } from 'react-query'
+import { useRecoilValue } from 'recoil'
+import { accesstoken } from '../../store'
+import { Todo } from '../../model'
 
-type Todo = {
-  id: number
-  content: string
-  check: boolean
-}
 type editProp = {
   addTodo?: Function
   updateTodo?: Function
   deleteTodo?: Function
   todo?: Todo
+  mode: string
 }
 
 export default function TodoEdit(props: editProp) {
   const initContent = props.todo ? props.todo.content : ''
-  const check = props.todo ? props.todo.check : false
+  // const check = props.todo ? props.todo.check : false
+  const check = false
   const id = props.todo ? props.todo.id : null
+  const common = props.mode === 'common' ? true : false
+  const token = useRecoilValue(accesstoken)
+
   const [content, setContent] = useState(initContent)
   const [alertOpen, setAlertOpen] = useState(false)
+  
+
+  const createTodo = useMutation(
+    'createTodo',
+    async (param: any) => await TodoService.create(param.data, token), 
+    {
+      onSuccess: () => {
+        setContent('')
+      },
+      onError: (err: any) => {
+        alert(err)
+      }
+    }
+  );
 
   const addTodo = () => {
     // add mode
     if (!props.todo && props.addTodo) {
       const newTodo = {
         content: content.trim(),
-        check: false,
+        common: common
       }
-      setContent('')
-      props.addTodo(newTodo)
+      createTodo.mutate({data:newTodo})
+      props.addTodo(common)
     }
   }
 

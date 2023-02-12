@@ -5,7 +5,6 @@ from django.db.models.deletion import CASCADE
 from django.db.models.fields import CharField, AutoField, IntegerField, BooleanField
 
 
-
 class Todo(models.Model):
     id = models.AutoField(db_column='todo_id' ,primary_key= True)
     created_by = ForeignKey(FG, on_delete=CASCADE, null= True, related_name='created_by' )
