@@ -11,6 +11,9 @@ from freshman.serializers import FreshmanFileUploadSerializer, FreshmanSerialize
 
 class setFreshmanAPI(APIView):
     def get(self, request):
+        if request.user.role != "Admin":
+            return Response({"error": True, "data": "Admin role required"})
+            
         try:
             queryset = Freshman.objects.all()
         except Freshman.DoesNotExist:
@@ -21,6 +24,9 @@ class setFreshmanAPI(APIView):
         return Response({"error": False, "data": data})
 
     def post(self, request):
+        if request.user.role != "Admin":
+            return Response({"error": True, "data": "Admin role required"})
+
         # print(request.data)
         serializer = FreshmanFileUploadSerializer(data = request.data)
         serializer.is_valid(raise_exception=True)
@@ -60,6 +66,9 @@ class setFreshmanAPI(APIView):
         return Response({"error":False, "data": post_success_data})
 
     def put(self, request):
+        if request.user.role != "Admin":
+            return Response({"error": True, "data": "Admin role required"})
+            
         data = request.data
         serializer = registerFreshmanSerializer(data=data)
         serializer.is_valid(raise_exception=True)

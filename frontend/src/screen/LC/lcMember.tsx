@@ -16,6 +16,8 @@ import {Header, LCStatus, Loading} from '../../component'
 import { UserService } from '../../service'
 import { useQuery } from 'react-query'
 import { useParams } from 'react-router-dom'
+import { useRecoilValue } from 'recoil'
+import { accesstoken } from '../../store'
 
 const TableCellTheme = createTheme({
   components: {
@@ -42,16 +44,18 @@ export default function LcMemberScreen() {
   let { id } = useParams()
   const [lcData, setlcData] = useState<lcMemberDataInterface[]>([])
   const [loading, setLoading] = useState(true)
-
-  useQuery(['lcMember', id], () => UserService.getLcMemberList(id as string), {
+  const token = useRecoilValue(accesstoken)
+  
+  useQuery(['lcMember', id], () => UserService.getLcMemberList(id as string, token), {
     refetchOnWindowFocus: false,
     onSuccess: data => {
+      if (data.error) {
+        alert(data.data)
+        return
+      }
       setlcData(data.data)
       setLoading(false)
-      console.log(data.data)
-    },
-    onError: error => {
-      alert(error)
+      // console.log(data.data)
     },
   })
 
@@ -112,7 +116,7 @@ export default function LcMemberScreen() {
         <Header title={'접수 현황'} />
         <Grid container justifyContent="space-between" width="100%">
           <Grid item xs={12} sm={3} md={5}>
-            <LCStatus sReg={sRegister} nReg={nRegister} eReg={eRegister} hReg={hRegister} />
+            <LCStatus lc={id as string} sReg={sRegister} nReg={nRegister} eReg={eRegister} hReg={hRegister} />
             <Divider />
           </Grid>
           <Grid item xs={12} sm={8} md={7}>

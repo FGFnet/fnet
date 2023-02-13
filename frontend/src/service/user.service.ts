@@ -17,21 +17,19 @@ class UserService {
     return data.data
   }
 
-  async getFreshman() {
-    return await api.get('admin/freshman/')
+  async getFreshman(token: string) {
+    return await api.get('admin/freshman/', token)
   }
-  async getLcMemberList(lc_id: string) {
-    return await api.get(`freshman?lc=${lc_id}`)
-  }
-
-  async upLoadFreshman(file: any) {
-    return await api.post('admin/freshman/', file, {
-      headers: { 'Content-Type': 'text/xml' },
-    })
+  async getLcMemberList(lc_id: string, token: string) {
+    return await api.get(`freshman?lc=${lc_id}`, token)
   }
 
-  async registerFreshman(freshman_id: number) {
-    return await api.put('admin/freshman/', { freshman_id })
+  async upLoadFreshman(file: any, token: string) {
+    return await api.post('admin/freshman/', file, token)
+  }
+
+  async registerFreshman(freshman_id: number, token: string) {
+    return await api.put('admin/freshman/', { freshman_id }, token)
   }
 }
 

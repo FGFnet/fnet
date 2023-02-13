@@ -16,6 +16,8 @@ import { BsSuitHeart, BsSuitHeartFill } from 'react-icons/bs'
 import { Container } from '@mui/system'
 import { useMutation, useQuery } from 'react-query'
 import { UserService } from '../../service'
+import { useRecoilValue } from 'recoil'
+import { accesstoken } from '../../store'
 
 interface registerData {
   id: number
@@ -42,8 +44,10 @@ export default function RegisterScreen() {
   const [searched, setSearched] = useState<string>('')
   const [page, setPage] = React.useState(0)
   const [rowsPerPage, setRowsPerPage] = React.useState(10)
+  const token = useRecoilValue(accesstoken)
 
-  useQuery('registerFreshmans', UserService.getFreshman, {
+
+  useQuery(['registerFreshmans', token], () => UserService.getFreshman(token), {
     refetchOnWindowFocus: false,
     onSuccess: data => {
       setOriginalRows(data.data)
@@ -72,11 +76,13 @@ export default function RegisterScreen() {
     setRows(filteredRows)
   }
 
-  const registerMutate = useMutation(UserService.registerFreshman)
+  
+  const registerMutate = useMutation(((param: any) => UserService.registerFreshman(param.id, param.token)))
+
   const handleCheckBox = (event: React.ChangeEvent<HTMLInputElement>, id: number) => {
     const updatedRows = rows.map((data) => {
       if (data.id === id) {
-        registerMutate.mutate(id, {
+        registerMutate.mutate({id: id, token: token}, {
           onSuccess: data =>{
             // alert('반영되었습니다.')
           },
