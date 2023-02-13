@@ -27,11 +27,10 @@ class setFreshmanAPI(APIView):
         if request.user.role != "Admin":
             return Response({"error": True, "data": "Admin role required"})
 
-        # print(request.data)
         serializer = FreshmanFileUploadSerializer(data = request.data)
         serializer.is_valid(raise_exception=True)
         file = serializer.validated_data['file']
-        # print(file)
+
         rows = load_workbook(file).active.rows
         data_list = [[cell.value for cell in row] for row in rows]
         # remove header
@@ -49,8 +48,6 @@ class setFreshmanAPI(APIView):
                 raise ParseError("LC does not exist. Check your file again")
                 # return Response({"error": True, "message": "LC does not exist. Check your file again"}, status=status.HTTP_400_BAD_REQUEST)
 
-            # if Freshman.objects.filter(name=data[0], phone_number=data[1]).exists():
-            #     continue
             freshman_list.append(Freshman(lc=lc, name=data[0], department=department_dict[data[3]], phone_number=data[1]))
 
         # 기존 data 모두 삭제
@@ -61,7 +58,7 @@ class setFreshmanAPI(APIView):
                 Freshman.objects.bulk_create(freshman_list)
         except IntegrityError as e:
             raise ParseError({"data": str(e).split("\n")[0]})
-            # return Response({"data": str(e).split("\n")[0]})
+            
         post_success_data = FreshmanSerializer(freshman_list, many=True).data
         return Response({"error":False, "data": post_success_data})
 

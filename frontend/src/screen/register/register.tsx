@@ -27,16 +27,6 @@ interface registerData {
   register: boolean
 }
 
-// const originalRows: registerData[] = [
-//   { id: 1, name: '박민서', phone_number: 1243, lc: 'LC23', register: true },
-//   { id: 2, name: '이승준', phone_number: 5213, lc: 'LC21', register: true },
-//   { id: 3, name: '정노원', phone_number: 2567, lc: 'LC96', register: false },
-//   { id: 4, name: '심지연', phone_number: 3426, lc: 'LC43', register: true },
-//   { id: 5, name: '장선영', phone_number: 8245, lc: 'LC63', register: false },
-//   { id: 6, name: '이창준', phone_number: 1238, lc: 'LC78', register: true },
-//   { id: 7, name: '배성빈', phone_number: 1263, lc: 'LC12', register: false },
-// ]
-
 export default function RegisterScreen() {
   const [loading, setLoading] = useState(true)
   const [originalRows, setOriginalRows] = useState<registerData[]>([])
@@ -83,9 +73,6 @@ export default function RegisterScreen() {
     const updatedRows = rows.map((data) => {
       if (data.id === id) {
         registerMutate.mutate({id: id, token: token}, {
-          onSuccess: data =>{
-            // alert('반영되었습니다.')
-          },
           onError: error => {
             alert('잠시 후 다시 시도해주세요')
             setLoading(true)
