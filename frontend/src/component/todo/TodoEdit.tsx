@@ -9,17 +9,15 @@ import { accesstoken } from '../../store'
 import { Todo } from '../../model'
 
 type editProp = {
-  addTodo?: Function
-  updateTodo?: Function
-  deleteTodo?: Function
+  refetch?: Function
   todo?: Todo
   mode: string
 }
 
 export default function TodoEdit(props: editProp) {
   const initContent = props.todo ? props.todo.content : ''
-  // const check = props.todo ? props.todo.check : false
   const check = false
+  // const check = props.todo ? props.todo.check : false
   const id = props.todo ? props.todo.id : null
   const common = props.mode === 'common' ? true : false
   const token = useRecoilValue(accesstoken)
@@ -34,28 +32,65 @@ export default function TodoEdit(props: editProp) {
     {
       onSuccess: () => {
         setContent('')
+        if (props.refetch) {
+          props.refetch(common)
+        }
       },
       onError: (err: any) => {
         alert(err)
       }
     }
   );
+  const deleteTodo = useMutation(
+    'deleteTodo',
+    async (param: any) => await TodoService.delete(param),{
+      onSuccess: () => {
+        if (props.refetch) {
+          props.refetch(common)
+        }
+      },
+    }
+  )
+  const updateTodo = useMutation(
+    'updateTodo',
+    async (param: any) => await TodoService.put(param.data, token), 
+    {
+      onSuccess: () => {
+        alert('수정되었습니다')
+        if (props.refetch) {
+          props.refetch(common)
+        }
+      },
+      onError: (err: any) => {
+        alert(err)
+      }
+    }
+  )
 
   const addTodo = () => {
-    // add mode
-    if (!props.todo && props.addTodo) {
+    if (!props.todo && props.refetch) {
+      if (content.trim() === '') {
+        alert('내용을 입력해주세요')
+        return
+      }
       const newTodo = {
         content: content.trim(),
         common: common
       }
       createTodo.mutate({data:newTodo})
-      props.addTodo(common)
     }
   }
-
-  const deleteTodo = () => {
-    if (props.deleteTodo) {
-      props.deleteTodo(id)
+  const update = () => {
+    if (props.todo && props.refetch) {
+      if (content.trim() === '') {
+        alert('내용을 입력해주세요')
+        return
+      }
+      const changeTodo = {
+        id: id,
+        content: content.trim()
+      }
+      updateTodo.mutate({data: changeTodo})
     }
   }
 
@@ -76,12 +111,6 @@ export default function TodoEdit(props: editProp) {
     }
   }
 
-  const inputEvent = (event: React.KeyboardEvent) => {
-    if (props.updateTodo) {
-      props.updateTodo(id, content)
-    }
-  }
-
   const DeleteAlert = () => {
     return (
       <Collapse in={alertOpen} sx={{ position: 'fixed', top: '30vh', left: '30vw', zIndex: 50 }}>
@@ -92,7 +121,7 @@ export default function TodoEdit(props: editProp) {
               <Button
                 onClick={() => {
                   setAlertOpen(false)
-                  deleteTodo()
+                  deleteTodo.mutate(id)
                 }}
               >
                 삭제
@@ -119,17 +148,21 @@ export default function TodoEdit(props: editProp) {
           value={content}
           onChange={(event) => setContent(event.target.value)}
           onKeyDown={(event) => enterEvent(event)}
-          onKeyUp={(event) => inputEvent(event)}
         />
         {!props.todo && (
-          <IconButton color="primary" onClick={addTodo}>
+          <IconButton color="primary" onClick={()=>addTodo()}>
             <CheckIcon />
           </IconButton>
         )}
         {props.todo && (
-          <IconButton color="primary" onClick={() => setAlertOpen(true)}>
-            <DeleteIcon />
-          </IconButton>
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <IconButton color="primary" onClick={()=>update()}>
+              <CheckIcon />
+            </IconButton>
+            <IconButton color="primary" onClick={() => setAlertOpen(true)}>
+              <DeleteIcon />
+            </IconButton>
+          </Box>
         )}
       </Box>
     </React.Fragment>

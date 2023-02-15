@@ -6,10 +6,13 @@ class TodoServiceClass {
         return await api.post('todo/', input, token);
     }
     async get(common:boolean, token: string){
-        return await api.get(`todo?common=${common}`, token);
+        return await api.get(`todo/?common=${common}`, token);
     }
-    async put(input: Pick<Todo, "content"|"id">){
-        return await api.post('todo/', input);
+    async put(input: Pick<Todo, "content"|"id">, token: string){
+        return await api.put('todo/', input, token);
+    }
+    async delete(id: number){
+        return await api.delete(`todo/?id=${id}`);
     }
 }
 

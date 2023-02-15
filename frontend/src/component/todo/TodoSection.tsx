@@ -6,67 +6,27 @@ import TodoElement from './TodoElement'
 import TodoEdit from './TodoEdit'
 import { FiPlusCircle as PlusIcon } from 'react-icons/fi'
 import { TbEditCircle as EditIcon } from 'react-icons/tb'
-import { TodoService } from '../../service'
-import { useQuery } from 'react-query'
-import { useRecoilValue } from 'recoil'
-import { accesstoken } from '../../store'
 import { Todo } from '../../model'
 
 type TodoSectionProp = {
   title: string
   auth?: boolean //편집 가능 여부
+  todo?: {data: Todo[], error: boolean}
+  refetch: Function
 }
 type Mode = 'normal' | 'add' | 'edit'
 
 export default function TodoSection(props: TodoSectionProp) {
-  const token = useRecoilValue(accesstoken)
   const title = props.title
-  const [common, setCommon] = React.useState<boolean>(props.title === 'common' ? true : false)
-  const data: any[] = [
-    { id: 1, content: 'todo' },
-    { id: 2, content: 'todo' },
-  ]
-  const [todoList, setTodoList] = useState<any[]>(data)
+  const todo = props.todo?.data
   const [mode, setMode] = useState<Mode>('normal')
-  const todo = useQuery(
-    'getTodo', 
-    async() => await TodoService.get(common, token),{
-      onSuccess: () =>{
-        console.log(common)
-      }
-    }
-  )
 
-  const addTodo = (common: boolean) => {
-    todo.refetch()
+  const refetch = (common: boolean) => {
+    props.refetch(common)
   }
 
-  const handleCheck = (id: number, check: boolean) => {
-    const newTodoList: Todo[] = todoList.map((todo: Todo) => {
-      if (todo.id === id) {
-        return { ...todo, check: check }
-      }
-      return todo
-    })
-
-    setTodoList(newTodoList)
-  }
-
-  const updateTodo = (id: number, content: string) => {
-    const newTodoList = todoList.map((todo) => {
-      if (todo.id === id) {
-        return { ...todo, content: content }
-      }
-      return todo
-    })
-    setTodoList(newTodoList)
-  }
-  const deleteTodo = (id: number) => {
-    const index = todoList.findIndex((todo) => {
-      return todo.id === id
-    })
-    const newTodo = todoList.splice(index, 1)
-    setTodoList(newTodo)
+  const handleCheck = (common: boolean) => {
+    props.refetch(common)
   }
 
   return (
@@ -74,7 +34,8 @@ export default function TodoSection(props: TodoSectionProp) {
       <Container maxWidth="lg" sx={{ marginTop: 2 }}>
         <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
           <Title title={title} background={Colors.primary_lighter} variant="h5" />
-          {mode === 'normal' && props.auth && (
+          {typeof todo === 'undefined' && <Typography>Loading...</Typography>}
+          {typeof todo !== 'undefined' && mode === 'normal' && props.auth && (
             <Box>
               <IconButton color="primary" onClick={() => setMode('edit')} style={{ width: 35, height: 35 }}>
                 <EditIcon />
@@ -84,7 +45,7 @@ export default function TodoSection(props: TodoSectionProp) {
               </IconButton>
             </Box>
           )}
-          {mode !== 'normal' && (
+          {typeof todo !== 'undefined' && mode !== 'normal' && (
             <Button
               onClick={() => {
                 setMode('normal')
@@ -94,19 +55,17 @@ export default function TodoSection(props: TodoSectionProp) {
             </Button>
           )}
         </Box>
-        {todo.isLoading && <Typography>Loading...</Typography>}
-        {!todo.isLoading && mode !== 'add' && todo.data.length === 0 && (
+        {typeof todo !== 'undefined' && mode !== 'add' && todo?.length === 0 && (
           <Typography sx={{ mt: 2, textAlign: 'center' }}>No Todo List</Typography>
         )}
-        {!todo.isLoading &&(mode === 'normal' || mode === 'add') &&
-          todo.data.length > 0 &&
-          todo.data.map((t: Todo) => (
-            <TodoElement id={t.id} content={t.content} check={false} handleCheck={handleCheck} />
+        {typeof todo !== 'undefined' && (mode === 'normal' || mode === 'add') &&
+          todo?.map((t: Todo) => (
+            <TodoElement key={t.id} id={t.id} content={t.content} check={false} handleCheck={handleCheck} mode={title} />
           ))}
-        {!todo.isLoading &&mode === 'edit' &&
-          todo.data.length > 0 &&
-          todo.data.map((t: Todo) => <TodoEdit todo={t} deleteTodo={deleteTodo} updateTodo={updateTodo} mode={title} />)}
-        {!todo.isLoading &&mode === 'add' && <TodoEdit addTodo={addTodo} mode={title} />}
+        {typeof todo !== 'undefined' && mode === 'edit' &&
+          // todo?.length > 0 &&
+          todo?.map((t: Todo) => <TodoEdit key={t.id} todo={t} refetch={refetch} mode={title} />)}
+        {typeof todo !== 'undefined' && mode === 'add' && <TodoEdit refetch={refetch} mode={title} />}
       </Container>
     </React.Fragment>
   )
