@@ -2,7 +2,8 @@ version: "3"
 
 services:
   fnet-api:
-    image: ghcr.io/fgfnet/fnet-web
+    # image: ghcr.io/fgfnet/fnet
+    build: .
     container_name: fnet-api
     volumes:
       - ./data/django:/data
@@ -20,6 +21,8 @@ services:
   fnet-mysql:
     image: mysql
     container_name: fnet-mysql
+    ports:
+      - "3306:3306"
     volumes:
       - ./data/mysql:/var/lib/mysql
     environment:

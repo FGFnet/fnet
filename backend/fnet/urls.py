@@ -24,8 +24,8 @@ urlpatterns = [
     # path('api/admin/', include('freshman.urls.admin')),
     # path('api/', include('lc.urls.user')),
     # path('api/admin/', include('lc.urls.admin')),
-    # path('api/', include('notice.urls.user')),
-    # path('api/admin/', include('notice.urls.admin')),
+    path('api/', include('notice.urls.user')),
+    path('api/admin/', include('notice.urls.admin')),
     # path('api/', include('todo.urls.user')),
     # path('api/admin/', include('todo.urls.admin')),
 ]

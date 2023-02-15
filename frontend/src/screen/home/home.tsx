@@ -1,16 +1,22 @@
 import React from 'react'
+import { useRecoilValue } from 'recoil'
+
+import { Grid, Container } from '@mui/material'
 import { Colors } from '../../constant'
 import {Banner, ScheduleSection, FGSection} from '../../component'
-import { Grid, Container } from '@mui/material'
+import { userState } from '../../store'
 
+const boxStyle = {
+  padding: 40,
+  boxShadow: '0px 4px 12px rgba(58,58,58,0.25)',
+  borderRadius: 20,
+  height: '100%',
+  marginBottom: 20,
+}
+
+// TODO: schedule section api 연결
 export default function HomeScreen() {
-  const boxStyle = {
-    padding: 40,
-    boxShadow: '0px 4px 12px rgba(58,58,58,0.25)',
-    borderRadius: 20,
-    height: '100%',
-    marginBottom: 20,
-  }
+  const user = useRecoilValue(userState)
 
   const scheduledata = 
     [
@@ -26,7 +32,7 @@ export default function HomeScreen() {
       <Container maxWidth="xl">
         <Grid container wrap="wrap" justifyContent="space-around">
           <Grid item md={4} style={boxStyle}>
-            <FGSection />
+            <FGSection fg={user} />
           </Grid>
           <Grid item md={6} sm={10} style={boxStyle}>
             <div

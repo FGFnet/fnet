@@ -22,7 +22,8 @@ class UserManager(BaseUserManager):
                 name=name, 
                 student_id = password if password else student_id
             )
-            fg.is_admin = True
+            fg.set_password(password)
+            fg.role = 'Admin'
             fg.save(using=self._db)
             return fg
         except Exception as e:
@@ -59,7 +60,7 @@ class FG(AbstractBaseUser):
 
     @property
     def is_staff(self):
-        return self.role
+        return self.role == 'Admin'
 
     class Meta:
         db_table = 'fg'

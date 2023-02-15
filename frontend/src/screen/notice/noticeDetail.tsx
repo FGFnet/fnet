@@ -1,32 +1,39 @@
 import React from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
+import { useQuery } from 'react-query'
+
 import { Container, Divider, Typography, Box, Button } from '@mui/material'
 import { Header, Title, CommentListBox } from '../../component'
 import { Colors } from '../../constant'
 import { TbMenu2 as MenuIcon } from 'react-icons/tb'
-import { useNavigate } from 'react-router-dom'
 import { dateFormatter } from '../../util'
+import { NoticeService } from '../../service'
+
 
 export default function NoticeDetailScreen() {
   const navigate = useNavigate()
-  const notice = {
-    title: '중간 조퇴자 조사',
-    content: '중간 조퇴자 여부 조사해서 인원수, 강의실, 시간 순서대로 댓글 남겨주세요.',
-    create_time: 1658931430404,
-  }
+  const param = useParams()
+  const notice = useQuery('getNotice', async () => await NoticeService.get(Number(param.id)))
+  
 
   const NoticeBox = () => {
     return (
       <Container sx={{ padding: 5 }}>
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <Title
-            variant="h5"
-            title={notice.title}
-            background={Colors.primary_lighter}
-            style={{ marginBottom: 2, marginRight: 2 }}
-          />
-          <Typography sx={{ color: Colors.light }}>{dateFormatter(notice.create_time)}</Typography>
-        </Box>
-        <Typography>{notice.content}</Typography>
+        {!notice.data && <Typography>Loading...</Typography>}
+        {notice.data &&
+          <>
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <Title
+                variant="h5"
+                title={notice.data.title}
+                background={Colors.primary_lighter}
+                style={{ marginBottom: 2, marginRight: 2 }}
+              />
+              <Typography sx={{ color: Colors.light }}>{dateFormatter(notice.data.create_time)}</Typography>
+            </Box>
+            <Typography>{notice.data.content}</Typography>
+          </>
+        }
       </Container>
     )
   }
