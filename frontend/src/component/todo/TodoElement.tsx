@@ -12,7 +12,7 @@ type TodoProp = {
   mode: string
 }
 
-export default function TodoSection(props: TodoProp) {
+export default function TodoElement(props: TodoProp) {
   const check = props.check
   const content = props.content
   const common = props.mode === 'common' ? true : false

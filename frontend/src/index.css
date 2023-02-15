@@ -27,6 +27,7 @@
 }
 
 body {
+  overflow-x: hidden;
   margin: 0;
   font-family: LeferiBaseType-Regular;
   -webkit-font-smoothing: antialiased;

@@ -24,48 +24,36 @@ export default function TodoEdit(props: editProp) {
 
   const [content, setContent] = useState(initContent)
   const [alertOpen, setAlertOpen] = useState(false)
-  
 
-  const createTodo = useMutation(
-    'createTodo',
-    async (param: any) => await TodoService.create(param.data, token), 
-    {
-      onSuccess: () => {
-        setContent('')
-        if (props.refetch) {
-          props.refetch(common)
-        }
-      },
-      onError: (err: any) => {
-        alert(err)
+  const createTodo = useMutation('createTodo', async (param: any) => await TodoService.create(param.data, token), {
+    onSuccess: () => {
+      setContent('')
+      if (props.refetch) {
+        props.refetch(common)
       }
-    }
-  );
-  const deleteTodo = useMutation(
-    'deleteTodo',
-    async (param: any) => await TodoService.delete(param),{
-      onSuccess: () => {
-        if (props.refetch) {
-          props.refetch(common)
-        }
-      },
-    }
-  )
-  const updateTodo = useMutation(
-    'updateTodo',
-    async (param: any) => await TodoService.put(param.data, token), 
-    {
-      onSuccess: () => {
-        alert('수정되었습니다')
-        if (props.refetch) {
-          props.refetch(common)
-        }
-      },
-      onError: (err: any) => {
-        alert(err)
+    },
+    onError: (err: any) => {
+      alert(err)
+    },
+  })
+  const deleteTodo = useMutation('deleteTodo', async (param: any) => await TodoService.delete(param), {
+    onSuccess: () => {
+      if (props.refetch) {
+        props.refetch(common)
       }
-    }
-  )
+    },
+  })
+  const updateTodo = useMutation('updateTodo', async (param: any) => await TodoService.put(param.data, token), {
+    onSuccess: () => {
+      alert('수정되었습니다')
+      if (props.refetch) {
+        props.refetch(common)
+      }
+    },
+    onError: (err: any) => {
+      alert(err)
+    },
+  })
 
   const addTodo = () => {
     if (!props.todo && props.refetch) {
@@ -75,9 +63,9 @@ export default function TodoEdit(props: editProp) {
       }
       const newTodo = {
         content: content.trim(),
-        common: common
+        common: common,
       }
-      createTodo.mutate({data:newTodo})
+      createTodo.mutate({ data: newTodo })
     }
   }
   const update = () => {
@@ -88,9 +76,9 @@ export default function TodoEdit(props: editProp) {
       }
       const changeTodo = {
         id: id,
-        content: content.trim()
+        content: content.trim(),
       }
-      updateTodo.mutate({data: changeTodo})
+      updateTodo.mutate({ data: changeTodo })
     }
   }
 
@@ -150,13 +138,13 @@ export default function TodoEdit(props: editProp) {
           onKeyDown={(event) => enterEvent(event)}
         />
         {!props.todo && (
-          <IconButton color="primary" onClick={()=>addTodo()}>
+          <IconButton color="primary" onClick={() => addTodo()}>
             <CheckIcon />
           </IconButton>
         )}
         {props.todo && (
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <IconButton color="primary" onClick={()=>update()}>
+            <IconButton color="primary" onClick={() => update()}>
               <CheckIcon />
             </IconButton>
             <IconButton color="primary" onClick={() => setAlertOpen(true)}>

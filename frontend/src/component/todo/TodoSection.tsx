@@ -11,7 +11,7 @@ import { Todo } from '../../model'
 type TodoSectionProp = {
   title: string
   auth?: boolean //편집 가능 여부
-  todo?: {data: Todo[], error: boolean}
+  todo?: { data: Todo[]; error: boolean }
   refetch: Function
 }
 type Mode = 'normal' | 'add' | 'edit'
@@ -58,11 +58,20 @@ export default function TodoSection(props: TodoSectionProp) {
         {typeof todo !== 'undefined' && mode !== 'add' && todo?.length === 0 && (
           <Typography sx={{ mt: 2, textAlign: 'center' }}>No Todo List</Typography>
         )}
-        {typeof todo !== 'undefined' && (mode === 'normal' || mode === 'add') &&
+        {typeof todo !== 'undefined' &&
+          (mode === 'normal' || mode === 'add') &&
           todo?.map((t: any) => (
-            <TodoElement key={t.id} id={t.id} content={t.todo_id.content} check={t.check} handleCheck={handleCheck} mode={title} />
+            <TodoElement
+              key={t.id}
+              id={t.id}
+              content={t.todo_id.content}
+              check={t.check}
+              handleCheck={handleCheck}
+              mode={title}
+            />
           ))}
-        {typeof todo !== 'undefined' && mode === 'edit' &&
+        {typeof todo !== 'undefined' &&
+          mode === 'edit' &&
           // todo?.length > 0 &&
           todo?.map((t: any) => <TodoEdit key={t.id} todo={t.todo_id} refetch={refetch} mode={title} />)}
         {typeof todo !== 'undefined' && mode === 'add' && <TodoEdit refetch={refetch} mode={title} />}

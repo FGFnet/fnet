@@ -7,6 +7,7 @@ import { Banner, ScheduleSection, FGSection } from '../../component'
 import { accesstoken, userState } from '../../store'
 import { useQuery } from 'react-query'
 import { LCService, ScheduleService } from '../../service'
+import dayjs from 'dayjs'
 
 const boxStyle = {
   padding: 40,
@@ -57,7 +58,7 @@ export default function HomeScreen() {
                 </div>
                 <div style={{ textAlign: 'center' }}>
                   {schedule.data.data.map((item: any) => {
-                    return (<ScheduleSection key={item.id} date={item.date} lc={9} />)
+                    return (<ScheduleSection key={item.id} date={dayjs(item.date).format('YYYY-MM-DD')} lc={9} />)
                   })}
                 </div>
               </>

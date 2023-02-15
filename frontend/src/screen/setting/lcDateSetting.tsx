@@ -39,7 +39,7 @@ export default function LcDateSettingScreen() {
   const getDate = (day: number) => {
     let date = '-'
     if (scheduleList.length > 0) {
-      const schedule = scheduleList.find(s => s.day === day)
+      const schedule = scheduleList.find((s) => s.day === day)
       date = dayjs(schedule?.date).format('YYYY-MM-DD')
     }
     return date
