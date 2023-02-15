@@ -27,7 +27,7 @@ export default function LcDateSettingScreen() {
   const [scheduleList, setScheduleList] = useState<Schedule[]>([])
   const token = useRecoilValue(accesstoken)
   const lc = useQuery('getLC', async () => await LCService.get(token), { refetchOnWindowFocus: false })
-  useQuery('getSchedule', async () => await ScheduleService.get(token), {
+  const schedule = useQuery('getSchedule', async () => await ScheduleService.get(token), {
     refetchOnWindowFocus: false,
     onSuccess: (data) => {
       if (data) {
@@ -66,6 +66,7 @@ export default function LcDateSettingScreen() {
     {
       onSuccess: () => {
         setLoading(false)
+        schedule.refetch()
       },
     },
   )
