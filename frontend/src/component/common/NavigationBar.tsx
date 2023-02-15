@@ -55,7 +55,6 @@ function NavigationBar() {
   const [user, setUser] = useRecoilState(userState)
   const setToken = useSetRecoilState(accesstoken)
   const [menuItem, setMenuItem] = useState<any>(menu.Other)
-
   const logoutMutation = useMutation(UserService.logout)
   
   const [isHover, setIsHover] = useState([false, false, false])

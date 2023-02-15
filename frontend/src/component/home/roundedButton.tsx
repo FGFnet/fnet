@@ -2,7 +2,8 @@ import Button from '@mui/material/Button'
 import { Colors } from '../../constant'
 
 type buttonProp = {
-  text: string
+  text: string,
+  onClick: Function
 }
 
 function RoundedButton(props: buttonProp) {
@@ -17,7 +18,7 @@ function RoundedButton(props: buttonProp) {
     marginBottom: 10,
   }
 
-  return <Button style={style}>{props.text}</Button>
+  return <Button onClick={()=>{props.onClick()}} style={style}>{props.text}</Button>
 }
 
 export {RoundedButton};

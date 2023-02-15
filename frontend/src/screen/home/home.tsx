@@ -18,6 +18,14 @@ const boxStyle = {
 export default function HomeScreen() {
   const user = useRecoilValue(userState)
 
+  const scheduledata = 
+    [
+      {date: "2023.02.03", name: "LC09", fg_n: "정노원fg", fg_s: "하솔비fg", total: 20},
+      {date: "2023.02.04", name: "LC10", fg_n: "정노원fg", fg_s: "하솔비fg", total: 20},
+      {date: "2023.02.04", name: "LC11", fg_n: "정노원fg", fg_s: "하솔비fg", total: 20},
+    ]
+  ;
+
   return (
     <React.Fragment>
       <Banner />
@@ -33,9 +41,9 @@ export default function HomeScreen() {
               Team-Building Schedule
             </div>
             <div style={{ textAlign: 'center' }}>
-              <ScheduleSection date="2023.02.15" lc={9} />
-              <ScheduleSection date="2023.02.16" lc={16} />
-              <ScheduleSection date="2023.02.17" />
+              {scheduledata.map((schedule) => (
+                <ScheduleSection props={schedule} key={`schedule ${schedule.name}`} />
+              ))}
             </div>
           </Grid>
         </Grid>

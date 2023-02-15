@@ -1,12 +1,15 @@
 import * as React from 'react'
-import Paper from '@mui/material/Paper'
-import Table from '@mui/material/Table'
-import TableBody from '@mui/material/TableBody'
-import TableCell, { TableCellProps } from '@mui/material/TableCell'
-import TableContainer from '@mui/material/TableContainer'
-import TableHead from '@mui/material/TableHead'
-import TablePagination from '@mui/material/TablePagination'
-import TableRow from '@mui/material/TableRow'
+import {
+  Paper,
+  Table, 
+  TableBody, 
+  TableCell, 
+  TableCellProps, 
+  TableContainer,
+  TableHead, 
+  TablePagination, 
+  TableRow
+} from '@mui/material'
 import { styled } from '@mui/material/styles'
 
 const CustomTableCell = styled(TableCell)<TableCellProps>({
@@ -40,6 +43,21 @@ function AdminTable({ header, data }: AdminTableType) {
     setPage(0)
   }
 
+  const setDepartment = (dep: string | number) => {
+    switch (dep){
+      case 'n':
+        return '자연과학'
+      case 'e':
+        return '공학'
+      case 's':
+        return '사회과학'
+      case 'h':
+        return '인문사회'
+      default:
+        return '-'
+    }
+  }
+
   return (
     <Paper sx={{ width: '100%' }}>
       <TableContainer>
@@ -65,8 +83,8 @@ function AdminTable({ header, data }: AdminTableType) {
                         if (value === 0) return <CustomTableCell>운영진</CustomTableCell>
                         if (value === 1) return <CustomTableCell>운영기수</CustomTableCell>
                         if (value === 2) return <CustomTableCell>활동기수</CustomTableCell>
-                      } else if (column.id === 'campus')
-                        return <CustomTableCell>{value === 'n' ? '자연과학' : '인문사회'}</CustomTableCell>
+                      } else if (column.id === 'department')
+                        return <CustomTableCell>{setDepartment(value)}</CustomTableCell>
                       else if (column.id === 'DAY1' || 'DAY2' || 'DAY3')
                         return <CustomTableCell>{value === '' ? '-' : value}</CustomTableCell>
                       else if (column.id === 'register') return <CustomTableCell>{value ? 'O' : 'X'}</CustomTableCell>

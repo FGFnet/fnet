@@ -1,36 +1,38 @@
 import {RoundedButton} from './roundedButton'
-import { useEffect, useState } from 'react'
 import { Colors } from '../../constant'
+import { useNavigate } from 'react-router-dom'
 
-type scheduleProp = {
-  date: string
-  lc?: number
+type lc = {
+  fg_n: string;
+  fg_s: string;
+  name: string;
+  date: string;
+  total: number;
 }
 
-export default function ScheduleSection(props: scheduleProp) {
+export default function ScheduleSection({props}: {props:lc}) {
+  const navigate = useNavigate()
+  const getLCNum = () => {
+    return Number(props.name.slice(2))
+  }
+
   const lcTextStyle = {
     backgroundColor: Colors.primary_lighter,
     display: 'inline-block',
     marginLeft: 30,
   }
 
-  const [lcName, setLcName] = useState('')
-
-  useEffect(() => {
-    setLC(props.lc)
-  })
-
-  const setLC = (lc?: number) => {
-    if (!lc) setLcName('-')
-    else if (lc < 10) setLcName('0' + lc)
-    else setLcName(lc + '')
-  }
-
   return (
     <section style={{ margin: 30 }}>
-      <RoundedButton text={props.date} />
-      <div style={lcTextStyle}>LC {lcName}</div>
-      {lcName === '-' && (
+      <RoundedButton text={props.name} onClick={() => {navigate(`/lc/${getLCNum()}`)}} />
+      <div style={lcTextStyle}>{props.date}</div>
+      <div
+        style={{ textAlign: 'left', marginLeft: 20, fontSize: 14, display: 'inline-block', verticalAlign: 'middle' }}
+      >
+        담당 FG : {props.fg_n + ', ' + props.fg_s} <br />
+        전체인원 : {props.total}
+      </div>
+      {/* {lcName === '-' && (
         <div
           style={{ textAlign: 'left', marginLeft: 20, fontSize: 14, display: 'inline-block', verticalAlign: 'middle' }}
         >
@@ -44,7 +46,7 @@ export default function ScheduleSection(props: scheduleProp) {
           담당 FG : 하솔비 fg, 정노원 fg <br />
           전체인원 : 20
         </div>
-      )}
+      )} */}
     </section>
   )
 }
