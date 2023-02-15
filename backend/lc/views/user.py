@@ -9,7 +9,7 @@ import dateutil.parser
 class ScheduleAPI(APIView):
     def get(self, request):
         try: 
-            queryset = Schedule.objects.filter()
+            queryset = Schedule.objects.all()
             data = ScheduleSerializer(queryset, many = True).data
         except Schedule.DoesNotExist:
             return Response({"error": True, "data": "NO data"})
@@ -21,17 +21,17 @@ class TodayLCAPI(APIView):
         current_datetime = datetime.date.today()
         try:
             schedule = Schedule.objects.get(date = current_datetime)
-        except Schedule.DoesNotExist(date = current_datetime):
+        except Schedule.DoesNotExist:
             return Response({"error":False, "data": None})
         if user_campus == "n":
             try:
                 todayLC = LC.objects.get(day = schedule["day"], fg_n_id = request.user.id)
-            except LC.DoesNotExist(day = schedule["day"], fg_n_id = request.user.id):
+            except LC.DoesNotExist:
                 return Response({"error":False, "data": None})
         else:
             try:
                 todayLC = LC.objects.get(day = schedule["day"], fg_s_id = request.user.id)
-            except LC.DoesNotExist(day = schedule["day"], fg_s_id = request.user.id):
+            except LC.DoesNotExist:
                 return Response({"error":False, "data": None})
         return Response({"error": False, "data": todayLC})
 
@@ -41,11 +41,11 @@ class LCAPI(APIView):
         if user_campus == "n":
             try:
                 todayLC = LC.objects.get(fg_n_id = request.user.id)
-            except LC.DoesNotExist(fg_n_id = request.user.id):
+            except LC.DoesNotExist:
                 return Response({"error":False, "data": None})
         else:
             try:
                 todayLC = LC.objects.get(fg_s_id = request.user.id)
-            except LC.DoesNotExist(fg_s_id = request.user.id):
+            except LC.DoesNotExist:
                 return Response({"error":False, "data": None})
         return Response({"error": False, "data": todayLC})

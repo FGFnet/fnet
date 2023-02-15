@@ -6,10 +6,10 @@ from django.core.validators import MinLengthValidator
 # Create your models here.
 class UserManager(BaseUserManager):
     user_in_migrations = True
-    def create_user(self, name, student_id):
+    def create_user(self, name, student_id, campus):
         try:
             fg = self.model(
-                name = name, student_id = student_id
+                name = name, student_id = student_id, campus= campus
             )
             fg.set_password(student_id)
             fg.save(using=self._db)

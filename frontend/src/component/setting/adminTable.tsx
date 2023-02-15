@@ -8,6 +8,7 @@ import TableHead from '@mui/material/TableHead'
 import TablePagination from '@mui/material/TablePagination'
 import TableRow from '@mui/material/TableRow'
 import { styled } from '@mui/material/styles'
+import { FG } from '../../model'
 
 const CustomTableCell = styled(TableCell)<TableCellProps>({
   wordBreak: 'keep-all',
@@ -58,19 +59,27 @@ function AdminTable({ header, data }: AdminTableType) {
                 <TableRow hover role="checkbox" key={rowId}>
                   {header.map((column) => {
                     if (column.id === 'index') {
-                      return <CustomTableCell> {rowId}</CustomTableCell>
+                      return <CustomTableCell key={column.id}> {rowId}</CustomTableCell>
                     } else {
                       const value = row[column.id]
                       if (column.id === 'role') {
-                        if (value === 0) return <CustomTableCell>운영진</CustomTableCell>
-                        if (value === 1) return <CustomTableCell>운영기수</CustomTableCell>
-                        if (value === 2) return <CustomTableCell>활동기수</CustomTableCell>
+                        if (value === 'Admin') return <CustomTableCell key={column.id}>운영진</CustomTableCell>
+                        if (value === 'OB') return <CustomTableCell key={column.id}>운영기수</CustomTableCell>
+                        if (value === 'Active') return <CustomTableCell key={column.id}>활동기수</CustomTableCell>
                       } else if (column.id === 'campus')
-                        return <CustomTableCell>{value === 'n' ? '자연과학' : '인문사회'}</CustomTableCell>
-                      else if (column.id === 'DAY1' || 'DAY2' || 'DAY3')
-                        return <CustomTableCell>{value === '' ? '-' : value}</CustomTableCell>
-                      else if (column.id === 'register') return <CustomTableCell>{value ? 'O' : 'X'}</CustomTableCell>
-                      else return <CustomTableCell sx={{ wordBreak: 'keep-all' }}>{String(value)}</CustomTableCell>
+                        return (
+                          <CustomTableCell key={column.id}>{value === 'n' ? '자연과학' : '인문사회'}</CustomTableCell>
+                        )
+                      else if (column.id === 'DAY1' || 'DAY2')
+                        return <CustomTableCell key={column.id}>{value ? value : '-'}</CustomTableCell>
+                      else if (column.id === 'register')
+                        return <CustomTableCell key={column.id}>{value ? 'O' : 'X'}</CustomTableCell>
+                      else
+                        return (
+                          <CustomTableCell sx={{ wordBreak: 'keep-all' }} key={column.id}>
+                            {value}
+                          </CustomTableCell>
+                        )
                     }
                   })}
                 </TableRow>
@@ -92,4 +101,4 @@ function AdminTable({ header, data }: AdminTableType) {
   )
 }
 
-export {AdminTable};
+export { AdminTable }

@@ -1,18 +1,23 @@
 from ..models import LC, Schedule
-from ..serializers import (CreateScheduleSerializer, ScheduleSerializer)
+from ..serializers import (CreateScheduleSerializer, ScheduleSerializer, LCSerializer)
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 import datetime
 import dateutil.parser
 
+class LCAPI(APIView):
+    def get(self, request):
+        error = False
+        lc = LC.objects.all().order_by("id")
+        return Response({"error": error, "data": LCSerializer(lc, many=True).data})
+
 class ScheduleAPI(APIView):
     def post(self, request):
-        data = request.data
-        serializer = CreateScheduleSerializer(data)
-        schedule = Schedule.objects.create(date=dateutil.parser.parse(data["date"]).date(), day = 1)
+        serializer = CreateScheduleSerializer(request.data)
+        data = serializer.data
+        schedule = Schedule.objects.create(date=dateutil.parser.parse(data["date"]).date(), day = data["day"])
         return Response({"error":False, "data": ScheduleSerializer(schedule).data})
-
 
     def put(self, request):
         data = Schedule.objects.filter()

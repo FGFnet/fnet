@@ -5,10 +5,10 @@ import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import { ko } from 'date-fns/esm/locale'
 import { BiCalendar } from 'react-icons/bi'
-
-let data = {
-  dates: [1676473200000, 1676559600000, 1676646000000],
-}
+import { useMutation, useQuery } from 'react-query'
+import { ScheduleService } from '../../service'
+import { useRecoilValue } from 'recoil'
+import { accesstoken } from '../../store'
 
 export interface Props {
   value?: Date | string
@@ -16,9 +16,26 @@ export interface Props {
 }
 
 export default function ScheduleSettingScreen() {
-  const [firstDate, setFirstDate] = useState<Date>(new Date(data.dates[0]))
-  const [secondDate, setSecondDate] = useState<Date>(new Date(data.dates[1]))
-  const [thirdDate, setThirdDate] = useState<Date>(new Date(data.dates[2]))
+  const token = useRecoilValue(accesstoken)
+  const [firstDate, setFirstDate] = useState<Date>(new Date())
+  const [secondDate, setSecondDate] = useState<Date>(new Date())
+
+  const schedule = useQuery('getSchedule', async () => await ScheduleService.get(token), {
+    onSuccess: (data) => {
+      console.log(data)
+      if (data.data.length >= 2) {
+        setFirstDate(new Date(data.data[0].date))
+        setSecondDate(new Date(data.data[1].date))
+      }
+    },
+    refetchOnWindowFocus: false
+  })
+  const setSchedule = useMutation('setShedule', async (param: any) => await ScheduleService.create(param, token), {
+    onSuccess: (data) => {
+      console.log(data)
+      alert('저장되었습니다')
+    },
+  })
 
   const CustomInput = React.forwardRef<HTMLElement, Props>(({ onChange, value, onClick }: any) => {
     return (
@@ -32,41 +49,46 @@ export default function ScheduleSettingScreen() {
   const DateSetting = () => {
     return (
       <React.Fragment>
-        <Grid item>
-          <Card>
-            <CardContent>
-              <Typography>DAY 1</Typography>
-            </CardContent>
-            <CardContent>
-              <DatePicker
-                locale={ko}
-                dateFormat="yyyy/MM/dd"
-                selected={firstDate}
-                onChange={(date: Date) => setFirstDate(date)}
-                customInput={<CustomInput />}
-              />
-            </CardContent>
-          </Card>
-        </Grid>
+        {(schedule.isLoading) && <div>loading...</div>}
+        {schedule.data && (
+          <>
+            <Grid item>
+              <Card>
+                <CardContent>
+                  <Typography>DAY 1</Typography>
+                </CardContent>
+                <CardContent>
+                  <DatePicker
+                    locale={ko}
+                    dateFormat="yyyy/MM/dd"
+                    selected={firstDate}
+                    onChange={(date: Date) => setFirstDate(date)}
+                    customInput={<CustomInput />}
+                  />
+                </CardContent>
+              </Card>
+            </Grid>
 
-        <Grid item>
-          <Card>
-            <CardContent>
-              <Typography>DAY 2</Typography>
-            </CardContent>
-            <CardContent>
-              <DatePicker
-                locale={ko}
-                dateFormat="yyyy/MM/dd"
-                selected={secondDate}
-                onChange={(date: Date) => setSecondDate(date)}
-                customInput={<CustomInput />}
-              />
-            </CardContent>
-          </Card>
-        </Grid>
+            <Grid item>
+              <Card>
+                <CardContent>
+                  <Typography>DAY 2</Typography>
+                </CardContent>
+                <CardContent>
+                  <DatePicker
+                    locale={ko}
+                    dateFormat="yyyy/MM/dd"
+                    selected={secondDate}
+                    onChange={(date: Date) => setSecondDate(date)}
+                    customInput={<CustomInput />}
+                  />
+                </CardContent>
+              </Card>
+            </Grid>
+          </>
+        )}
 
-        <Grid item>
+        {/* <Grid item>
           <Card>
             <CardContent>
               <Typography>DAY 3</Typography>
@@ -81,15 +103,14 @@ export default function ScheduleSettingScreen() {
               />
             </CardContent>
           </Card>
-        </Grid>
+        </Grid> */}
       </React.Fragment>
     )
   }
 
   const saveDate = (event: React.MouseEvent<HTMLElement>) => {
-    data.dates = [firstDate.getTime(), secondDate.getTime(), thirdDate.getTime()]
-    console.log(data)
-    alert('저장되었습니다.')
+    setSchedule.mutate({date: new Date(firstDate), day: 1 })
+    setSchedule.mutate({date: new Date(secondDate), day: 2 })
   }
 
   const SaveButton = () => {

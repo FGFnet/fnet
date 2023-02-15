@@ -1,6 +1,5 @@
 from django.urls import path
-from ..views.admin import ScheduleAPI
-from ..views.user import TodayLCAPI, LCAPI
+from ..views.user import TodayLCAPI, LCAPI, ScheduleAPI
 
 urlpatterns = [
     path('schedule/', ScheduleAPI.as_view(), name="schedule_api"),

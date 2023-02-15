@@ -5,7 +5,7 @@ from .models import FG
 class FGSerializer(serializers.ModelSerializer):
     class Meta:
         model = FG
-        fields = ['id', 'name', 'student_id', 'campus', 'role']
+        fields = '__all__'
 
 class CreateFGSerializer(serializers.Serializer):
     name = serializers.CharField()
@@ -16,3 +16,6 @@ class CreateFGSerializer(serializers.Serializer):
 class LoginSerializer(serializers.Serializer):
     name = serializers.CharField()
     password = serializers.CharField()
+
+class FGFileUploadSerializer(serializers.Serializer):
+    file = serializers.FileField()

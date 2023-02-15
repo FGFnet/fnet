@@ -16,6 +16,12 @@ class UserService {
     const data = await api.get(`fg?id=${id}`, token);
     return data.data
   }
+  async getAll(token: string) {
+    return await api.get('admin/fg', token)
+  }
+  async post(file: any, token: string) {
+    return await api.post('admin/fg/upload/', file, token)
+  }
 }
 
 export default new UserService()
