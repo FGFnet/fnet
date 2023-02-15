@@ -26,7 +26,7 @@ export default function LcDateSettingScreen() {
   const [loading, setLoading] = useState(false)
   const [scheduleList, setScheduleList] = useState<Schedule[]>([])
   const token = useRecoilValue(accesstoken)
-  const lc = useQuery('getLC', async () => await LCService.get(token), { refetchOnWindowFocus: false })
+  
   const schedule = useQuery('getSchedule', async () => await ScheduleService.get(token), {
     refetchOnWindowFocus: false,
     onSuccess: (data) => {
@@ -35,14 +35,22 @@ export default function LcDateSettingScreen() {
       }
     },
   })
+  const lc = useQuery('getLC', 
+    async () => await LCService.get(token), { 
+      refetchOnWindowFocus: false,
+      enabled: !schedule.isLoading
+    })
 
   const getDate = (day: number) => {
     let date = '-'
     if (scheduleList.length > 0) {
       const schedule = scheduleList.find((s) => s.day === day)
       date = dayjs(schedule?.date).format('YYYY-MM-DD')
+      return date
+    } else {
+      alert('팀빌딩 날짜를 설정해주세요')
+      return '-'
     }
-    return date
   }
 
   const setLCData = () => {
@@ -66,7 +74,7 @@ export default function LcDateSettingScreen() {
     {
       onSuccess: () => {
         setLoading(false)
-        schedule.refetch()
+        lc.refetch()
       },
     },
   )

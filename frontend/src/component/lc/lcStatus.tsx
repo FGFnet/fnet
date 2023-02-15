@@ -70,8 +70,7 @@ function LCStatus({ lc, sReg, nReg, eReg, hReg }: LCStatusType) {
           }}
         >
           <Typography component="div" variant="h4" fontWeight="bolder" textAlign="center" margin="auto">
-            LC{Number(lc) < 10 ? '0' + lc : Number(lc)}
-            {/* {request.GET.get("lc")} */}
+            {lc}
           </Typography>
         </Grid>
         <RegisterStatus />

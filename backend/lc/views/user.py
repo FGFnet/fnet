@@ -38,14 +38,17 @@ class TodayLCAPI(APIView):
 class LCAPI(APIView):
     def get(self, request):
         user_campus = request.user.campus
+        
         if user_campus == "n":
             try:
                 todayLC = LC.objects.filter(fg_n_id = request.user)
+                data = LCSerializer(todayLC, many=True).data
             except LC.DoesNotExist:
                 return Response({"error":False, "data": None})
         else:
             try:
                 todayLC = LC.objects.filter(fg_s_id = request.user)
+                data = LCSerializer(todayLC, many=True).data
             except LC.DoesNotExist:
                 return Response({"error":False, "data": None})
-        return Response({"error": False, "data": LCSerializer(todayLC, many=True).data})
+        return Response({"error": False, "data": data})
