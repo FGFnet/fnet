@@ -1,6 +1,7 @@
 from ..models import Todo, Todo_check
-from ..serializers import CreateTodoSerializer, TodoSerializer, EditTodoSerializer, TodoCheckSerializer, TodoAllSerializer
+from ..serializers import TodoPlusCheckSerializer,CreateTodoSerializer, TodoSerializer, EditTodoSerializer, TodoCheckSerializer, TodoAllSerializer
 from fg.models import FG
+from itertools import chain
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -10,15 +11,21 @@ class TodoAPI(APIView):
         get_common = True if request.GET.get("common") == 'true' else False
         try:
             if get_common:
-                todos = Todo.objects.prefetch_related('todo_id')
-                todos = todos.filter(common = get_common)
+                todos = TodoPlusCheckSerializer(Todo_check.objects.filter(fg_id = request.user),many= True).data
+                result = []
+                for todo in todos:
+                    if todo["todo_id"]["common"] == get_common:
+                        result.append(todo)
             else:
-                todos = Todo.objects.prefetch_related('todo_id')
-                todos = todos.filter(common = get_common, created_by = request.user)
+                todos = TodoPlusCheckSerializer(Todo_check.objects.filter(fg_id = request.user),many= True).data
+                result = []
+                for todo in todos:
+                    if todo["todo_id"]["common"]== get_common:
+                        result.append(todo)
         except Todo.DoesNotExist:
             msg = "Todo does not exist"
             return Response({"error": True, "data": msg})
-        return Response({"error": False, "data" : TodoSerializer(todos, many=True).data})
+        return Response({"error": False, "data" : result})
 
     def post(self, request):
         serializer = CreateTodoSerializer(data = request.data)

@@ -14,6 +14,13 @@ class TodoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Todo
         fields = "__all__"
+        
+
+class TodoPlusCheckSerializer(serializers.ModelSerializer):
+    todo_id = TodoSerializer()
+    class Meta:
+        model = Todo_check
+        fields = "__all__"
 
 class TodoCheckSerializer(serializers.ModelSerializer):
     class Meta:

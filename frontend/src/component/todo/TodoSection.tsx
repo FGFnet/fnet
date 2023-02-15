@@ -59,12 +59,12 @@ export default function TodoSection(props: TodoSectionProp) {
           <Typography sx={{ mt: 2, textAlign: 'center' }}>No Todo List</Typography>
         )}
         {typeof todo !== 'undefined' && (mode === 'normal' || mode === 'add') &&
-          todo?.map((t: Todo) => (
-            <TodoElement key={t.id} id={t.id} content={t.content} check={false} handleCheck={handleCheck} mode={title} />
+          todo?.map((t: any) => (
+            <TodoElement key={t.id} id={t.id} content={t.todo_id.content} check={t.check} handleCheck={handleCheck} mode={title} />
           ))}
         {typeof todo !== 'undefined' && mode === 'edit' &&
           // todo?.length > 0 &&
-          todo?.map((t: Todo) => <TodoEdit key={t.id} todo={t} refetch={refetch} mode={title} />)}
+          todo?.map((t: any) => <TodoEdit key={t.id} todo={t.todo_id} refetch={refetch} mode={title} />)}
         {typeof todo !== 'undefined' && mode === 'add' && <TodoEdit refetch={refetch} mode={title} />}
       </Container>
     </React.Fragment>
