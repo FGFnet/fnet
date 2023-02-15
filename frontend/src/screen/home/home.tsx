@@ -81,7 +81,7 @@ export default function HomeScreen() {
               Team-Building Schedule
             </div>
             {user === null && <div>로그인이 필요합니다.</div>}
-            {(schedule.isLoading || lc.isLoading) && <div>Loading...</div>}
+            {user!== null && (schedule.isLoading || lc.isLoading) && <div>Loading...</div>}
             {user!== null && !lc.isLoading && schedule.data && (
               <>
                 

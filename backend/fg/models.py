@@ -20,7 +20,8 @@ class UserManager(BaseUserManager):
         try:
             fg = self.create_user(
                 name=name, 
-                student_id = password if password else student_id
+                student_id = password if password else student_id,
+                campus = "n"
             )
             fg.set_password(password)
             fg.role = 'Admin'
