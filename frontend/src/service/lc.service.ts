@@ -5,6 +5,12 @@ class LCServiceClass {
     async get(token: string) {
         return await api.get('admin/LC/', token);
     }
+    async getMyLC(token: string) {
+        return await api.get('LC/', token);
+    }
+    async getTodayLC(token: string) {
+        return await api.get('TodayLC/', token)
+    }
     async post(id?:number, token?: string) {
         const data =  id ? await api.post(`notice?id=${id}`, token) : await api.get('notice', token)
         return data.data

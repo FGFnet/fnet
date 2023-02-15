@@ -5,7 +5,7 @@ from .models import FG
 class FGSerializer(serializers.ModelSerializer):
     class Meta:
         model = FG
-        fields = '__all__'
+        fields = ['id', 'name', 'role', 'student_id', 'campus']
 
 class CreateFGSerializer(serializers.Serializer):
     name = serializers.CharField()

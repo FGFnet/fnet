@@ -1,29 +1,50 @@
-import { Button } from '@mui/material'
+import { Button, Box } from '@mui/material'
+import dayjs from 'dayjs'
 import { FiArrowRight } from 'react-icons/fi'
 import { TbMoodSmile } from 'react-icons/tb'
+import { useQuery } from 'react-query'
+import { useNavigate } from 'react-router-dom'
+import { useRecoilValue } from 'recoil'
 import { Colors } from '../../constant'
 import { FG } from '../../model'
+import { LCService } from '../../service'
+import { accesstoken } from '../../store'
 
-function FGSection({fg}: {fg: FG | null}) {
+function FGSection({ fg }: { fg: FG | null }) {
+  const navigate = useNavigate()
+  const token = useRecoilValue(accesstoken)
+  const getToday = () => {
+    return dayjs().format('M월 DD일')
+  }
+  const todayLC = useQuery('getTodayLC', async () => await LCService.getTodayLC(token), {
+    refetchOnWindowFocus: false,
+    enabled: fg !== null
+  })
   return (
     <section style={{ margin: 30 }}>
       <div style={{ display: 'flex', alignItems: 'center', marginBottom: 5 }}>
-        {' '}
         Hello <TbMoodSmile fontSize={20} />
       </div>
-      {fg!==null &&
+      {fg !== null && (
         <>
           <span style={{ fontSize: 20, background: Colors.accent }}>{fg.name} fg</span>
-          <div style={{ marginBottom: 5, marginTop: 20 }}>2/14 진행 LC : LC09</div>
-          <div style={{ marginBottom: 20 }}>LC09 접수 인원 : 15</div>
-          <Button variant="outlined" style={{ margin: 'auto' }}>
-            Go LC09 <FiArrowRight />
-          </Button>
+          {!todayLC.isLoading && todayLC.data && todayLC.data.data !== null &&
+           todayLC.data.data.map((item:any) => (
+            <Box key={item.id}>
+              <div style={{ marginBottom: 5, marginTop: 20 }}>
+                {getToday()} 진행 LC : {item.name}
+              </div>
+              <div style={{ marginBottom: 20 }}>{todayLC.data.data.name} 접수 인원 : 15</div>
+              <Button variant="outlined" style={{ margin: 'auto' }} onClick={() => navigate(`/lc/${item.id}`)}>
+                Go {item.name} <FiArrowRight />
+              </Button>
+            </Box>
+          ))}
         </>
-      }
+      )}
       {fg === null && <div>로그인이 필요합니다.</div>}
     </section>
   )
 }
 
-export {FGSection};
+export { FGSection }

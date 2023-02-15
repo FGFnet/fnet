@@ -5,7 +5,7 @@ import useMediaQuery from '@mui/material/useMediaQuery'
 import { Button, Drawer, List, ListItemButton, IconButton, Box, Divider } from '@mui/material'
 
 import { accesstoken, userState } from '../../store'
-import { useRecoilState, useSetRecoilState } from 'recoil'
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import { UserService } from '../../service'
 
 import { Colors } from '../../constant'
@@ -40,12 +40,11 @@ const menu = {
     notice: 0,
     todo: 1,
     register: 2,
-    admin: 3,
+    setting: 3,
   },
   Other: {
     notice: 0,
     todo: 1,
-    lc: 2,
   }
 }
 
@@ -54,7 +53,7 @@ function NavigationBar() {
   const matches = useMediaQuery('(min-width:768px)')
   const [user, setUser] = useRecoilState(userState)
   const setToken = useSetRecoilState(accesstoken)
-  const [menuItem, setMenuItem] = useState<any>(menu.Other)
+  const [menuItem, setMenuItem] = useState<any>(user?.role === 'Admin' ? menu.Admin : menu.Other)
   const logoutMutation = useMutation(UserService.logout)
   
   const [isHover, setIsHover] = useState([false, false, false])

@@ -16,6 +16,10 @@ class ScheduleAPI(APIView):
     def post(self, request):
         serializer = CreateScheduleSerializer(request.data)
         data = serializer.data
+
+        old = Schedule.objects.filter(day=data["day"])
+        old.delete()
+        
         schedule = Schedule.objects.create(date=dateutil.parser.parse(data["date"]).date(), day = data["day"])
         return Response({"error":False, "data": ScheduleSerializer(schedule).data})
 
