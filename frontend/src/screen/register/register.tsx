@@ -37,6 +37,9 @@ export default function RegisterScreen() {
   const token = useRecoilValue(accesstoken)
 
 
+
+
+
   useQuery(['registerFreshmans', token], () => UserService.getFreshman(token), {
     refetchOnWindowFocus: false,
     onSuccess: data => {
@@ -110,7 +113,8 @@ export default function RegisterScreen() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.map((row) => (
+            {(rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+            ).map((row) => (
                 <TableRow key={row.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                   <TableCell align="center">{row.name}</TableCell>
                   <TableCell align="center">{row.phone_number}</TableCell>
