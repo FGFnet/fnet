@@ -1,0 +1,31 @@
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+
+from lc.models import LC
+from freshman.models import Freshman
+from freshman.serializers import FreshmanLCSerializer
+
+@api_view(['GET'])
+def getLcMemberListAPI(request):
+    # check login
+    if not request.user.is_authenticated:
+        return Response({"error": True, "data": "login required"})
+    
+    fg_id = request.user.id
+    fg_role = request.user.role
+
+    lc_id = request.GET.get("lc")
+    if not lc_id:
+        return Response({"error": True, "data": "LC is required"})
+
+    try:
+        lc = LC.objects.get(id=lc_id)
+    except LC.DoesNotExist:
+        return Response({"error": True, "data": "LC does not exist"})
+
+    # Admin 제외 자기 LC만 열람 가능?
+
+    queryset = Freshman.objects.filter(lc_id=lc_id)
+    data = FreshmanLCSerializer(queryset, many=True).data
+    
+    return Response({"error": False, "data": data})

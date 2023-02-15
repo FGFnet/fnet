@@ -33,5 +33,9 @@ class Migration(migrations.Migration):
                 ('fg_n_id', models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, related_name='fg_n', to=settings.AUTH_USER_MODEL)),
                 ('fg_s_id', models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, related_name='fg_s', to=settings.AUTH_USER_MODEL)),
             ],
+            options={
+                'db_table': 'lc',
+                'ordering': ['schedule', 'name'],
+            },
         ),
     ]

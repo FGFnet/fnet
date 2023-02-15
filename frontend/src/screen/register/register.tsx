@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Header } from '../../component'
+import { Header, Loading } from '../../component'
 import {
   TextField,
   Checkbox,
@@ -14,30 +14,40 @@ import {
 } from '@mui/material'
 import { BsSuitHeart, BsSuitHeartFill } from 'react-icons/bs'
 import { Container } from '@mui/system'
+import { useMutation, useQuery } from 'react-query'
+import { UserService } from '../../service'
+import { useRecoilValue } from 'recoil'
+import { accesstoken } from '../../store'
 
 interface registerData {
   id: number
   name: string
-  phoneNumber: number
-  LC: string
-  submit: boolean
+  phone_number: number
+  lc: string
+  register: boolean
 }
 
-const originalRows: registerData[] = [
-  { id: 1, name: '박민서', phoneNumber: 1243, LC: 'LC23', submit: true },
-  { id: 2, name: '이승준', phoneNumber: 5213, LC: 'LC21', submit: true },
-  { id: 3, name: '정노원', phoneNumber: 2567, LC: 'LC96', submit: false },
-  { id: 4, name: '심지연', phoneNumber: 3426, LC: 'LC43', submit: true },
-  { id: 5, name: '장선영', phoneNumber: 8245, LC: 'LC63', submit: false },
-  { id: 6, name: '이창준', phoneNumber: 1238, LC: 'LC78', submit: true },
-  { id: 7, name: '배성빈', phoneNumber: 1263, LC: 'LC12', submit: false },
-]
-
 export default function RegisterScreen() {
-  const [rows, setRows] = useState<registerData[]>(originalRows)
+  const [loading, setLoading] = useState(true)
+  const [originalRows, setOriginalRows] = useState<registerData[]>([])
+  const [rows, setRows] = useState<registerData[]>([])
   const [searched, setSearched] = useState<string>('')
   const [page, setPage] = React.useState(0)
   const [rowsPerPage, setRowsPerPage] = React.useState(10)
+  const token = useRecoilValue(accesstoken)
+
+
+  useQuery(['registerFreshmans', token], () => UserService.getFreshman(token), {
+    refetchOnWindowFocus: false,
+    onSuccess: data => {
+      setOriginalRows(data.data)
+      setRows(data.data)
+      setLoading(false)
+    },
+    onError: error => {
+      console.log(error)
+    },
+  })
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage)
@@ -56,10 +66,19 @@ export default function RegisterScreen() {
     setRows(filteredRows)
   }
 
+  
+  const registerMutate = useMutation(((param: any) => UserService.registerFreshman(param.id, param.token)))
+
   const handleCheckBox = (event: React.ChangeEvent<HTMLInputElement>, id: number) => {
     const updatedRows = rows.map((data) => {
       if (data.id === id) {
-        return { ...data, submit: event.target.checked }
+        registerMutate.mutate({id: id, token: token}, {
+          onError: error => {
+            alert('잠시 후 다시 시도해주세요')
+            setLoading(true)
+          },
+        })
+        return { ...data, register: event.target.checked }
       }
       return data
     })
@@ -78,47 +97,50 @@ export default function RegisterScreen() {
           onChange={(event) => requestSearch(event.target.value)}
         ></TextField>
       </Box>
-
-      <TableContainer component={Container}>
-        <Table aria-label="dense table">
-          <TableHead>
-            <TableRow>
-              <TableCell align="center">이름</TableCell>
-              <TableCell align="center">전화번호</TableCell>
-              <TableCell align="center">LC</TableCell>
-              <TableCell align="center">접수</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows.map((row) => (
-              <TableRow key={row.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                <TableCell align="center">{row.name}</TableCell>
-                <TableCell align="center">{row.phoneNumber}</TableCell>
-                <TableCell align="center">{row.LC}</TableCell>
-                <TableCell align="center">
-                  {
-                    <Checkbox
-                      checked={row.submit}
-                      onChange={(event) => handleCheckBox(event, row.id)}
-                      icon={<BsSuitHeart />}
-                      checkedIcon={<BsSuitHeartFill />}
-                    />
-                  }
-                </TableCell>
+      {loading ? <Loading /> :
+        <Box>
+        <TableContainer component={Container}>
+          <Table aria-label="dense table">
+            <TableHead>
+              <TableRow>
+                <TableCell align="center">이름</TableCell>
+                <TableCell align="center">전화번호</TableCell>
+                <TableCell align="center">LC</TableCell>
+                <TableCell align="center">접수</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[10, 25, 100]}
-        component="div"
-        count={rows.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      />
+            </TableHead>
+            <TableBody>
+              {rows.map((row) => (
+                <TableRow key={row.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                  <TableCell align="center">{row.name}</TableCell>
+                  <TableCell align="center">{row.phone_number}</TableCell>
+                  <TableCell align="center">{row.lc}</TableCell>
+                  <TableCell align="center">
+                    {
+                      <Checkbox
+                        checked={row.register}
+                        onChange={(event) => handleCheckBox(event, row.id)}
+                        icon={<BsSuitHeart />}
+                        checkedIcon={<BsSuitHeartFill />}
+                      />
+                    }
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <TablePagination
+          rowsPerPageOptions={[10, 25, 100]}
+          component="div"
+          count={rows.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
+      </Box>
+    }
     </Container>
   )
 }

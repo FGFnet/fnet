@@ -10,9 +10,14 @@ import {
   TableHead,
   TableRow,
 } from '@mui/material'
-import React from 'react'
+import React, { useState } from 'react'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
-import {Header, LCStatus} from '../../component'
+import {Header, LCStatus, Loading} from '../../component'
+import { UserService } from '../../service'
+import { useQuery } from 'react-query'
+import { useParams } from 'react-router-dom'
+import { useRecoilValue } from 'recoil'
+import { accesstoken } from '../../store'
 
 const TableCellTheme = createTheme({
   components: {
@@ -29,51 +34,44 @@ const TableCellTheme = createTheme({
   },
 })
 
+interface lcMemberDataInterface {
+  name: string
+  department: string
+  register: string
+}
+
 export default function LcMemberScreen() {
-  const data = [
-    { name: 'kim ilgun', department: 'n', register: true },
-    { name: '박민서', department: 'n', register: true },
-    { name: '박민서', department: 'n', register: true },
-    { name: '박민서', department: 'n', register: true },
-    { name: '박민서', department: 'n', register: true },
-    { name: '정노원', department: 'n', register: false },
-    { name: '정노원', department: 'n', register: false },
-    { name: '정노원', department: 'n', register: false },
-    { name: '정노원', department: 'n', register: false },
-    { name: '정노원', department: 'n', register: false },
-    { name: '정노원', department: 'n', register: false },
-    { name: '김일건', department: 'e', register: false },
-    { name: '한새로오름', department: 's', register: true },
-    { name: '김일건', department: 'h', register: true },
-    { name: '김일건', department: 'n', register: true },
-    { name: '정노원', department: 'n', register: true },
-    { name: '김일건', department: 'e', register: true },
-    { name: '한새로오름', department: 's', register: false },
-    { name: '김일건', department: 'h', register: false },
-    { name: '김일건', department: 'n', register: false },
-  ]
+  let { id } = useParams()
+  const [lcData, setlcData] = useState<lcMemberDataInterface[]>([])
+  const [loading, setLoading] = useState(true)
+  const token = useRecoilValue(accesstoken)
+  
+  useQuery(['lcMember', id], () => UserService.getLcMemberList(id as string, token), {
+    refetchOnWindowFocus: false,
+    onSuccess: data => {
+      if (data.error) {
+        alert(data.data)
+        return
+      }
+      setlcData(data.data)
+      setLoading(false)
+      // console.log(data.data)
+    },
+  })
 
   let sRegister = 0
   let nRegister = 0
   let eRegister = 0
   let hRegister = 0
 
-  data.forEach((member) => {
-    if (member.register) {
-      if (member.department === 'n') nRegister++
-      else if (member.department === 'e') eRegister++
-      else if (member.department === 's') sRegister++
-      else if (member.department === 'h') hRegister++
+  lcData.forEach((member) => {
+    if (member.register === 'O') {
+      if (member.department === '자연과학') nRegister++
+      else if (member.department === '공학') eRegister++
+      else if (member.department === '인문사회') sRegister++
+      else if (member.department === '사회과학') hRegister++
     }
   })
-
-  const DepartmentName = (department: string) => {
-    if (department === 'n') return '자연과학'
-    else if (department === 'e') return '공학'
-    else if (department === 'h') return '인문사회'
-    else if (department === 's') return '사회과학'
-    return '-'
-  }
 
   const LCMemberTable = () => {
     return (
@@ -97,12 +95,12 @@ export default function LcMemberScreen() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {data.map((r, i) => (
+              {lcData.map((r, i) => (
                 <TableRow hover={true} sx={{ '& td': { border: 0 } }}>
                   <TableCell>{i + 1}</TableCell>
                   <TableCell>{r.name}</TableCell>
-                  <TableCell>{DepartmentName(r.department)}</TableCell>
-                  <TableCell>{r.register ? 'O' : 'X'}</TableCell>
+                  <TableCell>{r.department}</TableCell>
+                  <TableCell>{r.register}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -118,11 +116,11 @@ export default function LcMemberScreen() {
         <Header title={'접수 현황'} />
         <Grid container justifyContent="space-between" width="100%">
           <Grid item xs={12} sm={3} md={5}>
-            <LCStatus sReg={sRegister} nReg={nRegister} eReg={eRegister} hReg={hRegister} />
+            <LCStatus lc={id as string} sReg={sRegister} nReg={nRegister} eReg={eRegister} hReg={hRegister} />
             <Divider />
           </Grid>
           <Grid item xs={12} sm={8} md={7}>
-            <LCMemberTable />
+            {loading ? <Loading /> : <LCMemberTable />}
           </Grid>
         </Grid>
       </Container>
