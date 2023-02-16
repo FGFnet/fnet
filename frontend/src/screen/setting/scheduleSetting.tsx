@@ -22,7 +22,7 @@ export default function ScheduleSettingScreen() {
 
   const schedule = useQuery('getSchedule', async () => await ScheduleService.get(token), {
     onSuccess: (data) => {
-      console.log(data)
+      // console.log(data)
       if (data.data.length >= 2) {
         setFirstDate(new Date(data.data[0].date))
         setSecondDate(new Date(data.data[1].date))
@@ -32,7 +32,7 @@ export default function ScheduleSettingScreen() {
   })
   const setSchedule = useMutation('setShedule', async (param: any) => await ScheduleService.create(param, token), {
     onSuccess: (data) => {
-      console.log(data)
+      // console.log(data)
       alert('저장되었습니다')
     },
   })

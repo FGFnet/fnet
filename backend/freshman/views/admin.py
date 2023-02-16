@@ -48,7 +48,7 @@ class setFreshmanAPI(APIView):
                 raise ParseError("LC does not exist. Check your file again")
                 # return Response({"error": True, "message": "LC does not exist. Check your file again"}, status=status.HTTP_400_BAD_REQUEST)
 
-            freshman_list.append(Freshman(lc=lc, name=data[0], department=department_dict[data[3]], phone_number=data[1]))
+            freshman_list.append(Freshman(lc=lc, name=data[0], department=department_dict[data[3]], phone_number=data[1], register=False))
 
         # 기존 data 모두 삭제
         Freshman.objects.all().delete()

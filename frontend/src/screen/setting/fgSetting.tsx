@@ -10,7 +10,7 @@ export default function FgSettingScreen() {
   const token = useRecoilValue(accesstoken)
   const getFg = useQuery('getAllFg', async () => await UserService.getAll(token), {
     onSuccess: (data) => {
-      console.log(data)
+      // console.log(data)
     }
   })
 

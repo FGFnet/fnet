@@ -21,8 +21,8 @@ services:
   fnet-mysql:
     image: mysql
     container_name: fnet-mysql
-    ports:
-      - "3306:3306"
+    # ports:
+    #   - "3306:3306"
     volumes:
       - ./data/mysql:/var/lib/mysql
     environment:

@@ -72,7 +72,7 @@ function AdminTable({ header, data }: AdminTableType) {
                         return (
                           <CustomTableCell key={column.id}>{value === 'n' ? '자연과학' : '인문사회'}</CustomTableCell>
                         )
-                      else if (column.id === 'DAY1' || 'DAY2')
+                      else if (column.id === 'DAY1' || column.id === 'DAY2')
                         return <CustomTableCell key={column.id}>{value ? value : '-'}</CustomTableCell>
                       else if (column.id === 'register')
                         return <CustomTableCell key={column.id}>{value ? 'O' : 'X'}</CustomTableCell>
