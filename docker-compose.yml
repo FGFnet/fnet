@@ -8,15 +8,18 @@ services:
     volumes:
       - ./data/django:/data
     ports:
-      - "8000:8000"
+      - "80:80"
+      # - "8000:8000"
+      # - "8080:8080"
     depends_on:
       - fnet-mysql
     environment:
-      - MYSQL_DATABASE=fnet
-      - MYSQL_USER=fnet
-      - MYSQL_PASSWORD=fnet
-      - DJANGO_SUPERUSER_NAME=root
-      - DJANGO_SUPERUSER_PASSWORD=rootroot
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}
+      - DJANGO_SUPERUSER_NAME=${DJANGO_SUPERUSER_NAME}
+      - DJANGO_SUPERUSER_PASSWORD=${DJANGO_SUPERUSER_PASSWORD}
 
   fnet-mysql:
     image: mysql
@@ -26,7 +29,7 @@ services:
     volumes:
       - ./data/mysql:/var/lib/mysql
     environment:
-      - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=fnet
-      - MYSQL_USER=fnet
-      - MYSQL_PASSWORD=fnet
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}

@@ -64,7 +64,7 @@ class RequestConfig {
 
 class BaseService {
   private getConfig(token?: string): RequestConfig {
-    const requestConfig = new RequestConfig('http://localhost:8000/api/')
+    const requestConfig = new RequestConfig('http://127.0.0.1/api/')
 
     if (token) {
       requestConfig.setToken(token)
