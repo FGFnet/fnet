@@ -31,5 +31,5 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: ghcr.io/fgfnet/fnet:latest
-#           cache-from: type=gha
-#           cache-to: type=gha,mode=max
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
