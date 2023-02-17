@@ -16,7 +16,7 @@ class FreshmanSerializer(serializers.ModelSerializer):
         fields = ['id', 'name','phone_number', 'lc', 'register', 'department']
 
     def get_phone_number(self, obj):
-        return obj.phone_number[4:8]
+        return obj.phone_number[9:13]
 
     def get_lc(self, obj):
         return obj.lc.name

@@ -116,7 +116,7 @@ export default function LcMemberScreen() {
         <Header title={'접수 현황'} />
         <Grid container justifyContent="space-between" width="100%">
           <Grid item xs={12} sm={3} md={5}>
-            <LCStatus lc={lcData[0].lc} sReg={sRegister} nReg={nRegister} eReg={eRegister} hReg={hRegister} />
+            <LCStatus lc={lcData[0]?.lc} sReg={sRegister} nReg={nRegister} eReg={eRegister} hReg={hRegister} />
             <Divider />
           </Grid>
           <Grid item xs={12} sm={8} md={7}>
