@@ -22,7 +22,7 @@ class Freshman(models.Model):
     name = CharField(max_length=30)
     phone_number = CharField(max_length=13, null=True)
     register = BooleanField(default=False)
-    department = CharField(max_length=10, choices=DEPARTMENT_CHOICES) # n(자연과학),e(공학),s(사회과학),h(인문사회) 
+    department = CharField(max_length=10, choices=DEPARTMENT_CHOICES) # n(자연과학),e(공학),s(사회과학),h(인문과학) 
 
     def __str__(self):
         return self.name

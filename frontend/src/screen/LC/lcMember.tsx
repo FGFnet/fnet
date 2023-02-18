@@ -68,7 +68,7 @@ export default function LcMemberScreen() {
     if (member.register === 'O') {
       if (member.department === '자연과학') nRegister++
       else if (member.department === '공학') eRegister++
-      else if (member.department === '인문사회') sRegister++
+      else if (member.department === '인문과학') sRegister++
       else if (member.department === '사회과학') hRegister++
     }
   })

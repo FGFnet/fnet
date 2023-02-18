@@ -27,7 +27,7 @@ class FreshmanSerializer(serializers.ModelSerializer):
         elif obj.department == "NC":
             return "자연과학계열"
         elif obj.department == "HS":
-            return "인문사회계열"
+            return "인문과학계열"
         elif obj.department == "SS":
             return "사회과학계열"        
     
@@ -57,7 +57,7 @@ class FreshmanLCSerializer(serializers.ModelSerializer):
         elif obj.department == "NC":
             return "자연과학"
         elif obj.department == "HS":
-            return "인문사회"
+            return "인문과학"
         elif obj.department == "SS":
             return "사회과학"        
     
