@@ -32,6 +32,10 @@ export default function ScheduleSettingScreen() {
   })
   const setSchedule = useMutation('setShedule', async (param: any) => await ScheduleService.create(param, token), {
     onSuccess: (data) => {
+      if(data.error){
+        alert(data.data)
+        return
+      }
       // console.log(data)
       alert('저장되었습니다')
     },

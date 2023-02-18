@@ -8,12 +8,17 @@ import dateutil.parser
 
 class LCAPI(APIView):
     def get(self, request):
+        if request.user.role != "Admin":
+            return Response({"error": True, "data": "Admin role required"})
         error = False
         lc = LC.objects.all().order_by("id")
         return Response({"error": error, "data": LCSerializer(lc, many=True).data})
 
 class ScheduleAPI(APIView):
     def post(self, request):
+        print(request.user.role)
+        if request.user.role != "Admin":
+            return Response({"error": True, "data": "Admin role required"})
         serializer = CreateScheduleSerializer(request.data)
         data = serializer.data
 
