@@ -43,6 +43,7 @@ class LCAPI(APIView):
             try:
                 todayLC = LC.objects.filter(fg_n_id = request.user)
                 data = LCSerializer(todayLC, many=True).data
+                
             except LC.DoesNotExist:
                 return Response({"error":False, "data": None})
         else:

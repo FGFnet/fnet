@@ -28,6 +28,9 @@ class UserService {
   async getLcMemberList(lc_id: string, token: string) {
     return await api.get(`freshman?lc=${lc_id}`, token)
   }
+  async getLCMemberCount(lc_id: string, token: string) {
+    return await api.get(`freshman/count?lc=${lc_id}`, token)
+  }
 
   async upLoadFreshman(file: any, token: string) {
     return await api.post('admin/freshman/', file, token)

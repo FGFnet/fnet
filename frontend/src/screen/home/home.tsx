@@ -8,7 +8,6 @@ import { accesstoken, userState } from '../../store'
 import { useQuery } from 'react-query'
 import { LCService, ScheduleService } from '../../service'
 import dayjs from 'dayjs'
-import { Schedule } from '../../model'
 
 const boxStyle = {
   padding: 40,

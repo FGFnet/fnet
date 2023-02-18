@@ -1,6 +1,10 @@
 import {RoundedButton} from './roundedButton'
 import { Colors } from '../../constant'
 import { useNavigate } from 'react-router-dom'
+import { UserService } from '../../service';
+import { useQuery } from 'react-query';
+import { useRecoilValue } from 'recoil';
+import { accesstoken, userState } from '../../store';
 
 export type LcSectionProp = {
   id: number;
@@ -13,6 +17,14 @@ export type LcSectionProp = {
 
 export default function ScheduleSection({lc}:{lc:LcSectionProp}) {
   const navigate = useNavigate()
+  const token = useRecoilValue(accesstoken)
+  const user = useRecoilValue(userState)
+  const lcCount = useQuery('getMyLCCount', async () => await UserService.getLCMemberCount(String(lc.id), token), {
+    enabled: user!== null,
+    onSuccess: (data) => {
+      console.log(data)
+    },
+  })
 
   const lcTextStyle = {
     backgroundColor: Colors.primary_lighter,
@@ -24,12 +36,14 @@ export default function ScheduleSection({lc}:{lc:LcSectionProp}) {
     <section style={{ margin: 30 }}>
       <RoundedButton text={lc.name} onClick={() => {navigate(`/lc/${lc.id}`)}} />
       <div style={lcTextStyle}>{lc.schedule}</div>
-      <div
-        style={{ textAlign: 'left', marginLeft: 20, fontSize: 14, display: 'inline-block', verticalAlign: 'middle' }}
-      >
-        담당 FG : {lc.fg_n + ', ' + lc.fg_s} <br />
-        전체인원 : {lc.total}
-      </div>
+      {!lcCount.isLoading &&
+         <div
+          style={{ textAlign: 'left', marginLeft: 20, fontSize: 14, display: 'inline-block', verticalAlign: 'middle' }}
+        >
+          담당 FG : {lc.fg_n + ', ' + lc.fg_s} <br />
+          전체인원 : {lcCount.data.total}
+        </div>
+      }
     </section>
   )
 }

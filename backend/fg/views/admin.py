@@ -50,7 +50,7 @@ class FGAPI(APIView):
                             student_id=data["student_id"]
                             )
         else:
-            fg = FG.objects.create_user(name=data["name"], 
+            fg = FG.objects.create(name=data["name"], 
                             student_id=data["student_id"],
                             campus=data["campus"]
                             )
