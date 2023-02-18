@@ -78,6 +78,7 @@ class FGUploadAPI(APIView):
 
         # 기존 data 모두 삭제
         LC.objects.all().delete()
+        FG.objects.exclude(id=1).delete()
 
         for data in data_list:
             if FG.objects.filter(student_id = data[2]).exists():
