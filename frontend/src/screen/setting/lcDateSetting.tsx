@@ -72,7 +72,11 @@ export default function LcDateSettingScreen() {
     'uploadFgFile',
     async (param: any) => await UserService.post(param.file, token),
     {
-      onSuccess: () => {
+      onSuccess: (data) => {
+        if(data.error) {
+          alert (data.data)
+          return
+        }
         setLoading(false)
         lc.refetch()
       },

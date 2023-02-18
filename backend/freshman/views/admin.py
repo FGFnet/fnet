@@ -45,8 +45,8 @@ class setFreshmanAPI(APIView):
             try:
                 lc = LC.objects.get(name=lc_name)
             except LC.DoesNotExist:
-                raise ParseError("LC does not exist. Check your file again")
-                # return Response({"error": True, "message": "LC does not exist. Check your file again"}, status=status.HTTP_400_BAD_REQUEST)
+                # raise ParseError("LC does not exist. Check your file again")
+                return Response({"error": True, "data": "LC does not exist. Check your file again"})
 
             freshman_list.append(Freshman(lc=lc, name=data[0], department=department_dict[data[3]], phone_number=data[1], register=False))
 
