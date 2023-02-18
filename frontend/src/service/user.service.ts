@@ -25,11 +25,11 @@ class UserService {
   async getFreshman(token: string) {
     return await api.get('admin/freshman/', token)
   }
-  async getLcMemberList(lc_id: string, token: string) {
-    return await api.get(`freshman?lc=${lc_id}`, token)
+  async getLcMemberList(lc_name: string, token: string) {
+    return await api.get(`freshman?lc=${lc_name}`, token)
   }
-  async getLCMemberCount(lc_id: string, token: string) {
-    return await api.get(`freshman/count?lc=${lc_id}`, token)
+  async getLCMemberCount(lc_name: string, token: string) {
+    return await api.get(`freshman/count?lc=${lc_name}`, token)
   }
 
   async upLoadFreshman(file: any, token: string) {
