@@ -36,7 +36,7 @@ export default function SignInScreen() {
         alert("이름과 학번을 다시 확인해주세요.")
         return
       }
-      setUser(data.data.user)
+      setUser({...data.data.user, id:"", student_id:"", })
       setToken(data.data.token)
       navigate('/')
     }

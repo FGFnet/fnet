@@ -25,6 +25,6 @@ RUN apk add --update --no-cache build-base nginx curl supervisor mysql-client ma
     pip install --no-cache-dir -r /app/deploy/requirements.txt && \
     apk del build-base --purge
 
-COPY --from=builder /build/ /app/dist
+COPY --from=builder /build/build/ /app/dist
 
 ENTRYPOINT ["sh", "/app/deploy/entrypoint.sh" ]

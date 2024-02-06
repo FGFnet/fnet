@@ -1,20 +1,30 @@
 import {RoundedButton} from './roundedButton'
 import { Colors } from '../../constant'
 import { useNavigate } from 'react-router-dom'
+import { UserService } from '../../service';
+import { useQuery } from 'react-query';
+import { useRecoilValue } from 'recoil';
+import { accesstoken, userState } from '../../store';
 
-type lc = {
+export type LcSectionProp = {
+  id: number;
   fg_n: string;
   fg_s: string;
   name: string;
-  date: string;
   total: number;
+  schedule: string;
 }
 
-export default function ScheduleSection({props}: {props:lc}) {
+export default function ScheduleSection({lc}:{lc:LcSectionProp}) {
   const navigate = useNavigate()
-  const getLCNum = () => {
-    return Number(props.name.slice(2))
-  }
+  const token = useRecoilValue(accesstoken)
+  const user = useRecoilValue(userState)
+  const lcCount = useQuery('getMyLCCount', async () => await UserService.getLCMemberCount(String(lc.name), token), {
+    enabled: user!== null,
+    // onSuccess: (data) => {
+    //   console.log(data)
+    // },
+  })
 
   const lcTextStyle = {
     backgroundColor: Colors.primary_lighter,
@@ -24,29 +34,16 @@ export default function ScheduleSection({props}: {props:lc}) {
 
   return (
     <section style={{ margin: 30 }}>
-      <RoundedButton text={props.name} onClick={() => {navigate(`/lc/${getLCNum()}`)}} />
-      <div style={lcTextStyle}>{props.date}</div>
-      <div
-        style={{ textAlign: 'left', marginLeft: 20, fontSize: 14, display: 'inline-block', verticalAlign: 'middle' }}
-      >
-        담당 FG : {props.fg_n + ', ' + props.fg_s} <br />
-        전체인원 : {props.total}
-      </div>
-      {/* {lcName === '-' && (
-        <div
+      <RoundedButton text={lc.name} onClick={() => {navigate(`/lc/${lc.name}`)}} />
+      <div style={lcTextStyle}>{lc.schedule}</div>
+      {!lcCount.isLoading &&
+         <div
           style={{ textAlign: 'left', marginLeft: 20, fontSize: 14, display: 'inline-block', verticalAlign: 'middle' }}
         >
-          해당 날짜에 배정된 LC가 없습니다
+          담당 FG : {lc.fg_n + ', ' + lc.fg_s} <br />
+          전체인원 : {lcCount.data.data.total}
         </div>
-      )}
-      {lcName !== '-' && (
-        <div
-          style={{ textAlign: 'left', marginLeft: 20, fontSize: 14, display: 'inline-block', verticalAlign: 'middle' }}
-        >
-          담당 FG : 하솔비 fg, 정노원 fg <br />
-          전체인원 : 20
-        </div>
-      )} */}
+      }
     </section>
   )
 }

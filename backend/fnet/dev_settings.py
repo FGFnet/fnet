@@ -9,11 +9,13 @@ DATABASES = {
         'USER': 'fnet',
         'PASSWORD': 'fnet',
         'HOST': '127.0.0.1',
-        'PORT': 3306,
+        'PORT': 1398,
     }
 }
 
 DEBUG = True
+
+SECRET_KEY = 'django-insecure-8l87s(fcz$l*hni4bs-9)rpdhzrab3=sc(fgz=b5ecau&1k0j9'
 
 ALLOWED_HOSTS = ["*"]
 

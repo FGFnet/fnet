@@ -3,6 +3,7 @@ import React from 'react'
 import background from '../../image/lc_bgImg.png'
 
 type LCStatusType = {
+  lc: string
   sReg: number
   nReg: number
   eReg: number
@@ -13,7 +14,7 @@ type RegisterDetailType = {
   department: number
   breakpoint?: boolean
 }
-function LCStatus({ sReg, nReg, eReg, hReg }: LCStatusType) {
+function LCStatus({ lc, sReg, nReg, eReg, hReg }: LCStatusType) {
   const RegisterDetail = ({ campus, department }: RegisterDetailType) => {
     return (
       <Grid container item>
@@ -35,7 +36,7 @@ function LCStatus({ sReg, nReg, eReg, hReg }: LCStatusType) {
             전체 접수 인원
           </Typography>
           <Typography component="div" textAlign="right">
-            {sReg + sReg + eReg + nReg}
+            {sReg + hReg + eReg + nReg}
           </Typography>
         </Grid>
         <RegisterDetail campus={'인사캠 접수 인원'} department={hReg + sReg} />
@@ -69,7 +70,7 @@ function LCStatus({ sReg, nReg, eReg, hReg }: LCStatusType) {
           }}
         >
           <Typography component="div" variant="h4" fontWeight="bolder" textAlign="center" margin="auto">
-            LC09
+            {lc}
           </Typography>
         </Grid>
         <RegisterStatus />

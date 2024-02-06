@@ -8,7 +8,7 @@ fi
 
 sleep 2
 docker rm -f fnet-mysql-dev
-docker run -it -d -e MYSQL_DATABASE=fnet -e MYSQL_USER=fnet -e MYSQL_PASSWORD=fnet -e MYSQL_ROOT_PASSWORD=root -p 127.0.0.1:1398:1398 --name fnet-mysql-dev mysql:8.0.27
+docker run -it -d -e MYSQL_DATABASE=fnet -e MYSQL_USER=fnet -e MYSQL_PASSWORD=fnet -e MYSQL_ROOT_PASSWORD=root -p 127.0.0.1:1398:3306 --name fnet-mysql-dev mysql:8.0.27
 
 if [ "$1" = "--migrate" ]; then
     sleep 3

@@ -80,3 +80,4 @@ media
 *$py.class
 
 .DS_Store
+.env

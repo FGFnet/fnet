@@ -1,137 +1,62 @@
 import React, { useState } from 'react'
 import { Container, Grid, Box, Button, Divider } from '@mui/material'
 import { Header, Title, MenuButton, AdminTable, Loading } from '../../component'
-
-const data = [
-  {
-    name: '김일건',
-    phone_number: '010-1234-5678',
-    lc: 'LC08',
-    department: 'n',
-    register: true,
-  },
-  {
-    name: '김일건1',
-    phone_number: '010-1234-5678',
-    lc: 'LC08',
-    department: 's',
-    register: true,
-  },
-  {
-    name: '김일건2',
-    phone_number: '010-1234-5678',
-    lc: 'LC08',
-    department: 'h',
-    register: true,
-  },
-  {
-    name: '김일건3',
-    phone_number: '010-1234-5678',
-    lc: 'LC08',
-    department: 'e',
-    register: true,
-  },
-  {
-    name: '김일건4',
-    phone_number: '010-1234-5678',
-    lc: 'LC08',
-    department: 'n',
-    register: true,
-  },
-  {
-    name: '김일건5',
-    phone_number: '010-1234-5678',
-    lc: 'LC08',
-    department: 'n',
-    register: true,
-  },
-  {
-    name: '김일건6',
-    phone_number: '010-1234-5678',
-    lc: 'LC08',
-    department: 'n',
-    register: true,
-  },
-  {
-    name: '김일건7',
-    phone_number: '010-1234-5678',
-    lc: 'LC08',
-    department: 'n',
-    register: true,
-  },
-  {
-    name: '김일건8',
-    phone_number: '010-1234-5678',
-    lc: 'LC08',
-    department: 'n',
-    register: true,
-  },
-  {
-    name: '김일건9',
-    phone_number: '010-1234-5678',
-    lc: 'LC08',
-    department: 'n',
-    register: true,
-  },
-  {
-    name: '김일건10',
-    phone_number: '010-1234-5678',
-    lc: 'LC08',
-    department: 'n',
-    register: true,
-  },
-]
+import { useMutation, useQuery } from 'react-query'
+import { UserService } from '../../service'
+import { useRecoilValue } from 'recoil'
+import { accesstoken } from '../../store'
 
 export default function FgSettingScreen() {
-  const [tableData, updateTableData] = useState([])
-  const [loading, setLoading] = useState(false)
+  const [freshmanData, setFreshmanData] = useState([])
+  const [loading, setLoading] = useState(true)
+  const token = useRecoilValue(accesstoken)
 
   const tableColumn = [
     { id: 'index', label: '#' },
     { id: 'name', label: '이름' },
-    { id: 'phone_number', label: '전화번호' },
+    { id: 'phone_number', label: '전화번호 (뒷자리)' },
     { id: 'lc', label: 'LC' },
     { id: 'department', label: '계열' },
     { id: 'register', label: '등록' },
   ]
 
-  // api 작동 확인 필요
-  /*
-  const fetchUsers = async () => {
-    try {
-      setLoading(true)
-      const res = await api.getFreshmanList()
-      updateTableData(res.data.data)
-    } catch (err) {
-      alert(err)
+  useQuery(['freshmans', token], () => UserService.getFreshman(token), {
+    refetchOnWindowFocus: false,
+    onSuccess: data => {
+      setFreshmanData(data.data)
       setLoading(false)
-    }
-  }
-  */
+    },
+    onError: error => {
+      console.log(error)
+    },
+  })
+
+
+  const uploadFileMutate = useMutation((param: any) => UserService.upLoadFreshman(param.file, param.token))
 
   const uploadFile = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    event.preventDefault()
     if (event.target.files != null) {
       setLoading(true)
-      // api 작동 확인 필요
-      /*
       const formData = new FormData()
       formData.append('file', event.target.files[0])
-      try {
-        const res = await api.uploadFreshman(formData);
-        if (!res.data.error) {
-          alert('Upload Successful');
-          setSingleFile(null)
-          await fetchUsers()
-        }
-      } catch (err) {
-        alert(err)
-      } finally{
+      event.target.value = ''
 
-      }
-      */
-      setTimeout(() => {
-        setLoading(false)
-      }, 500)
+      uploadFileMutate.mutate({file: formData, token: token}, {
+        onSuccess: data => {
+          if (data.error) {
+            alert(data.data)
+            return
+          }
+          setLoading(false)
+          setFreshmanData(data.data)
+          // console.log(freshmanData)
+        }
+        // onError: error => {
+        //   alert(error)
+        //   setLoading(false)
+        // },
+      })
     } else {
       alert('파일이 선택되지 않았습니다.')
     }
@@ -152,7 +77,7 @@ export default function FgSettingScreen() {
         </Grid>
         <Divider />
         <Grid container mt={1} mb={1}>
-          {loading ? <Loading /> : <AdminTable header={tableColumn} data={data} />}
+          {loading ? <Loading /> : <AdminTable header={tableColumn} data={freshmanData} />}
         </Grid>
       </Container>
     </React.Fragment>
