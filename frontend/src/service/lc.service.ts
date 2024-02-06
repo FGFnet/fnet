@@ -19,7 +19,7 @@ class LCServiceClass {
 
 class ScheduleServiceClass {
     async get(token: string) {
-        return await api.get('schedule', token)
+        return await api.get('schedule/', token)
     }
     async create(input: Schedule, token: string) {
         return await api.post('admin/schedule/', input, token)
