@@ -64,7 +64,8 @@ class RequestConfig {
 
 class BaseService {
   private getConfig(token?: string): RequestConfig {
-    const requestConfig = new RequestConfig('http://fgnet.click/api/')
+    const requestConfig = new RequestConfig('https://fgnet.click/api/')
+    // const requestConfig = new RequestConfig('http://127.0.0.1:8000/api/')
 
     if (token) {
       requestConfig.setToken(token)

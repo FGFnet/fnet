@@ -19,6 +19,8 @@ export default function ScheduleSettingScreen() {
   const token = useRecoilValue(accesstoken)
   const [firstDate, setFirstDate] = useState<Date>(new Date())
   const [secondDate, setSecondDate] = useState<Date>(new Date())
+  const [thirdDate, setThirdDate] = useState<Date>(new Date())
+
 
   const schedule = useQuery('getSchedule', async () => await ScheduleService.get(token), {
     onSuccess: (data) => {
@@ -26,6 +28,7 @@ export default function ScheduleSettingScreen() {
       if (data.data.length >= 2) {
         setFirstDate(new Date(data.data[0].date))
         setSecondDate(new Date(data.data[1].date))
+        setThirdDate(new Date(data.data[2].date))
       }
     },
     refetchOnWindowFocus: false
@@ -92,7 +95,7 @@ export default function ScheduleSettingScreen() {
           </>
         )}
 
-        {/* <Grid item>
+        <Grid item>
           <Card>
             <CardContent>
               <Typography>DAY 3</Typography>
@@ -107,7 +110,7 @@ export default function ScheduleSettingScreen() {
               />
             </CardContent>
           </Card>
-        </Grid> */}
+        </Grid>
       </React.Fragment>
     )
   }
@@ -115,6 +118,7 @@ export default function ScheduleSettingScreen() {
   const saveDate = (event: React.MouseEvent<HTMLElement>) => {
     setSchedule.mutate({date: new Date(firstDate), day: 1 })
     setSchedule.mutate({date: new Date(secondDate), day: 2 })
+    setSchedule.mutate({date: new Date(thirdDate), day: 3 })
   }
 
   const SaveButton = () => {
