@@ -15,7 +15,7 @@ DEBUG = False
 
 SECRET_KEY = get_env("DJANGO_SECRET_KEY")
 
-# ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["*"]
 
 DATA_DIR = "/data"
 
