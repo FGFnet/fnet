@@ -29,7 +29,9 @@ class FreshmanSerializer(serializers.ModelSerializer):
         elif obj.department == "HS":
             return "인문과학계열"
         elif obj.department == "SS":
-            return "사회과학계열"        
+            return "사회과학계열"
+        elif obj.department == 'IN':
+            return "자유전공계열"       
     
     # def get_register(self, obj):
     #     if obj.register:
@@ -59,7 +61,9 @@ class FreshmanLCSerializer(serializers.ModelSerializer):
         elif obj.department == "HS":
             return "인문과학"
         elif obj.department == "SS":
-            return "사회과학"        
+            return "사회과학"
+        elif obj.department == "IN":
+            return "자유전공"        
     
     def get_register(self, obj):
         if obj.register:

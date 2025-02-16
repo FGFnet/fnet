@@ -38,7 +38,7 @@ class setFreshmanAPI(APIView):
 
         # 성명/휴대폰번호/LC/지망모집단위
         freshman_list = []
-        department_dict = {'자연과학계열':'NC', '공학계열':'EN', '사회과학계열':'SS', '인문과학계열':'HS'}
+        department_dict = {'자연과학계열':'NC', '공학계열':'EN', '사회과학계열':'SS', '인문과학계열':'HS', '자유전공계열':'IN'}
         
         for data in data_list:
             lc_name = data[2]
