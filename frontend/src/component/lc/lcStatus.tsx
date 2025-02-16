@@ -8,13 +8,14 @@ type LCStatusType = {
   nReg: number
   eReg: number
   hReg: number
+  iReg: number
 }
 type RegisterDetailType = {
   campus: string
   department: number
   breakpoint?: boolean
 }
-function LCStatus({ lc, sReg, nReg, eReg, hReg }: LCStatusType) {
+function LCStatus({ lc, sReg, nReg, eReg, hReg, iReg }: LCStatusType) {
   const RegisterDetail = ({ campus, department }: RegisterDetailType) => {
     return (
       <Grid container item>
@@ -36,11 +37,12 @@ function LCStatus({ lc, sReg, nReg, eReg, hReg }: LCStatusType) {
             전체 접수 인원
           </Typography>
           <Typography component="div" textAlign="right">
-            {sReg + hReg + eReg + nReg}
+            {sReg + hReg + eReg + nReg + iReg}
           </Typography>
         </Grid>
         <RegisterDetail campus={'인사캠 접수 인원'} department={hReg + sReg} />
         <RegisterDetail campus={'자과캠 접수 인원'} department={eReg + nReg} />
+        <RegisterDetail campus={'자유전공 접수 인원'} department={iReg} />
       </Grid>
     )
   }
